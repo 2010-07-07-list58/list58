@@ -1,0 +1,17 @@
+#!/bin/sh
+
+export HOME="$(dirname "$0")/../../.."
+export PATH="$HOME/bin:$PATH"
+export PYTHONPATH="$HOME/lib/python:$PATH"
+
+echo "Content-Type: text/plain;charset=UTF-8"
+echo
+
+echo "*** BEGIN ***"
+
+(cd "$(dirname "$0")/../"; bzr update) 2>&1
+
+echo "*** END ***"
+
+true
+
