@@ -1,0 +1,12 @@
+Options +Includes +FollowSymLinks -Indexes
+AddHandler server-parsed .shtml
+DirectoryIndex index.shtml index.htm index.php index.html
+AddDefaultCharset windows-1251
+CookieTracking on
+CookieExpires "1 years"
+
+# default php version is 4.3.9
+# uncomment next line to use latest 4.4.x
+#AddType application/x-httpd-php44 php
+# uncomment next line to use latest 5.x
+#AddType application/x-httpd-php5 php

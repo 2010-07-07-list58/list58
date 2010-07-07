@@ -1,0 +1,86 @@
+/* style.css 
+ *
+ */
+
+
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	margin: 0; 
+	background: rgb(255,255,255);
+	font: 14px "Sans", "Arial", sans-serif;
+}
+
+body, a {
+	color: rgb(0,0,0);
+}
+
+a {
+	color: rgb(0,0,0);
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+table { /* cellspacing="0" */
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td { /* cellpadding="0" */
+	padding: 0;
+}
+
+.SuccessColor {
+	color: rgb(0,192,0);
+}
+
+.ErrorColor {
+	color: rgb(192,0,0);
+}
+
+.MarginColor {
+	background: rgb(192,198,204);
+}
+
+.MarginColor, .MarginColor a {
+	color: rgb(255,255,255);
+}
+
+.SmallFrame {
+	border: 1px outset;
+	-moz-box-shadow: 1px 1px 5px; -webkit-box-shadow: 1px 1px 5px; box-shadow: 1px 1px 5px;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	padding: 30px;
+}
+
+.FloatLeft { float: left; }
+.FloatRight { float: right; }
+.ClearBoth { clear: both; }
+
+.Width100Per { width: 100%; }
+.Height100Per { height: 100%; }
+.MarginAuto { margin: auto; }
+.Margin5Px { margin: 5px; }
+.Padding5Px { padding: 5px; }
+.Margin10Px { margin: 10px; }
+.Padding10Px { padding: 10px; }
+.Margin15Px { margin: 15px; }
+.Padding15Px { padding: 15px; }
+.Margin20Px { margin: 20px; }
+.Padding20Px { padding: 20px; }
+
+.Width500Px { width: 500px; }
+.MaxWidth800Px { max-width: 800px; }
+
+.TextAlignCenter { text-align: center; }
+.TextAlignLeft { text-align: left; }
+.TextAlignRight { text-align: right; }
+.DisplayNone { display: none; }
+
+

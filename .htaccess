@@ -1,0 +1,9 @@
+###############################################
+## DO NOT REMOVE OR EDIT LINES BELOW     
+# ***    automatically generated config     ***
+php_value register_globals 0
+php_value allow_url_fopen 0
+php_value error_reporting 6143
+AddType application/x-httpd-php5 .php
+# *** end of automatically generated config ***
+###############################################
