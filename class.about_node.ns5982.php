@@ -7,7 +7,7 @@ class about_node__ns5982 extends node__ns21085 {
 	protected function _node__get_title() {
 		$parent_title = parent::_node__get_title();
 		
-		return 'Авторизация - '.$parent_title;
+		return 'О Системе - '.$parent_title;
 	}
 	
 	protected function _node__get_head() {

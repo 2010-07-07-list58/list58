@@ -17,7 +17,12 @@ class main__ns17829 {
 	}
 	
 	public function _main__init_session() {
+		$lifetime = 60 * 60 * 24 * 7 * 10; // 10 недель
+		
+		session_set_cookie_params($lifetime);
+		session_cache_expire($lifetime / 60);
 		session_start();
+		session_regenerate_id();
 		
 		if(!array_key_exists('post_key', $_SESSION)) {
 			$_SESSION['post_key'] = 
