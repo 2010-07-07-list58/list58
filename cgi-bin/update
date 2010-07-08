@@ -9,7 +9,7 @@ echo
 
 echo "*** BEGIN ***"
 
-(cd "$(dirname "$0")/../"; bzr update) 2>&1
+(cd "$(dirname "$0")/../"; nice -n 25 bzr update) 2>&1
 
 echo "*** END ***"
 
