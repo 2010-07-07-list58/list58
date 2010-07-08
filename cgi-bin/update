@@ -1,8 +1,9 @@
 #!/bin/sh
 
-export HOME="$(dirname "$0")/../../.."
-export PATH="$HOME/bin:$PATH"
-export PYTHONPATH="$HOME/lib/python:$PATH"
+. "$(dirname "$0")/environment"
+export HOME
+export PATH
+export PYTHONPATH
 
 echo "Content-Type: text/plain;charset=UTF-8"
 echo

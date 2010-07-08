@@ -1,0 +1,10 @@
+# environment
+#
+# Syntax: simple "KEY=VAL" pairs on separate lines
+#
+
+export HOME="$(dirname "$0")/../../.."
+export PATH="$HOME/bin:$PATH"
+export PYTHONPATH="$HOME/lib/python:$PATH"
+
+
