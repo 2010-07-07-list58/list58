@@ -1,0 +1,6 @@
+# AUTHORS:
+
+Vladimir Borisov <borisov.work@gmail.com> # Added: Thu 08 Jul 2010 17:48:15 MSD 
+Andrej A Antonov <polymorphm@gmail.com> # Added: Thu 08 Jul 2010 17:48:17 MSD 
+
+
