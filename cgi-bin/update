@@ -1,11 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
-. "$(dirname "$0")/environment" 2>/dev/null
+echo "Content-Type: text/plain;charset=UTF-8"
+echo 
 
-if((allow_www_bzr_update == 0)); then
-	echo "Content-Type: text/plain;charset=UTF-8"
-	echo 
-	echo "Www Bazaar update is not allowed"
+. "$(dirname "$0")/environment" 2>&1
+
+if [ "$allow_www_bzr_update" = "" ]; then
+	echo "*** Www Bazaar update is not allowed ***"
 	
 	exit
 fi
@@ -13,9 +14,6 @@ fi
 export HOME
 export PATH
 export PYTHONPATH
-
-echo "Content-Type: text/plain;charset=UTF-8"
-echo
 
 echo "*** BEGIN ***"
 
