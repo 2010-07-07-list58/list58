@@ -3,8 +3,9 @@
 # Syntax: simple "KEY=VAL" pairs on separate lines
 #
 
-export HOME="$(dirname "$0")/../../.."
-export PATH="$HOME/bin:$PATH"
-export PYTHONPATH="$HOME/lib/python:$PATH"
+allow_www_bzr_update=1
 
+HOME="$(dirname "$0")/../../.."
+PATH="$HOME/bin:$PATH"
+PYTHONPATH="$HOME/lib/python:$PATH"
 
