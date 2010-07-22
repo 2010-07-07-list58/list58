@@ -5,7 +5,7 @@
 #
 
 # базовый список пользователей:
-CREATE TABLE `users_base` (
+CREATE TABLE IF NOT EXISTS `users_base` (
 	`login` varchar(100),
 	`password` varchar(255),
 	`mail` varchar(255),
@@ -24,7 +24,7 @@ CREATE TABLE `users_base` (
 	KEY `users_base(comments)` (`comments`(1000)));
 
 # список активных сессий:
-CREATE TABLE `user_sessions` (
+CREATE TABLE IF NOT EXISTS `user_sessions` (
 	`login` varchar(100),
 	`session` varchar(100),
 	PRIMARY KEY(`login`, `session`),
@@ -32,7 +32,7 @@ CREATE TABLE `user_sessions` (
 	KEY `user_sessions(session)` (`session`));
 
 # список групп (полномочий) пользователей:
-CREATE TABLE `user_groups` (
+CREATE TABLE IF NOT EXISTS `user_groups` (
 	`login` varchar(100),
 	`group` varchar(100),
 	PRIMARY KEY (`login`, `group`),
