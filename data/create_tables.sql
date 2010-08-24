@@ -4,6 +4,7 @@
 #     charset utf8
 #
 
+
 # базовый список пользователей:
 CREATE TABLE IF NOT EXISTS `users_base` (
     `login` varchar(100),
@@ -23,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `users_base` (
     KEY `users_base(org)` (`org`),
     KEY `users_base(comments)` (`comments`(1000)));
 
+
 # список активных сессий:
 CREATE TABLE IF NOT EXISTS `user_sessions` (
     `login` varchar(100),
@@ -30,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `user_sessions` (
     PRIMARY KEY(`login`, `session`),
     KEY `user_sessions(login)` (`login`),
     KEY `user_sessions(session)` (`session`));
+
 
 # список групп (полномочий) пользователей:
 CREATE TABLE IF NOT EXISTS `user_groups` (
@@ -39,6 +42,24 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
     KEY `user_groups(login)` (`login`),
     KEY `user_groups(group)` (`group`));
 
+############################################################
+-- пояснение к группам полномочий                         --
+--                                                        --
+--   группа "search" -- доступ к функции поиска людей     --
+--                                                        --
+--   группа "add -- доступ к возможности добавления людей --
+--                                                        --
+--   группа "moderate" -- возможность редактировать       --
+--                        чужие данные                    --
+--                                                        --
+--   группа "adm" -- административные полномочия:         --
+--                   дерактирование участников системы    --
+--                   и прочие полномочия                  --
+--                                                        --
+--                                                        --
+############################################################
+
+
 # список ограничений по ip:
 CREATE TABLE IF NOT EXISTS `user_ips` (
     `login` varchar(100),
@@ -46,4 +67,6 @@ CREATE TABLE IF NOT EXISTS `user_ips` (
     PRIMARY KEY (`login`, `ip`),
     KEY `user_groups(login)` (`login`),
     KEY `user_groups(ip)` (`ip`));
+
+
 
