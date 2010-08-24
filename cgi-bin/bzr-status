@@ -6,9 +6,9 @@ echo
 . "$(dirname "$0")/environment" 2>&1
 
 if [ "$allow_www_bzr_status" = "" ] || [ "$allow_www_bzr_status" = "0" ]; then
-	echo "*** Www Bazaar status is not allowed ***"
-	
-	exit
+    echo "*** Www Bazaar status is not allowed ***"
+    
+    exit
 fi
 
 export HOME
