@@ -115,7 +115,13 @@ class main__ns17829 {
                     break;
                 
                 default:
-                    throw new site_error__ns14329('Узел страницы не найден');
+                    $error_options = array();
+                    
+                    if(array_key_exists('HTTP_REFERER', $_SERVER)) {
+                        $error_options['return_to'] = $_SERVER['HTTP_REFERER'];
+                    }
+                    
+                    throw new site_error__ns14329('Узел страницы не найден', 0, NULL, $error_options);
                 }
             } catch(not_authorized_error__ns3300 $e) {
                 $error = $e->getMessage();
@@ -125,8 +131,20 @@ class main__ns17829 {
                 return;
             } catch(site_error__ns14329 $e) {
                 $error = $e->getMessage();
+                $error_url = sprintf(
+                    '?node=error&error=%s',
+                    urlencode($error)
+                );
                 
-                @header('Location: ?node=error&error='.urlencode($error));
+                $error_options = get_error_options__ns14329($e);
+                if(array_key_exists('return_to', $error_options)) {
+                    $error_url .= sprintf(
+                        '&return_to=%s',
+                        urlencode($error_options['return_to'])
+                    );
+                }
+                
+                @header(sprintf('Location: %s', $error_url));
                 
                 return;
             }

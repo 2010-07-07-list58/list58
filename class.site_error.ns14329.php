@@ -19,6 +19,24 @@
 */
 
 class site_error__ns14329
-        extends Exception {}
+        extends Exception {
+    protected $_site_error__options;
+    
+    public function __construct(
+            $message='', $code = 0, $previous = NULL,
+            $options=array()) {
+        parent::__construct($message, $code, $previous);
+        
+        $this->_site_error__options = $options;
+    }
+    
+    public function _public__site_error__get_options() {
+        return $this->_site_error__options;
+    }
+}
+
+function get_error_options__ns14329($e) {
+    return $e->_public__site_error__get_options();
+}
 
 
