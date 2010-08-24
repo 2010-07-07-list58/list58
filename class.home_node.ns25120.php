@@ -30,12 +30,6 @@ class home_node__ns25120 extends node__ns21085 {
         // TODO: ...
     }
     
-    //protected function _node__get_title() {
-    //    $parent_title = parent::_node__get_title();
-    //    
-    //    return 'ыыЫЫЫыыЫ? - '.$parent_title;
-    //}
-    
     protected function _node__get_head() {
         $parent_head = parent::_node__get_head();
         
