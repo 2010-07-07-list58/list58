@@ -19,6 +19,7 @@
 */
 
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
+require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
 
 class abstract_function_error__ns8054
         extends site_error__ns14329 {}
@@ -27,6 +28,7 @@ class node_base__ns8054 {
     public $environ;
     
     protected $_node_base__need_db = FALSE;
+    protected $_node_base__need_check_auth = FALSE;
     protected $_node_base__db_link = NULL;
     
     protected function _node_base__db_init() {
@@ -80,7 +82,19 @@ class node_base__ns8054 {
         mysql_query('COMMIT', $this->_node_base__db_link);
     }
     
-    protected function _node_base__on_init() {}
+    protected function _node_base__check_auth() {
+        // TODO: эта функция долна быть расширена для более глубокой проверки!
+        
+        if(!$_SESSION['authorized']) {
+            throw new not_authorized_error__ns3300('Доступ ограничен!');
+        }
+    }
+    
+    protected function _node_base__on_init() {
+            if($this->_node_base__need_check_auth) {
+                $this->_node_base__check_auth();
+            }
+    }
     
     public function __construct($environ) {
         $this->environ = $environ;
