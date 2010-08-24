@@ -43,7 +43,7 @@ class home_node__ns25120 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" type="text/css" href="/media/about_node/css/style.css" />';
+            '<link rel="stylesheet" type="text/css" href="/media/home_node/css/style.css" />';
         
         return $html;
     }
