@@ -115,15 +115,7 @@ class main__ns17829 {
                     break;
                 
                 default:
-                    $message = 'Ошибка: Узел не найден';
-                    
-                    @header('Content-Type: text/plain;charset=UTF-8');
-                    if(array_key_exists('HTTP_REFERER', $_SERVER)) {
-                        @header('Refresh: 1;url='.$_SERVER['HTTP_REFERER']);
-                    }
-                    echo $message."\n";
-                    
-                    return;
+                    throw new site_error__ns14329('Узел страницы не найден');
                 }
             } catch(not_authorized_error__ns3300 $e) {
                 $error = $e->getMessage();
