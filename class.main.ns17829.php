@@ -19,6 +19,7 @@
 */
 
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.low_level_error.ns28655.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
 
@@ -36,12 +37,22 @@ class main__ns17829 {
     }
     
     public function _main__init_session() {
+        $error_msg = 'Ошибка открытия HTTP-сессии';
+        
         $lifetime = 60 * 60 * 24 * 7 * 10; // 10 недель
         
         session_set_cookie_params($lifetime);
         session_cache_expire($lifetime / 60);
-        session_start();
-        session_regenerate_id();
+        
+        $success = @session_start();
+        if(!$success) {
+            throw new low_level_error__ns28655($error_msg);
+        }
+        
+        $success = @session_regenerate_id();
+        if(!$success) {
+            throw new low_level_error__ns28655($error_msg);
+        }
         
         if(!array_key_exists('post_key', $_SESSION)) {
             $_SESSION['post_key'] = 
@@ -54,91 +65,118 @@ class main__ns17829 {
     }
     
     public function _main__run() {
-        $this->_main__init_session();
-        
-        $node = $this->_main__get_arg('node');
-        if($node == NULL) {
-            $node = 'home';
-        }
-        
-        $environ = array(
-            // ...
-        );
-        
         try {
-            switch($node) {
-            case 'home':
-                require_once dirname(__FILE__).'/class.home_node.ns25120.php';
-                
-                $node = new home_node__ns25120($environ);
-                
-                break;
+            $this->_main__init_session();
             
-            case 'error':
-                require_once dirname(__FILE__).'/class.error_node.ns21717.php';
-                
-                $node = new error_node__ns21717($environ);
-                
-                break;
+            $node = $this->_main__get_arg('node');
+            if($node == NULL) {
+                $node = 'home';
+            }
             
-            case 'auth':
-                require_once dirname(__FILE__).'/class.auth_node.ns2464.php';
-                
-                $node = new auth_node__ns2464($environ);
-                
-                break;
+            $environ = array(
+                // ...
+            );
             
-            case 'about':
-                require_once dirname(__FILE__).'/class.about_node.ns5982.php';
+            try {
+                switch($node) {
+                case 'home':
+                    require_once dirname(__FILE__).'/class.home_node.ns25120.php';
+                    
+                    $node = new home_node__ns25120($environ);
+                    
+                    break;
                 
-                $node = new about_node__ns5982($environ);
+                case 'error':
+                    require_once dirname(__FILE__).'/class.error_node.ns21717.php';
+                    
+                    $node = new error_node__ns21717($environ);
+                    
+                    break;
                 
-                break;
-            
-            case 'exit':
-                require_once dirname(__FILE__).'/class.exit_node.ns212.php';
+                case 'auth':
+                    require_once dirname(__FILE__).'/class.auth_node.ns2464.php';
+                    
+                    $node = new auth_node__ns2464($environ);
+                    
+                    break;
                 
-                $node = new exit_node__ns212($environ);
+                case 'about':
+                    require_once dirname(__FILE__).'/class.about_node.ns5982.php';
+                    
+                    $node = new about_node__ns5982($environ);
+                    
+                    break;
                 
-                break;
-            
-            default:
-                $message = 'Ошибка: Узел не найден';
+                case 'exit':
+                    require_once dirname(__FILE__).'/class.exit_node.ns212.php';
+                    
+                    $node = new exit_node__ns212($environ);
+                    
+                    break;
                 
-                @header('Content-Type: text/plain;charset=UTF-8');
-                if(array_key_exists('HTTP_REFERER', $_SERVER)) {
-                    @header('Refresh: 1;url='.$_SERVER['HTTP_REFERER']);
+                default:
+                    $error_options = array();
+                    
+                    if(array_key_exists('HTTP_REFERER', $_SERVER)) {
+                        $error_options['return_to'] = $_SERVER['HTTP_REFERER'];
+                    }
+                    
+                    throw new site_error__ns14329('Узел страницы не найден', 0, NULL, $error_options);
                 }
-                echo $message."\n";
+            } catch(not_authorized_error__ns3300 $e) {
+                $error = $e->getMessage();
+                
+                @header('Location: ?node=auth&error='.urlencode($error));
+                
+                return;
+            } catch(site_error__ns14329 $e) {
+                $error = $e->getMessage();
+                $error_url = sprintf(
+                    '?node=error&error=%s',
+                    urlencode($error)
+                );
+                
+                $error_options = get_error_options__ns14329($e);
+                if(array_key_exists('return_to', $error_options)) {
+                    $error_url .= sprintf(
+                        '&return_to=%s',
+                        urlencode($error_options['return_to'])
+                    );
+                }
+                
+                @header(sprintf('Location: %s', $error_url));
                 
                 return;
             }
-        } catch(not_authorized_error__ns3300 $e) {
+            
+            $redirect = $node->get_redirect();
+            if($redirect) {
+                @header('Location: '.$redirect);
+                
+                return;
+            }
+            
+            $html = $node->get_html();
+            
+            @header('Content-Type: text/html;charset=UTF-8');
+            @header('X-UA-Compatible: chrome=1');
+            echo $html."\n";
+        } catch(low_level_error__ns28655 $e) {
             $error = $e->getMessage();
+            $message = sprintf('Низкоуровневая Ошибка: %s', $error);
             
-            @header('Location: ?node=auth&error='.urlencode($error));
-            
-            return;
-        } catch(site_error__ns14329 $e) {
+            @header('Content-Type: text/plain;charset=UTF-8');
+            if(array_key_exists('HTTP_REFERER', $_SERVER)) {
+                @header('Refresh: 1;url='.$_SERVER['HTTP_REFERER']);
+            }
+            echo $message."\n";
+        } catch(Exception $e) {
             $error = $e->getMessage();
+            $message = sprintf('Неожидаемая Ошибка: %s', $error);
             
-            @header('Location: ?node=error&error='.urlencode($error));
-            
-            return;
+            @header('Content-Type: text/plain;charset=UTF-8');
+            echo $message."\n";
         }
-        
-        $redirect = $node->get_redirect();
-        if($redirect) {
-            @header('Location: '.$redirect);
-            
-            return;
-        }
-        
-        $html = $node->get_html();
-        
-        @header('Content-Type: text/html;charset=UTF-8');
-        @header('X-UA-Compatible: chrome=1');
-        echo $html."\n";
     }
     
     public function run() {

@@ -23,23 +23,34 @@ require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
 
 class error_node__ns21717 extends node__ns21085 {
-    protected $_error_node__message_html = '';
+    protected $_error_node__message_html;
+    protected $_error_node__buttons_html;
     
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $arg_error = $this->get_arg('error');
+        $error = $this->get_arg('error');
+        $return_to = $this->get_arg('return_to');
         
-        if(!$arg_error) {
-            $arg_error = '(Неопределённая Ошибка)';
+        if(!$error) {
+            $error = '(Неопределённая Ошибка)';
         }
         
-        if($arg_error) {
-            $this->_error_node__message_html .=
-                '<p class="ErrorColor TextAlignCenter">'.
-                    htmlspecialchars($arg_error).
-                '</p>';
+        if($return_to) {
+            $button = sprintf(
+                '<a href="%s">Назад</a>',
+                htmlspecialchars($return_to)
+            );
+        } else {
+            $button = '<a href="?">Начало</a>';
         }
+        
+        $this->_error_node__message_html =
+            '<p class="ErrorColor TextAlignCenter">'.
+                htmlspecialchars($error).
+            '</p>';
+        
+        $this->_error_node__buttons_html = '<p>'.$button.'</p>';
     }
     
     protected function _node__get_title() {
@@ -61,14 +72,14 @@ class error_node__ns21717 extends node__ns21085 {
     }
     
     protected function _node__get_aside() {
+        $button_html = '';
+        
         $html = '';
         
         $html .=
             '<div class="SmallFrame">'.
                 $this->_error_node__message_html.
-                '<p>'.
-                    '<a href="?">Начало</a>'.
-                '</p>'.
+                $this->_error_node__buttons_html.
             '</div>';
         
         return $html;
