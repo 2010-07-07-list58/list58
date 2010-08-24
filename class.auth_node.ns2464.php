@@ -49,8 +49,8 @@ class auth_node__ns2464 extends node__ns21085 {
                     $result = mysql_query(
                         sprintf(
                             'SELECT `login` FROM `users_base` WHERE `login` = \'%s\' AND `password` = \'%s\'',
-                            mysql_real_escape_string($login),
-                            mysql_real_escape_string($password)
+                            mysql_real_escape_string($login, $this->_node_base__db_link),
+                            mysql_real_escape_string($password, $this->_node_base__db_link)
                         ),
                         $this->_node_base__db_link
                     );
