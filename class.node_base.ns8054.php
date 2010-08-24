@@ -34,7 +34,7 @@ class node_base__ns8054 {
         
         $conf = mysql_conf__ns14040();
         
-        $link = mysql_connect(
+        $link = @mysql_connect(
             $conf['server'], $conf['username'], $conf['password']
         );
         if(!$link) {
@@ -43,14 +43,14 @@ class node_base__ns8054 {
             );
         }
         
-        $success = mysql_selectdb($conf['database'], $link);
+        $success = @mysql_selectdb($conf['database'], $link);
         if(!$success) {
             throw new site_error__ns14329(
                 'Ошибка открытия Базы Данных'
             );
         }
         
-        $success = mysql_set_charset('utf8', $link);
+        $success = @mysql_set_charset('utf8', $link);
         if(!$success) {
             throw new site_error__ns14329(
                 'Ошибка кодировки Базы Данных'
