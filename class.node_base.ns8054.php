@@ -24,26 +24,51 @@ class abstract_function_error__ns8054
 class node_base__ns8054 {
 	public $environ;
 	
-	protected $_node_base__need_read = FALSE;
-	protected $_node_base__need_write = FALSE;
+	protected $_node_base__need_db = FALSE;
+	protected $_node_base__db_link = NULL;
 	
-	protected function _node_base__on_init() {}
-	protected function _node_base__on_read() {
+	protected function _node_base__on_init() {
+	    require_once dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
+	    $conf = mysql_conf__ns14040();
+	    
+	    if($this->_node_base__need_db) {
+	        $link = mysql_connect(
+	            $conf['server'], $conf['username'], $conf['password']
+            );
+	    }
+	    
+	    mysql_selectdb($conf['database'], $link); 
+	    mysql_set_charset('utf8', $link); 
+	    
+	    mysql_query('AUTOCOMMIT = 0', $link);
+	    
+	    $this->_node_base__db_link = $link;
+	}
+	protected function _node_base__db_begin() {
+		mysql_query('BEGIN', $link);
+	}
+	protected function _node_base__db_action() {
 		throw new abstract_function_error__ns8054();
 	}
-	protected function _node_base__on_write() {
-		throw new abstract_function_error__ns8054();
+	protected function _node_base__db_rollback() {
+		mysql_query('ROLLBACK', $link);
+	}
+	protected function _node_base__db_commit() {
+		mysql_query('COMMIT', $link);
 	}
 	
 	public function __construct($environ) {
 		$this->environ = $environ;
 		
 		$this->_node_base__on_init();
-		if($this->_node_base__need_read) {
-			$this->_node_base__on_read();
-		}
-		if($this->_node_base__need_write) {
-			$this->_node_base__on_write();
+		if($this->_node_base__need_db) {
+		    $this->_node_base__db_begin();
+			try{
+			    $this->_node_base__db_action();
+		    } catch (Exception $e) {
+		        $this->_node_base__db_rollback();
+		    }
+			$this->_node_base__db_commit();
 		}
 	}
 	

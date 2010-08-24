@@ -23,6 +23,8 @@ require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
 
 class auth_node__ns2464 extends node__ns21085 {
+    protected $_node_base__need_db = TRUE;    
+    
 	protected $_auth_node__show_form = TRUE;
 	protected $_auth_node__captcha_html = '';
 	protected $_auth_node__message_html = '';
