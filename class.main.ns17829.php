@@ -18,8 +18,9 @@
 
 */
 
-require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.site_error.ns14329.php';
+require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
 
 class main__ns17829 {
     public function __construct() {}
@@ -73,6 +74,13 @@ class main__ns17829 {
                 
                 break;
             
+            case 'error':
+                require_once dirname(__FILE__).'/class.error_node.ns21717.php';
+                
+                $node = new error_node__ns21717($environ);
+                
+                break;
+            
             case 'auth':
                 require_once dirname(__FILE__).'/class.auth_node.ns2464.php';
                 
@@ -109,6 +117,12 @@ class main__ns17829 {
             $error = $e->getMessage();
             
             @header('Location: ?node=auth&error='.urlencode($error));
+            
+            return;
+        } catch(site_error__ns14329 $e) {
+            $error = $e->getMessage();
+            
+            @header('Location: ?node=error&error='.urlencode($error));
             
             return;
         }

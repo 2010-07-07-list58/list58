@@ -18,9 +18,7 @@
 
 */
 
-require_once dirname(__FILE__).'/class.site_error.ns14329.php';
-
-class not_authorized_error__ns3300
-        extends site_error__ns14329 {}
+class site_error__ns14329
+        extends Exception {}
 
 
