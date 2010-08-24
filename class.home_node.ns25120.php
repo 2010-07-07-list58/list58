@@ -24,11 +24,11 @@ require_once dirname(__FILE__).'/class.node.ns21085.php';
 class home_node__ns25120 extends node__ns21085 {
     protected $_node_base__need_check_auth = TRUE;
     
-    protected function _node_base__on_init() {
-        parent::_node_base__on_init();
-        
-        // TODO: ...
-    }
+    //protected function _node_base__on_init() {
+    //    parent::_node_base__on_init();
+    //    
+    //    // TODO: ...
+    //}
     
     protected function _node__get_head() {
         $parent_head = parent::_node__get_head();
