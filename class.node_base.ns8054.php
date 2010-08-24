@@ -66,6 +66,7 @@ class node_base__ns8054 {
                 $this->_node_base__on_init();
             } catch (Exception $e) {
                 $this->_node_base__db_rollback();
+                throw $e;
             }
             $this->_node_base__db_commit();
         } else {
