@@ -162,6 +162,12 @@ class main__ns17829 {
             echo $message."\n";
             
             return;
+        } catch(Exception $e) {
+            $error = $e->getMessage();
+            $message = sprintf('Неожидаемая Ошибка: %s', $error);
+            
+            @header('Content-Type: text/plain;charset=UTF-8');
+            echo $message."\n";
         }
     }
     
