@@ -18,8 +18,10 @@
 
 */
 
+require_once dirname(__FILE__).'/class.site_error.ns14329.php';
+
 class abstract_function_error__ns8054
-        extends Exception {}
+        extends site_error__ns14329 {}
 
 class node_base__ns8054 {
     public $environ;
@@ -29,16 +31,31 @@ class node_base__ns8054 {
     
     protected function _node_base__db_init() {
         require_once dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
+        
         $conf = mysql_conf__ns14040();
         
-        if($this->_node_base__need_db) {
-            $link = mysql_connect(
-                $conf['server'], $conf['username'], $conf['password']
+        $link = mysql_connect(
+            $conf['server'], $conf['username'], $conf['password']
+        );
+        if(!$link) {
+            throw new site_error__ns14329(
+                'Ошибка подключения к Базе Данных'
             );
         }
         
-        mysql_selectdb($conf['database'], $link); 
-        mysql_set_charset('utf8', $link); 
+        $success = mysql_selectdb($conf['database'], $link);
+        if(!$success) {
+            throw new site_error__ns14329(
+                'Ошибка открытия Базы Данных'
+            );
+        }
+        
+        $success = mysql_set_charset('utf8', $link);
+        if(!$success) {
+            throw new site_error__ns14329(
+                'Ошибка кодировки Базы Данных'
+            );
+        }
         
         mysql_query('AUTOCOMMIT = 0', $link);
         
