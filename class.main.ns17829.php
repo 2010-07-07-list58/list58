@@ -160,8 +160,6 @@ class main__ns17829 {
                 @header('Refresh: 1;url='.$_SERVER['HTTP_REFERER']);
             }
             echo $message."\n";
-            
-            return;
         } catch(Exception $e) {
             $error = $e->getMessage();
             $message = sprintf('Неожидаемая Ошибка: %s', $error);
