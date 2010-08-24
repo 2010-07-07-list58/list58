@@ -27,7 +27,7 @@ class node_base__ns8054 {
     protected $_node_base__need_db = FALSE;
     protected $_node_base__db_link = NULL;
     
-    protected function _node_base__on_init() {
+    protected function _node_base__db_init() {
         require_once dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
         $conf = mysql_conf__ns14040();
         
@@ -47,9 +47,6 @@ class node_base__ns8054 {
     protected function _node_base__db_begin() {
         mysql_query('BEGIN', $link);
     }
-    protected function _node_base__db_action() {
-        throw new abstract_function_error__ns8054();
-    }
     protected function _node_base__db_rollback() {
         mysql_query('ROLLBACK', $link);
     }
@@ -57,18 +54,22 @@ class node_base__ns8054 {
         mysql_query('COMMIT', $link);
     }
     
+    protected function _node_base__on_init() {}
+    
     public function __construct($environ) {
         $this->environ = $environ;
         
-        $this->_node_base__on_init();
         if($this->_node_base__need_db) {
+            $this->_node_base__db_init();
             $this->_node_base__db_begin();
             try{
-                $this->_node_base__db_action();
+                $this->_node_base__on_init();
             } catch (Exception $e) {
                 $this->_node_base__db_rollback();
             }
             $this->_node_base__db_commit();
+        } else {
+            $this->_node_base__on_init();
         }
     }
     
