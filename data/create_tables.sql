@@ -39,4 +39,11 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
 	KEY `user_groups(login)` (`login`),
 	KEY `user_groups(group)` (`group`));
 
+# список ограничений по ip:
+CREATE TABLE IF NOT EXISTS `user_ips` (
+	`login` varchar(100),
+	`ip` varchar(100),
+	PRIMARY KEY (`login`, `ip`),
+	KEY `user_groups(login)` (`login`),
+	KEY `user_groups(ip)` (`ip`));
 
