@@ -99,16 +99,18 @@ class node_base__ns8054 {
     public function __construct($environ) {
         $this->environ = $environ;
         
-        if($this->_node_base__need_db) {
+        if($this->_node_base__need_db ||
+                $this->_node_base__need_check_auth) {
             $this->_node_base__db_init();
+            
             $this->_node_base__db_begin();
             try{
                 $this->_node_base__on_init();
+                $this->_node_base__db_commit();
             } catch (Exception $e) {
                 $this->_node_base__db_rollback();
                 throw $e;
             }
-            $this->_node_base__db_commit();
         } else {
             $this->_node_base__on_init();
         }
