@@ -46,7 +46,23 @@ class auth_node__ns2464 extends node__ns21085 {
                     $login = $this->post_arg('login');
                     $password = $this->post_arg('password');
                     
-                    if($login == 'master' && $password == 'venera') {
+                    $result = mysql_query(
+                        sprintf(
+                            'SELECT `login` FROM `users_base` WHERE `login` = \'%s\' AND `password` = \'%s\'',
+                            mysql_real_escape_string($login),
+                            mysql_real_escape_string($password)
+                        ),
+                        $this->_node_base__db_link
+                    );
+                    
+                    if($result) {
+                        $login_success = TRUE;
+                        mysql_free_result($result);
+                    } else {
+                        $login_success = FALSE;
+                    }
+                    
+                    if($login_success) {
                         
                         $_SESSION['reg_data'] = array(
                             'login' => $login,

@@ -45,13 +45,13 @@ class node_base__ns8054 {
         $this->_node_base__db_link = $link;
     }
     protected function _node_base__db_begin() {
-        mysql_query('BEGIN', $link);
+        mysql_query('BEGIN', $this->_node_base__db_link);
     }
     protected function _node_base__db_rollback() {
-        mysql_query('ROLLBACK', $link);
+        mysql_query('ROLLBACK', $this->_node_base__db_link);
     }
     protected function _node_base__db_commit() {
-        mysql_query('COMMIT', $link);
+        mysql_query('COMMIT', $this->_node_base__db_link);
     }
     
     protected function _node_base__on_init() {}
