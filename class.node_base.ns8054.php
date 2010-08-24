@@ -39,21 +39,30 @@ class node_base__ns8054 {
         );
         if(!$link) {
             throw new site_error__ns14329(
-                'Ошибка подключения к Базе Данных'
+                sprintf(
+                    'Ошибка подключения к Базе Данных (%s)',
+                    mysql_error()
+                )
             );
         }
         
         $success = @mysql_selectdb($conf['database'], $link);
         if(!$success) {
             throw new site_error__ns14329(
-                'Ошибка открытия Базы Данных'
+                sprintf(
+                    'Ошибка открытия Базы Данных (%s)',
+                    mysql_error($link)
+                )
             );
         }
         
         $success = @mysql_set_charset('utf8', $link);
         if(!$success) {
             throw new site_error__ns14329(
-                'Ошибка кодировки Базы Данных'
+                sprintf(
+                    'Ошибка кодировки Базы Данных (%s)',
+                    mysql_error($link)
+                )
             );
         }
         
