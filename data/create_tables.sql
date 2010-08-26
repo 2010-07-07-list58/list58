@@ -73,4 +73,38 @@ CREATE TABLE IF NOT EXISTS `user_ips` (
 );
 
 
+# база данных людей
+CREATE TABLE IF NOT EXISTS `items_base` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `item_owner` VARCHAR(100),
+    `given_name` VARCHAR(255),
+    `family_name` VARCHAR(255),
+    `patronymic_name` VARCHAR(255),
+    `birth_year` INTEGER,
+    `birth_month` INTEGER,
+    `birth_day` INTEGER,
+    `sex` INTEGER, -- 0: <None> -- 1: Male -- 2: Female --
+    `passport_ser` VARCHAR(255),
+    `passport_no` VARCHAR(255),
+    `residence` VARCHAR(255),
+    `phone` VARCHAR(255),
+    `about` TEXT,
+    `comments` TEXT,
+    PRIMARY KEY (`id`),
+    KEY `items_base(item_owner)` (`item_owner`),
+    KEY `items_base(given_name)` (`given_name`),
+    KEY `items_base(family_name)` (`family_name`),
+    KEY `items_base(patronymic_name)` (`patronymic_name`),
+    KEY `items_base(birth_year)` (`birth_year`),
+    KEY `items_base(birth_month)` (`birth_month`),
+    KEY `items_base(birth_day)` (`birth_day`),
+    KEY `items_base(sex)` (`sex`),
+    KEY `items_base(passport_ser)` (`passport_ser`),
+    KEY `items_base(passport_no)` (`passport_no`),
+    KEY `items_base(residence)` (`residence`),
+    KEY `items_base(phone)` (`phone`),
+    KEY `users_base(about)` (`about`(1000)),
+    KEY `users_base(comments)` (`comments`(1000))
+);
+
 
