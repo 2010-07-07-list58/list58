@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS `users_base` (
     KEY `users_base(name)` (`name`),
     KEY `users_base(lastname)` (`lastname`),
     KEY `users_base(org)` (`org`),
-    KEY `users_base(comments)` (`comments`(1000)));
+    KEY `users_base(comments)` (`comments`(1000))
+);
 
 
 # список активных сессий:
@@ -31,7 +32,8 @@ CREATE TABLE IF NOT EXISTS `user_sessions` (
     `session` varchar(100),
     PRIMARY KEY(`login`, `session`),
     KEY `user_sessions(login)` (`login`),
-    KEY `user_sessions(session)` (`session`));
+    KEY `user_sessions(session)` (`session`)
+);
 
 
 # список групп (полномочий) пользователей:
@@ -40,7 +42,8 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
     `group` varchar(100),
     PRIMARY KEY (`login`, `group`),
     KEY `user_groups(login)` (`login`),
-    KEY `user_groups(group)` (`group`));
+    KEY `user_groups(group)` (`group`)
+);
 
 ############################################################
 --                                                        --
@@ -66,7 +69,8 @@ CREATE TABLE IF NOT EXISTS `user_ips` (
     `ip` varchar(100),
     PRIMARY KEY (`login`, `ip`),
     KEY `user_groups(login)` (`login`),
-    KEY `user_groups(ip)` (`ip`));
+    KEY `user_groups(ip)` (`ip`)
+);
 
 
 
