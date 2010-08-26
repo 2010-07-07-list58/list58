@@ -7,14 +7,14 @@
 
 # базовый список пользователей:
 CREATE TABLE IF NOT EXISTS `users_base` (
-    `login` varchar(100),
-    `password` varchar(255),
-    `mail` varchar(255),
+    `login` VARCHAR(100),
+    `password` VARCHAR(255),
+    `mail` VARCHAR(255),
     `reg_date` bigint,
-    `name` varchar(255),
-    `lastname` varchar(255),
-    `org` varchar(255),
-    `comments` text,
+    `name` VARCHAR(255),
+    `lastname` VARCHAR(255),
+    `org` VARCHAR(255),
+    `comments` TEXT,
     PRIMARY KEY (`login`),
     KEY `users_base(password)` (`password`),
     KEY `users_base(mail)` (`mail`),
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `users_base` (
 
 # список активных сессий:
 CREATE TABLE IF NOT EXISTS `user_sessions` (
-    `login` varchar(100),
-    `session` varchar(100),
+    `login` VARCHAR(100),
+    `session` VARCHAR(100),
     PRIMARY KEY(`login`, `session`),
     KEY `user_sessions(login)` (`login`),
     KEY `user_sessions(session)` (`session`)
@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS `user_sessions` (
 
 # список групп (полномочий) пользователей:
 CREATE TABLE IF NOT EXISTS `user_groups` (
-    `login` varchar(100),
-    `group` varchar(100),
+    `login` VARCHAR(100),
+    `group` VARCHAR(100),
     PRIMARY KEY (`login`, `group`),
     KEY `user_groups(login)` (`login`),
     KEY `user_groups(group)` (`group`)
@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
 
 # список ограничений по ip:
 CREATE TABLE IF NOT EXISTS `user_ips` (
-    `login` varchar(100),
-    `ip` varchar(100),
+    `login` VARCHAR(100),
+    `ip` VARCHAR(100),
     PRIMARY KEY (`login`, `ip`),
     KEY `user_groups(login)` (`login`),
     KEY `user_groups(ip)` (`ip`)
