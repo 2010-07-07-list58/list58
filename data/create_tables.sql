@@ -1,11 +1,11 @@
-# data/create_tables.sql
-#
-# команда для смены кодировки:
-#     charset utf8
-#
+-- data/create_tables.sql
+--
+-- команда для смены кодировки:
+--     charset utf8
+--
 
 
-# базовый список пользователей:
+-- базовый список пользователей:
 CREATE TABLE IF NOT EXISTS `users_base` (
     `login` VARCHAR(100),
     `password` VARCHAR(255),
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `users_base` (
 );
 
 
-# список активных сессий:
+-- список активных сессий:
 CREATE TABLE IF NOT EXISTS `user_sessions` (
     `login` VARCHAR(100),
     `session` VARCHAR(100),
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `user_sessions` (
 );
 
 
-# список групп (полномочий) пользователей:
+-- список групп (полномочий) пользователей:
 CREATE TABLE IF NOT EXISTS `user_groups` (
     `login` VARCHAR(100),
     `group` VARCHAR(100),
@@ -45,25 +45,27 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
     KEY `user_groups(group)` (`group`)
 );
 
-############################################################
---                                                        --
--- пояснение к группам полномочий                         --
---                                                        --
---   группа "search_items" -- доступ к функции поиска людей
---                                                        --
---   группа "new_items -- доступ к возможности добавления людей
---                                                        --
---   группа "mod_items" -- возможность редактировать      --
---                        чужие данные                    --
---                                                        --
---   группа "adm" -- административные полномочия:         --
---                   редактирование участников системы    --
---                   и прочие полномочия                  --
---                                                        --
-############################################################
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+--                                                          --
+-- пояснение к группам полномочий                           --
+--                                                          --
+--   группа "search_items": доступ к функции поиска людей   --
+--                                                          --
+--   группа "new_items": доступ к возможности добавления людей
+--                                                          --
+--   группа "mod_items": возможность редактировать          --
+--                        чужие данные                      --
+--                                                          --
+--   группа "adm": административные полномочия:             --
+--                   редактирование участников системы      --
+--                   и прочие полномочия                    --
+--                                                          --
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 
-# список ограничений по ip:
+-- список ограничений по ip:
 CREATE TABLE IF NOT EXISTS `user_ips` (
     `login` VARCHAR(100),
     `ip` VARCHAR(100),
@@ -73,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `user_ips` (
 );
 
 
-# база данных людей
+-- база данных людей
 CREATE TABLE IF NOT EXISTS `items_base` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `item_owner` VARCHAR(100),
@@ -83,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `items_base` (
     `birth_year` INTEGER,
     `birth_month` INTEGER,
     `birth_day` INTEGER,
-    `sex` INTEGER, -- 0: <None> -- 1: Male -- 2: Female --
+    `sex` INTEGER, -- 0: <None> -- 1: Male -- 2: Female
     `passport_ser` VARCHAR(255),
     `passport_no` VARCHAR(255),
     `residence` VARCHAR(255),
