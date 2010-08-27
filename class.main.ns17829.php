@@ -121,7 +121,7 @@ class main__ns17829 {
                         $error_options['return_to'] = $_SERVER['HTTP_REFERER'];
                     }
                     
-                    throw new site_error__ns14329('Узел страницы не найден', 0, NULL, $error_options);
+                    throw_site_error__ns14329('Узел страницы не найден', $error_options);
                 }
             } catch(not_authorized_error__ns3300 $e) {
                 $error = $e->getMessage();
