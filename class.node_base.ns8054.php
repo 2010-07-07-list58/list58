@@ -32,7 +32,18 @@ class node_base__ns8054 {
     protected $_node_base__db_link = NULL;
     
     protected function _node_base__db_init() {
-        require_once dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
+        $mysql_conf_php = dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
+        
+        if(file_exists($mysql_conf_php)) {
+            require_once $mysql_conf_php;
+        } else {
+            throw new site_error__ns14329(
+                sprintf(
+                    'Конфигураций файл Базы Данных отсутствует (%s)',
+                    $mysql_conf_php
+                )
+            );
+        }
         
         $conf = mysql_conf__ns14040();
         
