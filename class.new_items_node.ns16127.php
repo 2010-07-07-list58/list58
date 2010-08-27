@@ -30,6 +30,12 @@ class new_items_node__ns16127 extends node__ns21085 {
     //    // TODO: ...
     //}
     
+    protected function _node__get_title() {
+        $parent_title = parent::_node__get_title();
+        
+        return 'Новые Данные - '.$parent_title;
+    }
+    
     protected function _node__get_head() {
         $parent_head = parent::_node__get_head();
         
