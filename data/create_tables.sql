@@ -78,7 +78,9 @@ CREATE TABLE IF NOT EXISTS `user_ips` (
 -- база данных людей
 CREATE TABLE IF NOT EXISTS `items_base` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
-    `item_owner` VARCHAR(100),
+    `item_owner` VARCHAR(100), -- владелец-создатель записи о человеке
+    `item_created` BIGINT, -- время создения записи
+    `item_modified` BIGINT, -- время последнего изменения записи
     `given_name` VARCHAR(255),
     `family_name` VARCHAR(255),
     `patronymic_name` VARCHAR(255),
@@ -94,6 +96,8 @@ CREATE TABLE IF NOT EXISTS `items_base` (
     `comments` TEXT,
     PRIMARY KEY (`id`),
     KEY `items_base(item_owner)` (`item_owner`),
+    KEY `items_base(item_created)` (`item_created`),
+    KEY `items_base(item_modified)` (`item_modified`),
     KEY `items_base(given_name)` (`given_name`),
     KEY `items_base(family_name)` (`family_name`),
     KEY `items_base(patronymic_name)` (`patronymic_name`),
