@@ -20,7 +20,7 @@
 
 class site_error__ns14329
         extends Exception {
-    protected $_site_error__options;
+    protected $_site_error__options = array();
     
     public function _public__site_error__get_options() {
         return $this->_site_error__options;
