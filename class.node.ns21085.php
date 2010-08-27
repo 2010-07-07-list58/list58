@@ -51,7 +51,7 @@ class node__ns21085 extends node_base__ns8054 {
                 'menu_link' => '?');
             
             $menu[] = array('menu_name' => 'Новые Данные', 
-                'menu_link' => '?node=add_data');
+                'menu_link' => '?node=new_items');
             
             $menu[] = array('menu_name' => 'Выход ['.$_SESSION['reg_data']['login'].']',
                 'menu_link' => '?node=exit');
