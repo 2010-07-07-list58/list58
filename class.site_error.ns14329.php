@@ -43,7 +43,7 @@ function throw_site_error__ns14329($message, $options=array()) {
     // конструктор для PHP-класса 'Exception' -- различается в PHP-5.2 и PHP-5.3.
     //  поэтому данная функция предоставляет совместимость
     
-    $e = new site_error__ns14329('Узел страницы не найден');
+    $e = new site_error__ns14329($message);
     
     set_error_options__ns14329($e, $options);
     
