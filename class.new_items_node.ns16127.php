@@ -131,7 +131,7 @@ class new_items_node__ns16127 extends node__ns21085 {
         
         if($this->_new_items_node__show_form) {
             $form_html =
-                '<form action="'.htmlspecialchars("?node=".urlencode($this->get_arg('node'))).'" method="post">'.
+                '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
                     '<h2 class="TextAlignCenter">Новые Данные</h2>'.
                     '<hr />'.
                     '<div class="GroupFrame">'.
