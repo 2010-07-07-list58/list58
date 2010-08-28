@@ -39,7 +39,7 @@ class main__ns17829 {
     public function _main__init_session() {
         $error_msg = 'Ошибка открытия HTTP-сессии';
         
-        $lifetime = 60 * 60 * 24 * 7 * 10; // 10 недель
+        $lifetime = 60 * 60 * 24 * 10; // 10 дней
         
         session_set_cookie_params($lifetime);
         session_cache_expire($lifetime / 60);
