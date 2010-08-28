@@ -109,7 +109,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="family_name" '.
                                 'id="_new_items_node__family_name" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__family_name).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__family_name" >'.
                                 'Фамилия: '.
@@ -121,7 +121,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="given_name" '.
                                 'id="_new_items_node__given_name" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__given_name).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__given_name" >'.
                                 'Имя: '.
@@ -133,7 +133,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="patronymic_name" '.
                                 'id="_new_items_node__patronymic_name" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__patronymic_name).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__patronymic_name" >'.
                                 'Отчество: '.
@@ -147,7 +147,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="birthday" '.
                                 'id="_new_items_node__birthday" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__birthday).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__birthday" >'.
                                 'Дата рождения: <br />'.
@@ -161,6 +161,16 @@ class new_items_node__ns16127 extends node__ns21085 {
                             '<select class="FloatRight Margin5Px Width300Px" '.
                                     'name="sex" '.
                                     'id="_new_items_node__sex" />'.
+                                ($this->_new_items_node__sex?
+                                    '<option value="'.
+                                            htmlspecialchars($this->_new_items_node__sex).
+                                    '">'.
+                                        htmlspecialchars(
+                                            sprintf('(Выбрано: %s)', $this->_new_items_node__sex)
+                                        ).
+                                    '</option>':
+                                    ''
+                                ).
                                 '<option></option>'.
                                 '<option value="Male">Мужской</option>'.
                                 '<option value="Female">Женский</option>'.
@@ -178,7 +188,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="passport_ser" '.
                                 'id="_new_items_node__passport_ser" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__passport_ser).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__passport_ser" >'.
                                 'Серия паспорта: '.
@@ -190,7 +200,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="passport_no" '.
                                 'id="_new_items_node__passport_no" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__passport_no).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__passport_no" >'.
                                 'Номер паспорта: '.
@@ -202,7 +212,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="passport_dep" '.
                                 'id="_new_items_node__passport_dep" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__passport_dep).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__passport_dep" >'.
                                 'Кем выдан паспорт: '.
@@ -214,7 +224,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="passport_day" '.
                                 'id="_new_items_node__passport_day" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__passport_day).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__passport_day" >'.
                                 'Дата выдачи паспорта: <br />'.
@@ -229,6 +239,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     'rows="4" '.
                                     'name="residence" '.
                                     'id="_new_items_node__residence" />'.
+                                htmlspecialchars($this->_new_items_node__residence).
                             '</textarea>'.
                             '<label class="FloatLeft Margin5Px"'.
                                     ' for="_new_items_node__residence" >'.
@@ -249,7 +260,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'type="text" '.
                                 'name="phone" '.
                                 'id="_new_items_node__phone" '.
-                                'value="" />'.
+                                'value="'.htmlspecialchars($this->_new_items_node__phone).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__phone" >'.
                                 'Телефон: <br />'.
@@ -265,6 +276,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     'rows="6" '.
                                     'name="about" '.
                                     'id="_new_items_node__about" />'.
+                                htmlspecialchars($this->_new_items_node__about).
                             '</textarea>'.
                             '<label class="FloatLeft Margin5Px"'.
                                     ' for="_new_items_node__about" >'.
@@ -280,6 +292,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     'rows="10" '.
                                     'name="comments" '.
                                     'id="_new_items_node__comments" />'.
+                                htmlspecialchars($this->_new_items_node__comments).
                             '</textarea>'.
                             '<label class="FloatLeft Margin5Px"'.
                                     ' for="_new_items_node__comments" >'.
