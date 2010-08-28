@@ -58,6 +58,20 @@ class new_items_node__ns16127 extends node__ns21085 {
     }
     
     protected function _new_items_node__check_form() {
+        if(
+            !$this->_new_items_node__given_name &&
+            !$this->_new_items_node__family_name &&
+            !$this->_new_items_node__passport_no &&
+            !$this->_new_items_node__residence &&
+            !$this->_new_items_node__phone &&
+            !$this->_new_items_node__about &&
+            !$this->_new_items_node__comments
+        ) {
+            throw new form_error__ns16127(
+                'Пожалуйста, укажите хотя бы какую-нибудь основную информацию'
+            );
+        }
+        
         // TODO: проверка корректности заполнения
         
         throw new form_error__ns16127('[ЗАГЛУШКА] Это функция ещё не реализована!');
