@@ -159,15 +159,15 @@ class node_base__ns8054 {
     }
     
     protected function _node_base__on_init() {
-            if($this->_node_base__need_check_auth) {
-                $this->_node_base__check_auth();
-                
-                if($this->_node_base__need_check_perms) {
-                    $this->_node_base__check_perms(
-                        $this->_node_base__need_check_perms
-                    );
-                }
+        if($this->_node_base__need_check_auth) {
+            $this->_node_base__check_auth();
+            
+            if($this->_node_base__need_check_perms) {
+                $this->_node_base__check_perms(
+                    $this->_node_base__need_check_perms
+                );
             }
+        }
     }
     
     public function __construct($environ) {
