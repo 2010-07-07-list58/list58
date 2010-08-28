@@ -94,19 +94,19 @@ class node_base__ns8054 {
         mysql_query('COMMIT', $this->_node_base__db_link);
     }
     
-    protected function _node_base__add_check_perms($perms) {
-        $this->_node_base__need_check_perms = array_merge(
-            $this->_node_base__need_check_perms,
-            $perms
-        );
-    }
-    
     protected function _node_base__check_auth() {
         // TODO: эта функция долна быть расширена для более глубокой проверки!
         
         if(!$_SESSION['authorized']) {
             throw new not_authorized_error__ns3300('Доступ ограничен!');
         }
+    }
+    
+    protected function _node_base__add_check_perms($perms) {
+        $this->_node_base__need_check_perms = array_merge(
+            $this->_node_base__need_check_perms,
+            $perms
+        );
     }
     
     protected function _node_base__on_init() {
