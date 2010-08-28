@@ -90,6 +90,8 @@ CREATE TABLE IF NOT EXISTS `items_base` (
     `sex` INTEGER, -- 0: <None> -- 1: Male -- 2: Female
     `passport_ser` VARCHAR(255),
     `passport_no` VARCHAR(255),
+    `passport_dep` VARCHAR(255),
+    `passport_day` VARCHAR(255),
     `residence` VARCHAR(255),
     `phone` VARCHAR(255),
     `about` TEXT,
@@ -107,6 +109,8 @@ CREATE TABLE IF NOT EXISTS `items_base` (
     KEY `items_base(sex)` (`sex`),
     KEY `items_base(passport_ser)` (`passport_ser`),
     KEY `items_base(passport_no)` (`passport_no`),
+    KEY `items_base(passport_dep)` (`passport_dep`),
+    KEY `items_base(passport_day)` (`passport_day`),
     KEY `items_base(residence)` (`residence`),
     KEY `items_base(phone)` (`phone`),
     KEY `users_base(about)` (`about`(1000)),
