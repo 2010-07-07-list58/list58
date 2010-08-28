@@ -43,12 +43,14 @@ class auth_node__ns2464 extends node__ns21085 {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             if($this->post_arg('post_key') == $_SESSION['post_key']) {
                 if(captcha_check_answer__ns8574($_POST)) {
+                    $login_success = FALSE;
+                    
                     $login = $this->post_arg('login');
                     $password = $this->post_arg('password');
                     
                     $result = mysql_query(
                         sprintf(
-                            'SELECT `login` FROM `users_base` WHERE '.
+                            'SELECT `login`, `password` FROM `users_base` WHERE '.
                                 '`login` = \'%s\' AND `password` = \'%s\'',
                             mysql_real_escape_string($login, $this->_node_base__db_link),
                             mysql_real_escape_string($password, $this->_node_base__db_link)
@@ -59,10 +61,17 @@ class auth_node__ns2464 extends node__ns21085 {
                     // TODO: сюда нада ещё и вызов функции проверки на дополнительные параметры
                     
                     if($result) {
-                        $login_success = TRUE;
+                        $row = mysql_fetch_row($result);
+                        if($row) {
+                            list($stored_login, $stored_password) = $row;
+                            
+                            if($stored_login == $login &&
+                                    $stored_password == $password) {
+                                $login_success = TRUE;
+                            }
+                        }
+                        
                         mysql_free_result($result);
-                    } else {
-                        $login_success = FALSE;
                     }
                     
                     if($login_success) {
