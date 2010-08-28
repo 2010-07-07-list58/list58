@@ -23,12 +23,16 @@ require_once dirname(__FILE__).'/class.node.ns21085.php';
 
 class new_items_node__ns16127 extends node__ns21085 {
     protected $_node_base__need_check_auth = TRUE;
+    protected $_new_items_node__need_check_perms = array(
+        'search_items' => TRUE,
+        'new_items' => TRUE,
+    );
     
-    //protected function _node_base__on_init() {
-    //    parent::_node_base__on_init();
-    //    
-    //    // TODO: ...
-    //}
+    protected function _node_base__on_init() {
+        $this->_node_base__add_check_perms($this->_new_items_node__need_check_perms);
+        
+        parent::_node_base__on_init();
+    }
     
     protected function _node__get_title() {
         $parent_title = parent::_node__get_title();
