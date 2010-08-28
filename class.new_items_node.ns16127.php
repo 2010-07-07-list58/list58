@@ -20,6 +20,7 @@
 
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
+require_once dirname(__FILE__).'/utils/class.parse_form.ns31025.php';
 
 class form_error__ns16127
         extends Exception {}
@@ -60,7 +61,7 @@ class new_items_node__ns16127 extends node__ns21085 {
         );
     }
     
-    protected function _new_items_node__check_form() {
+    protected function _new_items_node__parse_form() {
         if(
             !$this->_new_items_node__given_name &&
             !$this->_new_items_node__family_name &&
@@ -74,11 +75,35 @@ class new_items_node__ns16127 extends node__ns21085 {
                 'Пожалуйста, укажите хотя бы какую-нибудь основную информацию'
             );
         }
-    }
-    
-    protected function _new_items_node__split_form() {
-        // TODO: разбивание переменных формы на более конкретные значения.
-        //       в данном случае это требуется для birthday
+        
+        if($this->_new_items_node__birthday) {
+            try {
+                list(
+                    $this->_new_items_node__birth_year,
+                    $this->_new_items_node__birth_month,
+                    $this->_new_items_node__birth_day,
+                ) = parse_day__ns31025($this->_new_items_node__birthday);
+            } catch (parse_error__ns31025 $e) {
+                throw new form_error__ns16127(
+                    '\'Дата рождения\' указана неверно'
+                );
+            }
+        }
+        
+        if($this->_new_items_node__passport_day) {
+            try {
+                $this->_new_items_node__passport_day = normalize_ru_day__ns31025(
+                    $this->_new_items_node__passport_day
+                );
+            } catch (parse_error__ns31025 $e) {
+                throw new form_error__ns16127(
+                    '\'Дата выдачи паспорта\' указана неверно'
+                );
+            }
+        }
+        
+        // TODO: проверка значений и распознавание переменных формы
+        //      [телефон]
     }
     
     protected function _node_base__on_init() {
@@ -100,8 +125,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                 $this->_new_items_node__about = $this->post_arg('about');
                 $this->_new_items_node__comments = $this->post_arg('comments');
                 
-                $this->_new_items_node__check_form();
-                $this->_new_items_node__split_form();
+                $this->_new_items_node__parse_form();
                 
                 // TODO: обработка формы
                 
