@@ -155,6 +155,84 @@ class new_items_node__ns16127 extends node__ns21085 {
         }
     }
     
+    protected function _new_items_node__into_db() {
+        $item_owner = $_SESSION['reg_data']['login'];
+        $item_created = @time();
+        
+        $result = mysql_query(
+            sprintf(
+                'INSERT INTO `items_base` ('.
+                    '`item_owner`, '.
+                    '`item_created`, '.
+                    '`item_modified`, '.
+                    '`given_name`, '.
+                    '`family_name`, '.
+                    '`patronymic_name`, '.
+                    '`birth_year`, '.
+                    '`birth_month`, '.
+                    '`birth_day`, '.
+                    '`sex`, '.
+                    '`passport_ser`, '.
+                    '`passport_no`, '.
+                    '`passport_dep`, '.
+                    '`passport_day`, '.
+                    '`residence`, '.
+                    '`phone`, '.
+                    '`about`, '.
+                    '`comments`'.
+                ') '.
+                'VALUES ('.
+                    '\'%s\', '.
+                    '%s, '.
+                    '%s, '.
+                    '\'%s\', '.
+                    '\'%s\', '.
+                    '\'%s\', '.
+                    '%s, '.
+                    '%s, '.
+                    '%s, '.
+                    '%s, '.
+                    '\'%s\', '.
+                    '\'%s\', '.
+                    '\'%s\', '.
+                    '\'%s\', '.
+                    '\'%s\', '.
+                    '\'%s\', '.
+                    '\'%s\', '.
+                    '\'%s\''.
+                ')',
+                mysql_real_escape_string($item_owner, $this->_node_base__db_link),
+                intval($item_created),
+                intval($item_created),
+                mysql_real_escape_string($this->_new_items_node__given_name, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__family_name, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__patronymic_name, $this->_node_base__db_link),
+                intval($this->_new_items_node__birth_year),
+                intval($this->_new_items_node__birth_month),
+                intval($this->_new_items_node__birth_day),
+                intval($this->_new_items_node__sex_enum),
+                mysql_real_escape_string($this->_new_items_node__passport_ser, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__passport_no, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__passport_dep, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__passport_day, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__residence, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__phone, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__about, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__comments, $this->_node_base__db_link)
+            ),
+            $this->_node_base__db_link
+        );
+        
+        if(!$result) {
+            throw new form_error__ns16127(
+                sprintf(
+                    'Ошибка при сохранении данных внутри Базы Данных (%s)',
+                    mysql_error($this->_node_base__db_link)
+                )
+            );
+        }
+    }
+    
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
@@ -174,12 +252,12 @@ class new_items_node__ns16127 extends node__ns21085 {
                 $this->_new_items_node__about = trim($this->post_arg('about'));
                 $this->_new_items_node__comments = trim($this->post_arg('comments'));
                 
+                // обработать форму:
                 $this->_new_items_node__parse_form();
+                // поместить значения в Базу Данных:
+                $this->_new_items_node__into_db();
                 
-                throw new form_error__ns16127('[заглушка перед помещением данных в базу]');
-                
-                // TODO: помещение данных в базу
-                
+                // успех!!
                 $this->_new_items_node__message_html .=
                     '<p class="SuccessColor TextAlignCenter">'.
                         'Запись успешно добавлена...'.
