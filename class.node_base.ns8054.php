@@ -28,6 +28,7 @@ class node_base__ns8054 {
     public $environ;
     
     protected $_node_base__need_db = FALSE;
+    protected $_node_base__need_check_post_key = TRUE;
     protected $_node_base__need_check_auth = FALSE;
     protected $_node_base__need_check_perms = array();
     protected $_node_base__db_link = NULL;
@@ -94,6 +95,18 @@ class node_base__ns8054 {
         mysql_query('COMMIT', $this->_node_base__db_link);
     }
     
+    protected function _node_base__check_post_key() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if($this->post_arg('post_key') != $_SESSION['post_key']) {
+                throw_site_error__ns14329(
+                    'Ошибка системы безопасности: '.
+                        'Не авторизованный POST-запрос (возможно -- попытка CSRF-атаки)',
+                    array('return_back' => TRUE)
+                );
+            }
+        }
+    }
+    
     protected function _node_base__check_auth() {
         // TODO: эта функция долна быть расширена для более глубокой проверки!
         
@@ -158,15 +171,21 @@ class node_base__ns8054 {
     }
     
     protected function _node_base__on_init() {
-            if($this->_node_base__need_check_auth) {
-                $this->_node_base__check_auth();
-                
-                if($this->_node_base__need_check_perms) {
-                    $this->_node_base__check_perms(
-                        $this->_node_base__need_check_perms
-                    );
-                }
+        if($this->_node_base__need_check_post_key) {
+            // проверка на CSRF-атаку (включена поумолчанию)
+            
+            $this->_node_base__check_post_key();
+        }
+        
+        if($this->_node_base__need_check_auth) {
+            $this->_node_base__check_auth();
+            
+            if($this->_node_base__need_check_perms) {
+                $this->_node_base__check_perms(
+                    $this->_node_base__need_check_perms
+                );
             }
+        }
     }
     
     public function __construct($environ) {
