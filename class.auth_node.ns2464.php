@@ -41,7 +41,6 @@ class auth_node__ns2464 extends node__ns21085 {
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if($this->post_arg('post_key') == $_SESSION['post_key']) {
                 if(captcha_check_answer__ns8574($_POST)) {
                     $login_success = FALSE;
                     
@@ -103,12 +102,6 @@ class auth_node__ns2464 extends node__ns21085 {
                             htmlspecialchars($captcha_last_error).
                         '</p>';
                 }
-            } else {
-                $this->_auth_node__message_html .=
-                    '<p class="ErrorColor TextAlignCenter">'.
-                        'Ошибка системы безопасности для зашиты от CSRF-атак'.
-                    '</p>';
-            }
         }
         
         if($this->_auth_node__show_form) {
