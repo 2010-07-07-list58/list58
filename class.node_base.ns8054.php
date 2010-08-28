@@ -29,6 +29,7 @@ class node_base__ns8054 {
     
     protected $_node_base__need_db = FALSE;
     protected $_node_base__need_check_auth = FALSE;
+    protected $_node_base__need_check_perms = array();
     protected $_node_base__db_link = NULL;
     
     protected function _node_base__db_init() {
