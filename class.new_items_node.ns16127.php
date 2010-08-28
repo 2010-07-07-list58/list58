@@ -74,10 +74,6 @@ class new_items_node__ns16127 extends node__ns21085 {
                 'Пожалуйста, укажите хотя бы какую-нибудь основную информацию'
             );
         }
-        
-        // TODO: проверка корректности заполнения
-        
-        throw new form_error__ns16127('[ЗАГЛУШКА] Это функция ещё не реализована!');
     }
     
     protected function _new_items_node__split_form() {
