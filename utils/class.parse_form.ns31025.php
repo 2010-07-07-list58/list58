@@ -116,7 +116,7 @@ function parse_ru_day_with_normalize__ns31025($str) {
     );
 }
 
-function normalize_cer_no__ns31025($str) {
+function normalize_ser_no__ns31025($str) {
     // нормализировать "серию" или "номер"
     
     return str_replace(' ', '', $str);

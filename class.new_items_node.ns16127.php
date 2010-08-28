@@ -93,7 +93,7 @@ class new_items_node__ns16127 extends node__ns21085 {
         
         if($this->_new_items_node__passport_ser) {
             try {
-                $this->_new_items_node__passport_ser = normalize_cer_no__ns31025(
+                $this->_new_items_node__passport_ser = normalize_ser_no__ns31025(
                     $this->_new_items_node__passport_ser
                 );
             } catch (parse_error__ns31025 $e) {
@@ -105,7 +105,7 @@ class new_items_node__ns16127 extends node__ns21085 {
         
         if($this->_new_items_node__passport_no) {
             try {
-                $this->_new_items_node__passport_no = normalize_cer_no__ns31025(
+                $this->_new_items_node__passport_no = normalize_ser_no__ns31025(
                     $this->_new_items_node__passport_no
                 );
             } catch (parse_error__ns31025 $e) {
