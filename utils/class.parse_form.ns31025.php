@@ -105,6 +105,17 @@ function normalize_ru_day__ns31025($str) {
     return contruct_ru_day__ns31025($year, $month, $day);
 }
 
+function parse_ru_day_with_normalize__ns31025($str) {
+    // распознавание "день" и нормазилировать
+    
+    list($year, $month, $day) = parse_day__ns31025($str);
+    
+    return array(
+        $year, $month, $day,
+        contruct_ru_day__ns31025($year, $month, $day)
+    );
+}
+
 function normalize_cer_no__ns31025($str) {
     // нормализировать "серию" или "номер"
     

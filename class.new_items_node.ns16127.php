@@ -82,7 +82,8 @@ class new_items_node__ns16127 extends node__ns21085 {
                     $this->_new_items_node__birth_year,
                     $this->_new_items_node__birth_month,
                     $this->_new_items_node__birth_day,
-                ) = parse_day__ns31025($this->_new_items_node__birthday);
+                    $this->_new_items_node__birthday,
+                ) = parse_ru_day_with_normalize__ns31025($this->_new_items_node__birthday);
             } catch (parse_error__ns31025 $e) {
                 throw new form_error__ns16127(
                     '\'Дата рождения\' указана неверно'
