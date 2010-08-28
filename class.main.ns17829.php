@@ -100,6 +100,13 @@ class main__ns17829 {
                     
                     break;
                 
+                case 'new_items':
+                    require_once dirname(__FILE__).'/class.new_items_node.ns16127.php';
+                    
+                    $node = new new_items_node__ns16127($environ);
+                    
+                    break;
+                
                 case 'about':
                     require_once dirname(__FILE__).'/class.about_node.ns5982.php';
                     
