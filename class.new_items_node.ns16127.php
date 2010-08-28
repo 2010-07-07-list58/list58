@@ -151,7 +151,9 @@ class new_items_node__ns16127 extends node__ns21085 {
                 
                 $this->_new_items_node__parse_form();
                 
-                // TODO: обработка формы
+                throw new form_error__ns16127('[заглушка перед помещением данных в базу]');
+                
+                // TODO: помещение данных в базу
                 
                 $this->_new_items_node__message_html .=
                     '<p class="SuccessColor TextAlignCenter">'.
