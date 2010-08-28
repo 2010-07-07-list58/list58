@@ -131,10 +131,7 @@ class main__ns17829 {
             } catch(site_error__ns14329 $e) {
                 $error = $e->getMessage();
                 $return_to = NULL;
-                $error_url = sprintf(
-                    '?node=error&error=%s',
-                    urlencode($error)
-                );
+                $error_url = sprintf('?node=error&error=%s', urlencode($error));
                 
                 $error_options = get_error_options__ns14329($e);
                 
@@ -150,10 +147,7 @@ class main__ns17829 {
                 }
                 
                 if($return_to) {
-                    $error_url .= sprintf(
-                        '&return_to=%s',
-                        urlencode($return_to)
-                    );
+                    $error_url .= sprintf('&return_to=%s', urlencode($return_to));
                 }
                 
                 @header(sprintf('Location: %s', $error_url));
