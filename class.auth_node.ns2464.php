@@ -85,7 +85,7 @@ class auth_node__ns2464 extends node__ns21085 {
                             'Добро пожаловать!'.
                         '</p>';
                         
-                        @header('Refresh: 1;url=?');
+                    @header('Refresh: 1;url=?');
                     $this->_auth_node__show_form = FALSE;
                 } else {
                     $this->_auth_node__message_html .=
@@ -133,7 +133,7 @@ class auth_node__ns2464 extends node__ns21085 {
         
         if($this->_auth_node__show_form) {
             $form_html =
-                '<form action="'.htmlspecialchars("?node=".urlencode($this->get_arg('node'))).'" method="post">'.
+                '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
                     '<h2 class="TextAlignCenter">Авторизация в системе</h2>'.
                     '<hr />'.
                     '<p>'.
