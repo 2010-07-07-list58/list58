@@ -28,6 +28,8 @@ class new_items_node__ns16127 extends node__ns21085 {
         'new_items' => TRUE,
     );
     
+    protected $_new_items_node__message_html = '';
+    
     protected function _node_base__on_init() {
         $this->_node_base__add_check_perms($this->_new_items_node__need_check_perms);
         
