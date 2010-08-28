@@ -122,6 +122,8 @@ class node_base__ns8054 {
         );
     }
     
+    protected function _node_base__on_add_check_perms() {}
+    
     protected function _node_base__check_perm($perm) {
         $success = FALSE;
         
@@ -180,6 +182,7 @@ class node_base__ns8054 {
         if($this->_node_base__need_check_auth) {
             $this->_node_base__check_auth();
             
+            $this->_node_base__on_add_check_perms();
             if($this->_node_base__need_check_perms) {
                 $this->_node_base__check_perms(
                     $this->_node_base__need_check_perms
