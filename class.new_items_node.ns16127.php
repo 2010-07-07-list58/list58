@@ -49,7 +49,7 @@ class new_items_node__ns16127 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" type="text/css" href="/media/new_items/css/style.css" />';
+            '<link rel="stylesheet" type="text/css" href="/media/new_items_node/css/style.css" />';
         
         return $html;
     }
