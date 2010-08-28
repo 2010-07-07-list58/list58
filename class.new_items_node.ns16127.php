@@ -21,6 +21,9 @@
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 
+class form_error__ns16127
+        extends Exception {}
+
 class new_items_node__ns16127 extends node__ns21085 {
     protected $_node_base__need_check_auth = TRUE;
     
@@ -54,25 +57,53 @@ class new_items_node__ns16127 extends node__ns21085 {
         );
     }
     
+    protected function _new_items_node__check_form() {
+        // TODO: проверка корректности заполнения
+        
+        throw new form_error__ns16127('[ЗАГЛУШКА] Это функция ещё не реализована!');
+    }
+    
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $this->_new_items_node__given_name = $this->post_arg('given_name');
-            $this->_new_items_node__family_name = $this->post_arg('family_name');
-            $this->_new_items_node__patronymic_name = $this->post_arg('patronymic_name');
-            $this->_new_items_node__birthday = $this->post_arg('birthday');
-            $this->_new_items_node__sex = $this->post_arg('sex');
-            $this->_new_items_node__passport_ser = $this->post_arg('passport_ser');
-            $this->_new_items_node__passport_no = $this->post_arg('passport_no');
-            $this->_new_items_node__passport_dep = $this->post_arg('passport_dep');
-            $this->_new_items_node__passport_day = $this->post_arg('passport_day');
-            $this->_new_items_node__residence = $this->post_arg('residence');
-            $this->_new_items_node__phone = $this->post_arg('phone');
-            $this->_new_items_node__about = $this->post_arg('about');
-            $this->_new_items_node__comments = $this->post_arg('comments');
+        try{
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->_new_items_node__given_name = $this->post_arg('given_name');
+                $this->_new_items_node__family_name = $this->post_arg('family_name');
+                $this->_new_items_node__patronymic_name = $this->post_arg('patronymic_name');
+                $this->_new_items_node__birthday = $this->post_arg('birthday');
+                $this->_new_items_node__sex = $this->post_arg('sex');
+                $this->_new_items_node__passport_ser = $this->post_arg('passport_ser');
+                $this->_new_items_node__passport_no = $this->post_arg('passport_no');
+                $this->_new_items_node__passport_dep = $this->post_arg('passport_dep');
+                $this->_new_items_node__passport_day = $this->post_arg('passport_day');
+                $this->_new_items_node__residence = $this->post_arg('residence');
+                $this->_new_items_node__phone = $this->post_arg('phone');
+                $this->_new_items_node__about = $this->post_arg('about');
+                $this->_new_items_node__comments = $this->post_arg('comments');
+                
+                $this->_new_items_node__check_form();
+                
+                // TODO: обработка формы
+                
+                $this->_new_items_node__message_html .=
+                    '<p class="SuccessColor TextAlignCenter">'.
+                        'Запись успешно добавлена...'.
+                    '</p>'.
+                    '<p class="SuccessColor TextAlignCenter">'.
+                        'Новая запись!'.
+                    '</p>';
+                
+                @header('Refresh: 1;url=?node='.urlencode($this->get_arg('node')));
+                $this->_new_items_node__show_form = FALSE;
+            }
+        } catch(form_error__ns16127 $e) {
+            $message = $e->getMessage();
             
-            // TODO: обработка формы
+            $this->_new_items_node__message_html .=
+                '<p class="ErrorColor TextAlignCenter">'.
+                    htmlspecialchars($message).
+                '</p>';
         }
     }
     
