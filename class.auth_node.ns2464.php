@@ -41,67 +41,67 @@ class auth_node__ns2464 extends node__ns21085 {
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-                if(captcha_check_answer__ns8574($_POST)) {
-                    $login_success = FALSE;
-                    
-                    $login = $this->post_arg('login');
-                    $password = $this->post_arg('password');
-                    
-                    $result = mysql_query(
-                        sprintf(
-                            'SELECT `login`, `password` FROM `users_base` WHERE '.
-                                '`login` = \'%s\' AND `password` = \'%s\'',
-                            mysql_real_escape_string($login, $this->_node_base__db_link),
-                            mysql_real_escape_string($password, $this->_node_base__db_link)
-                        ),
-                        $this->_node_base__db_link
-                    );
-                    
-                    if($result) {
-                        $row = mysql_fetch_row($result);
-                        if($row) {
-                            list($stored_login, $stored_password) = $row;
-                            
-                            if($stored_login == $login &&
-                                    $stored_password == $password) {
-                                $login_success = TRUE;
-                            }
+            if(captcha_check_answer__ns8574($_POST)) {
+                $login_success = FALSE;
+                
+                $login = $this->post_arg('login');
+                $password = $this->post_arg('password');
+                
+                $result = mysql_query(
+                    sprintf(
+                        'SELECT `login`, `password` FROM `users_base` WHERE '.
+                            '`login` = \'%s\' AND `password` = \'%s\'',
+                        mysql_real_escape_string($login, $this->_node_base__db_link),
+                        mysql_real_escape_string($password, $this->_node_base__db_link)
+                    ),
+                    $this->_node_base__db_link
+                );
+                
+                if($result) {
+                    $row = mysql_fetch_row($result);
+                    if($row) {
+                        list($stored_login, $stored_password) = $row;
+                        
+                        if($stored_login == $login &&
+                                $stored_password == $password) {
+                            $login_success = TRUE;
                         }
-                        
-                        mysql_free_result($result);
                     }
                     
-                    if($login_success) {
-                        $_SESSION['reg_data'] = array(
-                            'login' => $login,
-                        );
-                        $_SESSION['authorized'] = TRUE;
-                        
-                        $this->_auth_node__message_html .=
-                            '<p class="SuccessColor TextAlignCenter">'.
-                                'Авторизация успешно пройдена...'.
-                            '</p>'.
-                            '<p class="SuccessColor TextAlignCenter">'.
-                                'Добро пожаловать!'.
-                            '</p>';
-                            
-                            @header('Refresh: 1;url=?');
-                        $this->_auth_node__show_form = FALSE;
-                    } else {
-                        $this->_auth_node__message_html .=
-                            '<p class="ErrorColor">'.
-                                'Логин и/или Пароль -- неверны'.
-                            '</p>';
-                    }
-                } else {
-                    $captcha_last_error = get_captcha_last_error__ns8574();
+                    mysql_free_result($result);
+                }
+                
+                if($login_success) {
+                    $_SESSION['reg_data'] = array(
+                        'login' => $login,
+                    );
+                    $_SESSION['authorized'] = TRUE;
                     
                     $this->_auth_node__message_html .=
-                        '<p class="ErrorColor TextAlignCenter">'.
-                            'Ошибка Каптчи:<br />'.
-                            htmlspecialchars($captcha_last_error).
+                        '<p class="SuccessColor TextAlignCenter">'.
+                            'Авторизация успешно пройдена...'.
+                        '</p>'.
+                        '<p class="SuccessColor TextAlignCenter">'.
+                            'Добро пожаловать!'.
+                        '</p>';
+                        
+                        @header('Refresh: 1;url=?');
+                    $this->_auth_node__show_form = FALSE;
+                } else {
+                    $this->_auth_node__message_html .=
+                        '<p class="ErrorColor">'.
+                            'Логин и/или Пароль -- неверны'.
                         '</p>';
                 }
+            } else {
+                $captcha_last_error = get_captcha_last_error__ns8574();
+                
+                $this->_auth_node__message_html .=
+                    '<p class="ErrorColor TextAlignCenter">'.
+                        'Ошибка Каптчи:<br />'.
+                        htmlspecialchars($captcha_last_error).
+                    '</p>';
+            }
         }
         
         if($this->_auth_node__show_form) {
