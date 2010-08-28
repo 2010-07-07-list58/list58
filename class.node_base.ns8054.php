@@ -102,10 +102,10 @@ class node_base__ns8054 {
         }
     }
     
-    protected function _node_base__add_check_perms($perms) {
+    protected function _node_base__add_check_perms($new_perms) {
         $this->_node_base__need_check_perms = array_merge(
             $this->_node_base__need_check_perms,
-            $perms
+            $new_perms
         );
     }
     
@@ -113,7 +113,7 @@ class node_base__ns8054 {
         // TODO: ...
     }
     
-    protected function _node_base__check_perms() {
+    protected function _node_base__check_perms($perms) {
         // TODO: ...
     }
     
@@ -122,7 +122,9 @@ class node_base__ns8054 {
                 $this->_node_base__check_auth();
                 
                 if($this->_node_base__need_check_perms) {
-                    $this->_node_base__check_perms();
+                    $this->_node_base__check_perms(
+                        $this->_node_base__need_check_perms
+                    );
                 }
             }
     }
