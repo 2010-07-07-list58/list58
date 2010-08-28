@@ -122,4 +122,77 @@ function normalize_ser_no__ns31025($str) {
     return str_replace(' ', '', $str);
 }
 
+function normalize_phone_digits_filter__ns31025($str) {
+    // вспомогательная функция для нормализации номера телефона
+    //
+    // функция возвращает только цифры и знаки: '+', '*', '#', 'w', 'p', '?'
+    
+    $str = strtolower($str);
+    
+    $len = strlen($str);
+    $result = '';
+    
+    for($i = 0; $i < $len; ++$i) {
+        $char = substr($str, $i, 1);
+        
+        if(
+            $char >= '0' && $char <= '9' ||
+            $i == 0 && $char == '+' ||
+            $char == '*' || $char == '#' ||
+            $char == 'w' || $char == 'p' ||
+            $char == '?'
+        ) {
+            $result .= $char;
+        }
+    }
+    
+    return $result;
+}
+
+function normalize_phone__ns31025($str) {
+    // нормализация номера телефона -- по Пензенским правилам
+    
+    $canonical_country_prefix = '+7'; // канонический код страны (РФ)
+    $canonical_city_prefix = '+78412'; // канонический код города (Пенза)
+    
+    $inside_country_len = 11; // число цифр (как минимум) в междугороднем формате (РФ)
+    $inside_city_len = 6; // число цифр (как минимум) в городском формате (Пенза)
+    
+    $exit_country_prefix = '810'; // код выхода на международную линию
+    $exit_city_prefix = '8'; // код выхода на междугороднюю линию
+    
+    $str = normalize_phone_digits_filter__ns31025($str);
+    
+    if(substr($str, 0, 1) == '+') {
+        // телефон уже в конаническом международном формате
+        
+        return $str;
+    } elseif(
+            substr($str, 0, strlen($exit_country_prefix)) == 
+                $exit_country_prefix
+    ) {
+        // телефон в специальном международном формате
+        
+        return '+'.substr($str, strlen($exit_country_prefix));
+    } elseif(
+            substr($str, 0, strlen($exit_city_prefix)) == 
+                $exit_city_prefix && 
+            strlen($str) >= $inside_country_len
+    ) {
+        // телефон в междугороднем формате
+        
+        return $canonical_country_prefix.substr($str, 1);
+    } elseif(
+            substr($str, 0, strlen($exit_city_prefix)) != 
+                $exit_city_prefix && 
+            strlen($str) >= $inside_city_len
+    ) {
+        // телефон в городском формате
+        
+        return $canonical_city_prefix.$str;
+    } else {
+        throw new parse_error__ns31025();
+    }
+}
+
 

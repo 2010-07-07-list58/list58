@@ -127,8 +127,17 @@ class new_items_node__ns16127 extends node__ns21085 {
             }
         }
         
-        // TODO: проверка значений и распознавание переменных формы
-        //      [телефон]
+        if($this->_new_items_node__phone) {
+            try {
+                $this->_new_items_node__phone = normalize_phone__ns31025(
+                    $this->_new_items_node__phone
+                );
+            } catch (parse_error__ns31025 $e) {
+                throw new form_error__ns16127(
+                    '\'Телефон\' указан неверно'
+                );
+            }
+        }
     }
     
     protected function _node_base__on_init() {
