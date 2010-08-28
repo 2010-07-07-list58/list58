@@ -105,4 +105,10 @@ function normalize_ru_day__ns31025($str) {
     return contruct_ru_day__ns31025($year, $month, $day);
 }
 
+function normalize_cer_no__ns31025($str) {
+    // нормализировать "серию" или "номер"
+    
+    return str_replace(' ', '', $str);
+}
+
 
