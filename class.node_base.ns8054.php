@@ -28,6 +28,7 @@ class node_base__ns8054 {
     public $environ;
     
     protected $_node_base__need_db = FALSE;
+    protected $_node_base__need_check_csrf = TRUE; // проверка на CSRF-атаку включена поумолчанию
     protected $_node_base__need_check_auth = FALSE;
     protected $_node_base__need_check_perms = array();
     protected $_node_base__db_link = NULL;
