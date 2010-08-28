@@ -129,9 +129,9 @@ class main__ns17829 {
                 
                 return;
             } catch(site_error__ns14329 $e) {
-                $error = $e->getMessage();
+                $message = $e->getMessage();
                 $return_to = NULL;
-                $error_url = sprintf('?node=error&error=%s', urlencode($error));
+                $error_url = sprintf('?node=error&message=%s', urlencode($message));
                 
                 $error_options = get_error_options__ns14329($e);
                 

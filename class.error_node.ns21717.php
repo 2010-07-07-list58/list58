@@ -29,11 +29,11 @@ class error_node__ns21717 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $error = $this->get_arg('error');
+        $message = $this->get_arg('message');
         $return_to = $this->get_arg('return_to');
         
-        if(!$error) {
-            $error = '(Неопределённая Ошибка)';
+        if(!$message) {
+            $message = '(Неопределённая Ошибка)';
         }
         
         if($return_to) {
@@ -47,7 +47,7 @@ class error_node__ns21717 extends node__ns21085 {
         
         $this->_error_node__message_html =
             '<p class="ErrorColor TextAlignCenter">'.
-                htmlspecialchars($error).
+                htmlspecialchars($message).
             '</p>';
         
         $this->_error_node__buttons_html = '<p>'.$button.'</p>';
