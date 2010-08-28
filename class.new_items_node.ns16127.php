@@ -73,40 +73,195 @@ class new_items_node__ns16127 extends node__ns21085 {
                 '<form action="'.htmlspecialchars("?node=".urlencode($this->get_arg('node'))).'" method="post">'.
                     '<h2 class="TextAlignCenter">Новые Данные</h2>'.
                     '<hr />'.
-                    '<p>'.
-                        '<input class="FloatRight Margin5Px" type="text" '.
-                            'name="family_name" '.
-                            'id="_new_items_node__family_name" '.
-                            'value="" />'.
-                        '<label class="FloatLeft Margin5Px" '.
-                            'for="_new_items_node__family_name" >'.
-                            'Фамилия: '.
-                        '</label>'.
-                        '<div class="ClearBoth"></div>'.
-                    '</p>'.
-                    '<p>'.
-                        '<input class="FloatRight Margin5Px" type="text" '.
-                            'name="given_name" '.
-                            'id="_new_items_node__given_name" '.
-                            'value="" />'.
-                        '<label class="FloatLeft Margin5Px" '.
-                            'for="_new_items_node__given_name" >'.
-                            'Имя: '.
-                        '</label>'.
-                        '<div class="ClearBoth"></div>'.
-                    '</p>'.
-                    '<p>'.
-                        '<input class="FloatRight Margin5Px" type="text" '.
-                            'name="patronymic_name" '.
-                            'id="_new_items_node__patronymic_name" '.
-                            'value="" />'.
-                        '<label class="FloatLeft Margin5Px" '.
-                            'for="_new_items_node__patronymic_name" >'.
-                            'Отчество: '.
-                        '</label>'.
-                        '<div class="ClearBoth"></div>'.
-                    '</p>'.
-                    // TODO: ...
+                    '<div class="GroupFrame">'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="family_name" '.
+                                'id="_new_items_node__family_name" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__family_name" >'.
+                                'Фамилия: '.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="given_name" '.
+                                'id="_new_items_node__given_name" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__given_name" >'.
+                                'Имя: '.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="patronymic_name" '.
+                                'id="_new_items_node__patronymic_name" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__patronymic_name" >'.
+                                'Отчество: '.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                    '</div>'.
+                    '<div class="GroupFrame">'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="birthday" '.
+                                'id="_new_items_node__birthday" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__birthday" >'.
+                                'Дата рождения: <br />'.
+                                '<span class="FontSize07Em">'.
+                                    '(Например: 27.09.1983) '.
+                                '</span>'.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<select class="FloatRight Margin5Px Width300Px" '.
+                                    'name="sex" '.
+                                    'id="_new_items_node__sex" />'.
+                                '<option></option>'.
+                                '<option value="Male">Мужской</option>'.
+                                '<option value="Female">Женский</option>'.
+                            '</select>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__sex" >'.
+                                'Пол: '.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                    '</div>'.
+                    '<div class="GroupFrame">'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="passport_ser" '.
+                                'id="_new_items_node__passport_ser" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__passport_ser" >'.
+                                'Серия паспорта: '.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="passport_no" '.
+                                'id="_new_items_node__passport_no" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__passport_no" >'.
+                                'Номер паспорта: '.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="passport_dep" '.
+                                'id="_new_items_node__passport_dep" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__passport_dep" >'.
+                                'Кем выдан паспорт: '.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="passport_day" '.
+                                'id="_new_items_node__passport_day" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__passport_day" >'.
+                                'Дата выдачи паспорта: <br />'.
+                                '<span class="FontSize07Em">'.
+                                    '(Например: 27.09.2003) '.
+                                '</span>'.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                    'rows="4" '.
+                                    'name="residence" '.
+                                    'id="_new_items_node__residence" />'.
+                            '</textarea>'.
+                            '<label class="FloatLeft Margin5Px"'.
+                                    ' for="_new_items_node__residence" >'.
+                                'Адрес регистрации: <br />'.
+                                '<span class="FontSize07Em">'.
+                                    '(Например: <br />'.
+                                    '622014, Свердловская область, <br />'.
+                                    'г. Нижний Тагил, ул. Королева, <br />'.
+                                    'д.181, кв.354) '.
+                                '</span>'.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                    '</div>'.
+                    '<div class="GroupFrame">'.
+                        '<p>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="phone" '.
+                                'id="_new_items_node__phone" '.
+                                'value="" />'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__phone" >'.
+                                'Телефон: <br />'.
+                                '<span class="FontSize07Em">'.
+                                    '(Например: <br />'.
+                                    '+78412123456, или 88412123456, или 123456) '.
+                                '</span>'.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                    'rows="6" '.
+                                    'name="about" '.
+                                    'id="_new_items_node__about" />'.
+                            '</textarea>'.
+                            '<label class="FloatLeft Margin5Px"'.
+                                    ' for="_new_items_node__about" >'.
+                                'Дополнительное описание: <br />'.
+                                '<span class="FontSize07Em">'.
+                                    '(Произвольная информация) '.
+                                '</span>'.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                    'rows="10" '.
+                                    'name="comments" '.
+                                    'id="_new_items_node__comments" />'.
+                            '</textarea>'.
+                            '<label class="FloatLeft Margin5Px"'.
+                                    ' for="_new_items_node__comments" >'.
+                                'Примечание: <br />'.
+                                '<span class="FontSize07Em">'.
+                                    '(Произвольная информация. <br />'.
+                                    'Например, причина попадания в список) '.
+                                '</span>'.
+                            '</label>'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                    '</div>'.
                     '<hr />'.
                     '<p>'.
                         '<input type="hidden" '.
