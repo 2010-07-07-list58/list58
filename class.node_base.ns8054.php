@@ -28,7 +28,7 @@ class node_base__ns8054 {
     public $environ;
     
     protected $_node_base__need_db = FALSE;
-    protected $_node_base__need_check_csrf = TRUE; // проверка на CSRF-атаку включена поумолчанию
+    protected $_node_base__need_check_post_key = TRUE;
     protected $_node_base__need_check_auth = FALSE;
     protected $_node_base__need_check_perms = array();
     protected $_node_base__db_link = NULL;
@@ -95,11 +95,12 @@ class node_base__ns8054 {
         mysql_query('COMMIT', $this->_node_base__db_link);
     }
     
-    protected function _node_base__check_csrf() {
+    protected function _node_base__check_post_key() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             if($this->post_arg('post_key') != $_SESSION['post_key']) {
                 throw_site_error__ns14329(
-                    'Ошибка системы безопасности для зашиты от CSRF-атак',
+                    'Ошибка системы безопасности: '.
+                        'Не авторизованный POST-запрос (возможно -- попытка CSRF-атаки)',
                     array('return_back' => TRUE)
                 );
             }
@@ -170,8 +171,10 @@ class node_base__ns8054 {
     }
     
     protected function _node_base__on_init() {
-        if($this->_node_base__need_check_csrf) {
-            $this->_node_base__check_csrf();
+        if($this->_node_base__need_check_post_key) {
+            // проверка на CSRF-атаку (включена поумолчанию)
+            
+            $this->_node_base__check_post_key();
         }
         
         if($this->_node_base__need_check_auth) {
