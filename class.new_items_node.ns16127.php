@@ -27,6 +27,20 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected $_new_items_node__show_form = TRUE;
     protected $_new_items_node__message_html = '';
     
+    protected $_new_items_node__given_name;
+    protected $_new_items_node__family_name;
+    protected $_new_items_node__patronymic_name;
+    protected $_new_items_node__birthday;
+    protected $_new_items_node__sex;
+    protected $_new_items_node__passport_ser;
+    protected $_new_items_node__passport_no;
+    protected $_new_items_node__passport_dep;
+    protected $_new_items_node__passport_day;
+    protected $_new_items_node__residence;
+    protected $_new_items_node__phone;
+    protected $_new_items_node__about;
+    protected $_new_items_node__comments;
+    
     protected function _node_base__on_add_check_perms() {
         parent::_node_base__on_add_check_perms();
         
@@ -43,7 +57,23 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        // TODO: обработка формы
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->_new_items_node__given_name = $this->post_arg('given_name');
+            $this->_new_items_node__family_name = $this->post_arg('family_name');
+            $this->_new_items_node__patronymic_name = $this->post_arg('patronymic_name');
+            $this->_new_items_node__birthday = $this->post_arg('birthday');
+            $this->_new_items_node__sex = $this->post_arg('sex');
+            $this->_new_items_node__passport_ser = $this->post_arg('passport_ser');
+            $this->_new_items_node__passport_no = $this->post_arg('passport_no');
+            $this->_new_items_node__passport_dep = $this->post_arg('passport_dep');
+            $this->_new_items_node__passport_day = $this->post_arg('passport_day');
+            $this->_new_items_node__residence = $this->post_arg('residence');
+            $this->_new_items_node__phone = $this->post_arg('phone');
+            $this->_new_items_node__about = $this->post_arg('about');
+            $this->_new_items_node__comments = $this->post_arg('comments');
+            
+            // TODO: обработка формы
+        }
     }
     
     protected function _node__get_title() {
