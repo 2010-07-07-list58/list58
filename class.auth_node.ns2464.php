@@ -58,8 +58,6 @@ class auth_node__ns2464 extends node__ns21085 {
                         $this->_node_base__db_link
                     );
                     
-                    // TODO: сюда нада ещё и вызов функции проверки на дополнительные параметры
-                    
                     if($result) {
                         $row = mysql_fetch_row($result);
                         if($row) {
@@ -75,7 +73,6 @@ class auth_node__ns2464 extends node__ns21085 {
                     }
                     
                     if($login_success) {
-                        
                         $_SESSION['reg_data'] = array(
                             'login' => $login,
                         );
