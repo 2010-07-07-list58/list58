@@ -217,8 +217,8 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     ''
                                 ).
                                 '<option></option>'.
-                                '<option value="Male">Мужской</option>'.
-                                '<option value="Female">Женский</option>'.
+                                '<option value="Мужской">Мужской</option>'.
+                                '<option value="Женский">Женский</option>'.
                             '</select>'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__sex" >'.
