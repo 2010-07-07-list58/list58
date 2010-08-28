@@ -59,7 +59,8 @@ class new_items_node__ns16127 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" type="text/css" href="/media/new_items_node/css/style.css" />';
+            '<link rel="stylesheet" type="text/css" href="/media/new_items_node/css/style.css" />'.
+            '<script type="application/javascript" src="/media/new_items_node/js/autofocus.js" /></script>';
         
         return $html;
     }
@@ -74,6 +75,17 @@ class new_items_node__ns16127 extends node__ns21085 {
                     '<hr />'.
                     '<p>'.
                         '<input class="FloatRight Margin5Px" type="text" '.
+                            'name="family_name" '.
+                            'id="_new_items_node__family_name" '.
+                            'value="" />'.
+                        '<label class="FloatLeft Margin5Px" '.
+                            'for="_new_items_node__family_name" >'.
+                            'Фамилия: '.
+                        '</label>'.
+                        '<div class="ClearBoth"></div>'.
+                    '</p>'.
+                    '<p>'.
+                        '<input class="FloatRight Margin5Px" type="text" '.
                             'name="given_name" '.
                             'id="_new_items_node__given_name" '.
                             'value="" />'.
@@ -83,14 +95,25 @@ class new_items_node__ns16127 extends node__ns21085 {
                         '</label>'.
                         '<div class="ClearBoth"></div>'.
                     '</p>'.
+                    '<p>'.
+                        '<input class="FloatRight Margin5Px" type="text" '.
+                            'name="patronymic_name" '.
+                            'id="_new_items_node__patronymic_name" '.
+                            'value="" />'.
+                        '<label class="FloatLeft Margin5Px" '.
+                            'for="_new_items_node__patronymic_name" >'.
+                            'Отчество: '.
+                        '</label>'.
+                        '<div class="ClearBoth"></div>'.
+                    '</p>'.
                     // TODO: ...
                     '<hr />'.
                     '<p>'.
                         '<input type="hidden" '.
                             'name="post_key" '.
                             'value="'.htmlspecialchars($_SESSION['post_key']).'" />'.
-                        '<input class="FloatRight Margin5Px" type="reset" value="Сброс" />'.
-                        '<input class="FloatRight Margin5Px" type="submit" value="Создать" />'.
+                        '<input class="FloatLeft Margin5Px" type="submit" value="Создать" />'.
+                        '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
                         '<div class="ClearBoth"></div>'.
                     '</p>'.
                 '</form>';
