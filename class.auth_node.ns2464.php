@@ -95,12 +95,12 @@ class auth_node__ns2464 extends node__ns21085 {
                             '</p>';
                     }
                 } else {
-                    global $captcha_last_error__ns8574;
+                    $captcha_last_error = get_captcha_last_error__ns8574();
                     
                     $this->_auth_node__message_html .=
                         '<p class="ErrorColor TextAlignCenter">'.
                             'Ошибка Каптчи:<br />'.
-                            htmlspecialchars($captcha_last_error__ns8574).
+                            htmlspecialchars($captcha_last_error).
                         '</p>';
                 }
             } else {

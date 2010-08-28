@@ -11,6 +11,12 @@ $captcha_public_key__ns8574 = '6LcLHLoSAAAAABHep_EjLPM8lKxuBJozOobS9MNd';
 $captcha_private_key__ns8574 = '6LcLHLoSAAAAAMX1SDPAXnUc9T_K9hYdOPLdnuBP ';
 $captcha_last_error__ns8574 = NULL;
 
+function get_captcha_last_error__ns8574() {
+    global $captcha_last_error__ns8574;
+    
+    return $captcha_last_error__ns8574;
+}
+
 function captcha_get_html__ns8574() {
 	global $captcha_public_key__ns8574;
 	
