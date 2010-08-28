@@ -28,12 +28,15 @@ class new_items_node__ns16127 extends node__ns21085 {
         'new_items' => TRUE,
     );
     
+    protected $_new_items_node__show_form = TRUE;
     protected $_new_items_node__message_html = '';
     
     protected function _node_base__on_init() {
         $this->_node_base__add_check_perms($this->_new_items_node__need_check_perms);
         
         parent::_node_base__on_init();
+        
+        // TODO: обработка формы
     }
     
     protected function _node__get_title() {
@@ -55,16 +58,43 @@ class new_items_node__ns16127 extends node__ns21085 {
     }
     
     protected function _node__get_aside() {
+        $form_html = '';
+        
+        if($this->_new_items_node__show_form) {
+            $form_html =
+                '<form action="'.htmlspecialchars("?node=".urlencode($this->get_arg('node'))).'" method="post">'.
+                    '<h2 class="TextAlignCenter">Новые Данные</h2>'.
+                    '<hr />'.
+                    '<p>'.
+                        '<input class="FloatRight Margin5Px" type="text" '.
+                            'name="given_name" '.
+                            'id="_new_items_node__given_name" '.
+                            'value="" />'.
+                        '<label class="FloatLeft Margin5Px" '.
+                            'for="_new_items_node__given_name" >'.
+                            'Имя: '.
+                        '</label>'.
+                        '<div class="ClearBoth"></div>'.
+                    '</p>'.
+                    // TODO: ...
+                    '<hr />'.
+                    '<p>'.
+                        '<input type="hidden" '.
+                            'name="post_key" '.
+                            'value="'.htmlspecialchars($_SESSION['post_key']).'" />'.
+                        '<input class="FloatRight Margin5Px" type="reset" value="Сброс" />'.
+                        '<input class="FloatRight Margin5Px" type="submit" value="Создать" />'.
+                        '<div class="ClearBoth"></div>'.
+                    '</p>'.
+                '</form>';
+        }
+        
         $html = '';
         
         $html .=
             '<div class="SmallFrame">'.
-                '<p style="color: rgb(255,0,0)">(здесь в будущем будет new_items страницца)</p>'.
-                '<p style="color: rgb(128,128,0)">(здесь в будущем будет new_items страницца)</p>'.
-                '<p style="color: rgb(0,255,0)">(здесь в будущем будет new_items страницца)</p>'.
-                '<p style="color: rgb(0,128,128)">(здесь в будущем будет new_items страницца)</p>'.
-                '<p style="color: rgb(0,0,255)">(здесь в будущем будет new_items страницца)</p>'.
-                '<p style="color: rgb(128,0,128)">(здесь в будущем будет new_items страницца)</p>'.
+                $this->_new_items_node__message_html.
+                $form_html.
             '</div>';
         
         return $html;
