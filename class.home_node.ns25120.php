@@ -23,12 +23,22 @@ require_once dirname(__FILE__).'/class.node.ns21085.php';
 
 class home_node__ns25120 extends node__ns21085 {
     protected $_node_base__need_check_auth = TRUE;
-    protected $_home_node__need_check_perms = array('search_items' => TRUE);
+    
+    protected function _node_base__on_add_check_perms() {
+        parent::_node_base__on_add_check_perms();
+        
+        $this->_node_base__add_check_perms(
+            array(
+                // требуется разрешение на поиск Элементов Данных:
+                'search_items' => TRUE,
+            )
+        );
+    }
     
     protected function _node_base__on_init() {
-        $this->_node_base__add_check_perms($this->_home_node__need_check_perms);
-        
         parent::_node_base__on_init();
+        
+        // TODO: код для инициализации
     }
     
     protected function _node__get_head() {
