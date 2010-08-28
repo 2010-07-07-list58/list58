@@ -34,6 +34,9 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected $_new_items_node__family_name;
     protected $_new_items_node__patronymic_name;
     protected $_new_items_node__birthday;
+    protected $_new_items_node__birth_year;
+    protected $_new_items_node__birth_month;
+    protected $_new_items_node__birth_day;
     protected $_new_items_node__sex;
     protected $_new_items_node__passport_ser;
     protected $_new_items_node__passport_no;
@@ -77,6 +80,11 @@ class new_items_node__ns16127 extends node__ns21085 {
         throw new form_error__ns16127('[ЗАГЛУШКА] Это функция ещё не реализована!');
     }
     
+    protected function _new_items_node__split_form() {
+        // TODO: разбивание переменных формы на более конкретные значения.
+        //       в данном случае это требуется для birthday
+    }
+    
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
@@ -97,6 +105,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                 $this->_new_items_node__comments = $this->post_arg('comments');
                 
                 $this->_new_items_node__check_form();
+                $this->_new_items_node__split_form();
                 
                 // TODO: обработка формы
                 
