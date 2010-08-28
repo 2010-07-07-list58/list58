@@ -39,6 +39,7 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected $_new_items_node__birth_month;
     protected $_new_items_node__birth_day;
     protected $_new_items_node__sex;
+    protected $_new_items_node__sex_enum;
     protected $_new_items_node__passport_ser;
     protected $_new_items_node__passport_no;
     protected $_new_items_node__passport_dep;
@@ -89,6 +90,20 @@ class new_items_node__ns16127 extends node__ns21085 {
                     '\'Дата рождения\' указана неверно'
                 );
             }
+        }
+        
+        if($this->_new_items_node__sex) {
+            if($this->_new_items_node__sex == 'Мужской') {
+                $this->_new_items_node__sex_enum = 1;
+            } elseif($this->_new_items_node__sex == 'Женский') {
+                $this->_new_items_node__sex_enum = 2;
+            } else {
+                throw new form_error__ns16127(
+                    '\'Пол\' указан неверно'
+                );
+            }
+        } else {
+            $this->_new_items_node__sex_enum = 0;
         }
         
         if($this->_new_items_node__passport_ser) {
