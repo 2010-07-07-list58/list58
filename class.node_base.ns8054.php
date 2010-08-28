@@ -125,11 +125,14 @@ class node_base__ns8054 {
         );
         
         if($result) {
-            list($stored_login, $stored_group) = mysql_fetch_row($result);
-            
-            if($stored_login == $login &&
-                    $stored_group == $perm) {
-                $success = TRUE;
+            $row = mysql_fetch_row($result);
+            if($row) {
+                list($stored_login, $stored_group) = $row;
+                
+                if($stored_login == $login &&
+                        $stored_group == $perm) {
+                    $success = TRUE;
+                }
             }
             
             mysql_free_result($result);
