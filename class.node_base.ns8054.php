@@ -29,6 +29,7 @@ class node_base__ns8054 {
     
     protected $_node_base__need_db = FALSE;
     protected $_node_base__need_check_auth = FALSE;
+    protected $_node_base__need_check_perms = array();
     protected $_node_base__db_link = NULL;
     
     protected function _node_base__db_init() {
@@ -101,9 +102,70 @@ class node_base__ns8054 {
         }
     }
     
+    protected function _node_base__add_check_perms($new_perms) {
+        $this->_node_base__need_check_perms = array_merge(
+            $this->_node_base__need_check_perms,
+            $new_perms
+        );
+    }
+    
+    protected function _node_base__check_perm($perm) {
+        $success = FALSE;
+        
+        $login = $_SESSION['reg_data']['login'];
+        
+        $result = mysql_query(
+            sprintf(
+                'SELECT `login`, `group` FROM `user_groups` WHERE '.
+                    '`login` = \'%s\' AND `group` = \'%s\'',
+                mysql_real_escape_string($login, $this->_node_base__db_link),
+                mysql_real_escape_string($perm, $this->_node_base__db_link)
+            ),
+            $this->_node_base__db_link
+        );
+        
+        if($result) {
+            $row = mysql_fetch_row($result);
+            if($row) {
+                list($stored_login, $stored_group) = $row;
+                
+                if($stored_login == $login &&
+                        $stored_group == $perm) {
+                    $success = TRUE;
+                }
+            }
+            
+            mysql_free_result($result);
+        }
+        
+        if(!$success) {
+            throw_site_error__ns14329(
+                sprintf(
+                    'Доступ запрещен (требуемое разрешение: %s)',
+                    $perm
+                ),
+                array('return_back' => TRUE)
+            );
+        }
+    }
+    
+    protected function _node_base__check_perms($perms) {
+        foreach($perms as $perm => $perm_is_required) {
+            if($perm_is_required) {
+                $this->_node_base__check_perm($perm);
+            }
+        }
+    }
+    
     protected function _node_base__on_init() {
             if($this->_node_base__need_check_auth) {
                 $this->_node_base__check_auth();
+                
+                if($this->_node_base__need_check_perms) {
+                    $this->_node_base__check_perms(
+                        $this->_node_base__need_check_perms
+                    );
+                }
             }
     }
     
