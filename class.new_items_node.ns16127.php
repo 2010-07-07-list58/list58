@@ -136,19 +136,19 @@ class new_items_node__ns16127 extends node__ns21085 {
         
         try{
             if($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $this->_new_items_node__given_name = $this->post_arg('given_name');
-                $this->_new_items_node__family_name = $this->post_arg('family_name');
-                $this->_new_items_node__patronymic_name = $this->post_arg('patronymic_name');
-                $this->_new_items_node__birthday = $this->post_arg('birthday');
-                $this->_new_items_node__sex = $this->post_arg('sex');
-                $this->_new_items_node__passport_ser = $this->post_arg('passport_ser');
-                $this->_new_items_node__passport_no = $this->post_arg('passport_no');
-                $this->_new_items_node__passport_dep = $this->post_arg('passport_dep');
-                $this->_new_items_node__passport_day = $this->post_arg('passport_day');
-                $this->_new_items_node__residence = $this->post_arg('residence');
-                $this->_new_items_node__phone = $this->post_arg('phone');
-                $this->_new_items_node__about = $this->post_arg('about');
-                $this->_new_items_node__comments = $this->post_arg('comments');
+                $this->_new_items_node__given_name = trim($this->post_arg('given_name'));
+                $this->_new_items_node__family_name = trim($this->post_arg('family_name'));
+                $this->_new_items_node__patronymic_name = trim($this->post_arg('patronymic_name'));
+                $this->_new_items_node__birthday = trim($this->post_arg('birthday'));
+                $this->_new_items_node__sex = trim($this->post_arg('sex'));
+                $this->_new_items_node__passport_ser = trim($this->post_arg('passport_ser'));
+                $this->_new_items_node__passport_no = trim($this->post_arg('passport_no'));
+                $this->_new_items_node__passport_dep = trim($this->post_arg('passport_dep'));
+                $this->_new_items_node__passport_day = trim($this->post_arg('passport_day'));
+                $this->_new_items_node__residence = trim($this->post_arg('residence'));
+                $this->_new_items_node__phone = trim($this->post_arg('phone'));
+                $this->_new_items_node__about = trim($this->post_arg('about'));
+                $this->_new_items_node__comments = trim($this->post_arg('comments'));
                 
                 $this->_new_items_node__parse_form();
                 
