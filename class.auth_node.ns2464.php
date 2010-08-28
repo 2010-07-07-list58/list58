@@ -89,7 +89,7 @@ class auth_node__ns2464 extends node__ns21085 {
                     $this->_auth_node__show_form = FALSE;
                 } else {
                     $this->_auth_node__message_html .=
-                        '<p class="ErrorColor">'.
+                        '<p class="ErrorColor TextAlignCenter">'.
                             'Логин и/или Пароль -- неверны'.
                         '</p>';
                 }
@@ -122,7 +122,8 @@ class auth_node__ns2464 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" type="text/css" href="/media/auth_node/css/style.css" />';
+            '<link rel="stylesheet" type="text/css" href="/media/auth_node/css/style.css" />'.
+            '<script type="application/javascript" src="/media/auth_node/js/autofocus.js" /></script>';
         
         return $html;
     }
@@ -166,8 +167,8 @@ class auth_node__ns2464 extends node__ns21085 {
                         '<input type="hidden" '.
                             'name="post_key" '.
                             'value="'.htmlspecialchars($_SESSION['post_key']).'" />'.
-                        '<input class="FloatRight Margin5Px" type="reset" value="Сброс" />'.
-                        '<input class="FloatRight Margin5Px" type="submit" value="Войти" />'.
+                        '<input class="Floatleft Margin5Px" type="submit" value="Войти" />'.
+                        '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
                         '<div class="ClearBoth"></div>'.
                     '</p>'.
                 '</form>';
