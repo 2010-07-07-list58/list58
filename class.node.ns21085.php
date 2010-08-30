@@ -75,7 +75,10 @@ class node__ns21085 extends node_base__ns8054 {
             
             $menu[] = array(
                 'menu_name' => 'Выход ['.$_SESSION['reg_data']['login'].']',
-                'menu_link' => '?node=exit'
+                'menu_link' => sprintf(
+                    '?node=exit&post_key=%s',
+                    $_SESSION['post_key']
+                )
             );
         } else {
             $menu[] = array(
