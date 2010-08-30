@@ -22,11 +22,13 @@ require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 
 class exit_node__ns212 extends node__ns21085 {
+    protected $_node_base__need_check_auth = TRUE;
+    protected $_node_base__need_check_post_key_for_get = TRUE;
+    
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $_SESSION['authorized'] = FALSE;
-        unset($_SESSION['reg_data']);
+        $this->_node_base__clean_auth();
         
         @header('Refresh: 1;url=?');
     }

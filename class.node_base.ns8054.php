@@ -29,9 +29,12 @@ class node_base__ns8054 {
     
     protected $_node_base__need_db = FALSE;
     protected $_node_base__need_check_post_key = TRUE;
+    protected $_node_base__need_check_post_key_for_get = FALSE;
     protected $_node_base__need_check_auth = FALSE;
     protected $_node_base__need_check_perms = array();
+    
     protected $_node_base__db_link = NULL;
+    protected $_node_base__perms_cache = array();
     
     protected function _node_base__db_init() {
         $mysql_conf_php = dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
@@ -95,23 +98,60 @@ class node_base__ns8054 {
         mysql_query('COMMIT', $this->_node_base__db_link);
     }
     
-    protected function _node_base__check_post_key() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if($this->post_arg('post_key') != $_SESSION['post_key']) {
-                throw_site_error__ns14329(
-                    'Ошибка системы безопасности: '.
-                        'Не авторизованный POST-запрос (возможно -- попытка CSRF-атаки)',
-                    array('return_back' => TRUE)
-                );
-            }
+    protected function _node_base__check_post_key_for($post_key) {
+        if(!$post_key || $post_key != $_SESSION['post_key']) {
+            throw_site_error__ns14329(
+                'Ошибка системы безопасности: '.
+                'Неавторизованный POST-запрос ('.
+                'внезапная потеря сессии или, '.
+                'возможно, была произведена попытка CSRF-атаки)',
+                array('return_back' => TRUE)
+            );
         }
     }
     
-    protected function _node_base__check_auth() {
-        // TODO: эта функция долна быть расширена для более глубокой проверки!
+    protected function _node_base__check_post_key() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post_key = $this->post_arg('post_key');
+            
+            $this->_node_base__check_post_key_for($post_key);
+        }
+    }
+    
+    protected function _node_base__check_post_key_for_get() {
+        $post_key = $this->get_arg('post_key');
         
-        if(!$_SESSION['authorized']) {
-            throw new not_authorized_error__ns3300('Доступ ограничен!');
+        $this->_node_base__check_post_key_for($post_key);
+    }
+    
+    protected function _node_base__clean_auth() {
+        $_SESSION['authorized'] = FALSE;
+        unset($_SESSION['reg_data']);
+    }
+    
+    protected function _node_base__check_auth() {
+        try {
+            if(!$_SESSION['authorized']) {
+                throw new not_authorized_error__ns3300();
+            }
+            
+            // TODO: эта часть функции долна быть расширена для более глубокой проверки!
+            //      (
+            //          проверка по идентификаторам сессий (в базе данных),
+            //          проверка по IP-адресам,
+            //          ...
+            //      )
+        } catch(not_authorized_error__ns3300 $e) {
+            $message = $e->getMessage();
+            
+            if(!$message) {
+                $message = 'Доступ ограничен!';
+            }
+            
+            // так или иначе если авторизация не пройдена, то сессия должна быть вычищина от этого:
+            $this->_node_base__clean_auth();
+            
+            throw new not_authorized_error__ns3300($message);
         }
     }
     
@@ -124,7 +164,7 @@ class node_base__ns8054 {
     
     protected function _node_base__on_add_check_perms() {}
     
-    protected function _node_base__check_perm($perm) {
+    protected function _node_base__is_permitted_nocache($perm) {
         $success = FALSE;
         
         $login = $_SESSION['reg_data']['login'];
@@ -153,32 +193,43 @@ class node_base__ns8054 {
             mysql_free_result($result);
         }
         
-        if(!$success) {
-            throw_site_error__ns14329(
-                sprintf(
-                    'Доступ запрещен (требуемое разрешение: %s)',
-                    $perm
-                ),
-                array('return_back' => TRUE)
-            );
+        return $success;
+    }
+    
+    protected function _node_base__is_permitted($perm, $options=array()) {
+        // кэшируемая проверка разрешений
+        
+        if(array_key_exists($perm, $this->_node_base__perms_cache)) {
+            return $this->_node_base__perms_cache[$perm];
+        } else {
+            $is_permitted = $this->_node_base__is_permitted_nocache($perm);
+            
+            $this->_node_base__perms_cache[$perm] = $is_permitted;
+            
+            return $is_permitted;
         }
     }
     
     protected function _node_base__check_perms($perms) {
         foreach($perms as $perm => $perm_is_required) {
             if($perm_is_required) {
-                $this->_node_base__check_perm($perm);
+                $is_permitted = $this->_node_base__is_permitted($perm);
+                
+                if(!$is_permitted) {
+                    throw_site_error__ns14329(
+                        sprintf(
+                            'Доступ запрещен (требуемое разрешение: %s)',
+                            $perm
+                        ),
+                        array('return_back' => TRUE)
+                    );
+                }
             }
         }
     }
     
     protected function _node_base__on_init() {
-        if($this->_node_base__need_check_post_key) {
-            // проверка на CSRF-атаку (включена поумолчанию)
-            
-            $this->_node_base__check_post_key();
-        }
-        
+        // проверка авторизации:
         if($this->_node_base__need_check_auth) {
             $this->_node_base__check_auth();
             
@@ -188,6 +239,18 @@ class node_base__ns8054 {
                     $this->_node_base__need_check_perms
                 );
             }
+        }
+        
+        // проверка на CSRF-атаку:
+        if($this->_node_base__need_check_post_key) {
+            // проверка на CSRF-атаку для POST-запросов (ВКЛючена поумолчанию)
+            
+            $this->_node_base__check_post_key();
+        }
+        if($this->_node_base__need_check_post_key_for_get) {
+            // проверка на CSRF-атаку для GET-запросов (ВЫКЛючена поумолчанию)
+            
+            $this->_node_base__check_post_key_for_get();
         }
     }
     
