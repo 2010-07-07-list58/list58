@@ -42,7 +42,7 @@ class node_base__ns8054 {
         if(file_exists($mysql_conf_php)) {
             require_once $mysql_conf_php;
         } else {
-            throw new site_error__ns14329(
+            throw new low_level_error__ns28655(
                 sprintf(
                     'Конфигураций файл Базы Данных отсутствует (%s)',
                     $mysql_conf_php
@@ -56,7 +56,7 @@ class node_base__ns8054 {
             $conf['server'], $conf['username'], $conf['password']
         );
         if(!$link) {
-            throw new site_error__ns14329(
+            throw new low_level_error__ns28655(
                 sprintf(
                     'Ошибка подключения к Базе Данных (%s)',
                     mysql_error()
@@ -66,7 +66,7 @@ class node_base__ns8054 {
         
         $success = @mysql_selectdb($conf['database'], $link);
         if(!$success) {
-            throw new site_error__ns14329(
+            throw new low_level_error__ns28655(
                 sprintf(
                     'Ошибка открытия Базы Данных (%s)',
                     mysql_error($link)
@@ -76,7 +76,7 @@ class node_base__ns8054 {
         
         $success = @mysql_set_charset('utf8', $link);
         if(!$success) {
-            throw new site_error__ns14329(
+            throw new low_level_error__ns28655(
                 sprintf(
                     'Ошибка кодировки Базы Данных (%s)',
                     mysql_error($link)
