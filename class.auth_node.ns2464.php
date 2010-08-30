@@ -162,7 +162,7 @@ class auth_node__ns2464 extends node__ns21085 {
                         $this->_auth_node__captcha_html.
                         '<div>'.
                             '<div class="MarginLeft20Px FontSize08Em">'.
-                                '<b>Комментарий к капче:</b>'.
+                                '<b>Комментарий к Каптче:</b>'.
                                 '<div class="MarginLeft20Px">'.
                                     'Если одно из двух слов плохо-читабельно, <br />'.
                                     'то его можно не писать, или написать неточно'.
