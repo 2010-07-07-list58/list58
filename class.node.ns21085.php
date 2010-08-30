@@ -21,6 +21,8 @@
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 
 class node__ns21085 extends node_base__ns8054 {
+    protected $_node_base__need_db = TRUE;
+    
     protected function _node__get_title() {
         return 'List58.Ru';
     }
@@ -47,17 +49,39 @@ class node__ns21085 extends node_base__ns8054 {
         $menu = array();
         
         if($_SESSION['authorized']) {
-            $menu[] = array('menu_name' => 'Начало', 
-                'menu_link' => '?');
+            $menu[] = array(
+                'menu_name' => 'Начало',
+                'menu_link' => '?'
+            );
             
-            $menu[] = array('menu_name' => 'Новые Данные', 
-                'menu_link' => '?node=new_items');
+            if($this->_node_base__is_permitted('search_items')) {
+                // меню для тех кому разрешено искать Элементы Данных
+                
+                $menu[] = array(
+                    'menu_name' => 'Поиск Данных',
+                    'menu_link' => '?node=search_items'
+                );
+                
+                if($this->_node_base__is_permitted('new_items')) {
+                    // меню для тех кому дополнительно разрешено и
+                    //  создавать Новые Элементы Данных
+                    
+                    $menu[] = array(
+                        'menu_name' => 'Новые Данные',
+                        'menu_link' => '?node=new_items'
+                    );
+                }
+            }
             
-            $menu[] = array('menu_name' => 'Выход ['.$_SESSION['reg_data']['login'].']',
-                'menu_link' => '?node=exit');
+            $menu[] = array(
+                'menu_name' => 'Выход ['.$_SESSION['reg_data']['login'].']',
+                'menu_link' => '?node=exit'
+            );
         } else {
-            $menu[] = array('menu_name' => 'Вход',
-                'menu_link' => '?node=auth');
+            $menu[] = array(
+                'menu_name' => 'Вход',
+                'menu_link' => '?node=auth'
+            );
         }
         
         $menu[] = array('menu_name' => 'О Системе', 
