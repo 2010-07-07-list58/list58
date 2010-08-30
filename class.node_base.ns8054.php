@@ -97,17 +97,23 @@ class node_base__ns8054 {
         mysql_query('COMMIT', $this->_node_base__db_link);
     }
     
+    protected function _node_base__check_post_key_for($post_key) {
+        if(!$post_key || $post_key != $_SESSION['post_key']) {
+            throw_site_error__ns14329(
+                'Ошибка системы безопасности: '.
+                'Неавторизованный POST-запрос ('.
+                'внезапная потеря сессии или, '.
+                'возможно, была произведена попытка CSRF-атаки)',
+                array('return_back' => TRUE)
+            );
+        }
+    }
+    
     protected function _node_base__check_post_key() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if($this->post_arg('post_key') != $_SESSION['post_key']) {
-                throw_site_error__ns14329(
-                    'Ошибка системы безопасности: '.
-                        'Неавторизованный POST-запрос ('.
-                        'внезапная потеря сессии или, '.
-                        'возможно, была произведена попытка CSRF-атаки)',
-                    array('return_back' => TRUE)
-                );
-            }
+            $post_key = $this->post_arg('post_key');
+            
+            $this->_node_base__check_post_key_for($post_key);
         }
     }
     
