@@ -35,6 +35,7 @@ class node__ns21085 extends node_base__ns8054 {
             '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'.
             '<title>'.htmlspecialchars($this->_node__get_title()).'</title>'.
             '<script type="text/javascript" src="/media/share/js/google-chrome-frame-for-microsoft-ie.js"></script>'.
+            '<link rel="shortcut icon" type="image/x-icon" href="/media/share/favicon.png" />'.
             '<link rel="stylesheet" type="text/css" href="/media/share/css/style.css" />';//.
             //'<script type="text/javascript" src="/media/share/js/jquery-1.4.2.js"></script>'.
             //'<link rel="stylesheet" type="text/css" '.
