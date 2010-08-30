@@ -92,6 +92,8 @@ td { /* cellpadding="0" */
 .TextAlignRight { text-align: right; }
 .DisplayNone { display: none; }
 
+.MarginLeft20Px { margin-left: 20px; }
+
 .FontSize08Em { font-size: 0.8em; }
 .FontSize07Em { font-size: 0.7em; }
 
