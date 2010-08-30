@@ -308,49 +308,44 @@ class new_items_node__ns16127 extends node__ns21085 {
                     '<hr />'.
                     '<div class="GroupFrame">'.
                         '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__family_name" >'.
+                                'Фамилия: '.
+                            '</label>'.
                             '<input class="FloatRight Margin5Px Width300Px" '.
                                 'type="text" '.
                                 'name="family_name" '.
                                 'id="_new_items_node__family_name" '.
                                 'value="'.htmlspecialchars($this->_new_items_node__family_name).'" />'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_new_items_node__family_name" >'.
-                                'Фамилия: '.
-                            '</label>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__given_name" >'.
+                                'Имя: '.
+                            '</label>'.
                             '<input class="FloatRight Margin5Px Width300Px" '.
                                 'type="text" '.
                                 'name="given_name" '.
                                 'id="_new_items_node__given_name" '.
                                 'value="'.htmlspecialchars($this->_new_items_node__given_name).'" />'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_new_items_node__given_name" >'.
-                                'Имя: '.
-                            '</label>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__patronymic_name" >'.
+                                'Отчество: '.
+                            '</label>'.
                             '<input class="FloatRight Margin5Px Width300Px" '.
                                 'type="text" '.
                                 'name="patronymic_name" '.
                                 'id="_new_items_node__patronymic_name" '.
                                 'value="'.htmlspecialchars($this->_new_items_node__patronymic_name).'" />'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_new_items_node__patronymic_name" >'.
-                                'Отчество: '.
-                            '</label>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                     '</div>'.
                     '<div class="GroupFrame">'.
                         '<p>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="birthday" '.
-                                'id="_new_items_node__birthday" '.
-                                'value="'.htmlspecialchars($this->_new_items_node__birthday).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__birthday" >'.
                                 'Дата рождения: <br />'.
@@ -358,9 +353,18 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     '(Например: 27.09.1983) '.
                                 '</span>'.
                             '</label>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="birthday" '.
+                                'id="_new_items_node__birthday" '.
+                                'value="'.htmlspecialchars($this->_new_items_node__birthday).'" />'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__sex" >'.
+                                'Пол: '.
+                            '</label>'.
                             '<select class="FloatRight Margin5Px Width300Px" '.
                                     'name="sex" '.
                                     'id="_new_items_node__sex" />'.
@@ -378,56 +382,47 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 '<option value="Мужской">Мужской</option>'.
                                 '<option value="Женский">Женский</option>'.
                             '</select>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_new_items_node__sex" >'.
-                                'Пол: '.
-                            '</label>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                     '</div>'.
                     '<div class="GroupFrame">'.
                         '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__passport_ser" >'.
+                                'Серия паспорта: '.
+                            '</label>'.
                             '<input class="FloatRight Margin5Px Width300Px" '.
                                 'type="text" '.
                                 'name="passport_ser" '.
                                 'id="_new_items_node__passport_ser" '.
                                 'value="'.htmlspecialchars($this->_new_items_node__passport_ser).'" />'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_new_items_node__passport_ser" >'.
-                                'Серия паспорта: '.
-                            '</label>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__passport_no" >'.
+                                'Номер паспорта: '.
+                            '</label>'.
                             '<input class="FloatRight Margin5Px Width300Px" '.
                                 'type="text" '.
                                 'name="passport_no" '.
                                 'id="_new_items_node__passport_no" '.
                                 'value="'.htmlspecialchars($this->_new_items_node__passport_no).'" />'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_new_items_node__passport_no" >'.
-                                'Номер паспорта: '.
-                            '</label>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__passport_dep" >'.
+                                'Кем выдан паспорт: '.
+                            '</label>'.
                             '<input class="FloatRight Margin5Px Width300Px" '.
                                 'type="text" '.
                                 'name="passport_dep" '.
                                 'id="_new_items_node__passport_dep" '.
                                 'value="'.htmlspecialchars($this->_new_items_node__passport_dep).'" />'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_new_items_node__passport_dep" >'.
-                                'Кем выдан паспорт: '.
-                            '</label>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="passport_day" '.
-                                'id="_new_items_node__passport_day" '.
-                                'value="'.htmlspecialchars($this->_new_items_node__passport_day).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__passport_day" >'.
                                 'Дата выдачи паспорта: <br />'.
@@ -435,15 +430,14 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     '(Например: 27.09.2003) '.
                                 '</span>'.
                             '</label>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="passport_day" '.
+                                'id="_new_items_node__passport_day" '.
+                                'value="'.htmlspecialchars($this->_new_items_node__passport_day).'" />'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
-                            '<textarea class="FloatRight Margin5Px Width300Px"'.
-                                    'rows="4" '.
-                                    'name="residence" '.
-                                    'id="_new_items_node__residence" />'.
-                                htmlspecialchars($this->_new_items_node__residence).
-                            '</textarea>'.
                             '<label class="FloatLeft Margin5Px"'.
                                     ' for="_new_items_node__residence" >'.
                                 'Адрес регистрации: <br />'.
@@ -454,16 +448,17 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     'д.181, кв.354) '.
                                 '</span>'.
                             '</label>'.
+                            '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                    'rows="4" '.
+                                    'name="residence" '.
+                                    'id="_new_items_node__residence" />'.
+                                htmlspecialchars($this->_new_items_node__residence).
+                            '</textarea>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                     '</div>'.
                     '<div class="GroupFrame">'.
                         '<p>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="phone" '.
-                                'id="_new_items_node__phone" '.
-                                'value="'.htmlspecialchars($this->_new_items_node__phone).'" />'.
                             '<label class="FloatLeft Margin5Px" '.
                                     'for="_new_items_node__phone" >'.
                                 'Телефон: <br />'.
@@ -472,15 +467,14 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     '+78412123456, или 88412123456, или 123456) '.
                                 '</span>'.
                             '</label>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="phone" '.
+                                'id="_new_items_node__phone" '.
+                                'value="'.htmlspecialchars($this->_new_items_node__phone).'" />'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
-                            '<textarea class="FloatRight Margin5Px Width300Px"'.
-                                    'rows="6" '.
-                                    'name="about" '.
-                                    'id="_new_items_node__about" />'.
-                                htmlspecialchars($this->_new_items_node__about).
-                            '</textarea>'.
                             '<label class="FloatLeft Margin5Px"'.
                                     ' for="_new_items_node__about" >'.
                                 'Дополнительное описание: <br />'.
@@ -488,15 +482,15 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     '(Произвольная информация) '.
                                 '</span>'.
                             '</label>'.
+                            '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                    'rows="6" '.
+                                    'name="about" '.
+                                    'id="_new_items_node__about" />'.
+                                htmlspecialchars($this->_new_items_node__about).
+                            '</textarea>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
-                            '<textarea class="FloatRight Margin5Px Width300Px"'.
-                                    'rows="10" '.
-                                    'name="comments" '.
-                                    'id="_new_items_node__comments" />'.
-                                htmlspecialchars($this->_new_items_node__comments).
-                            '</textarea>'.
                             '<label class="FloatLeft Margin5Px"'.
                                     ' for="_new_items_node__comments" >'.
                                 'Примечание: <br />'.
@@ -505,6 +499,12 @@ class new_items_node__ns16127 extends node__ns21085 {
                                     'Например, причина попадания в список) '.
                                 '</span>'.
                             '</label>'.
+                            '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                    'rows="10" '.
+                                    'name="comments" '.
+                                    'id="_new_items_node__comments" />'.
+                                htmlspecialchars($this->_new_items_node__comments).
+                            '</textarea>'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                     '</div>'.
