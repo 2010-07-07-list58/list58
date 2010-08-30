@@ -159,6 +159,7 @@ class auth_node__ns2464 extends node__ns21085 {
                         '<div class="ClearBoth"></div>'.
                     '</p>'.
                     '<p>'.
+                        '<h3>Каптча (тест Тьюринга): </h3>'.
                         $this->_auth_node__captcha_html.
                         '<div>'.
                             '<div class="MarginLeft20Px FontSize08Em">'.
