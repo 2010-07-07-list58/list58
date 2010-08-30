@@ -229,17 +229,7 @@ class node_base__ns8054 {
     }
     
     protected function _node_base__on_init() {
-        if($this->_node_base__need_check_post_key) {
-            // проверка на CSRF-атаку для POST-запросов (ВКЛючена поумолчанию)
-            
-            $this->_node_base__check_post_key();
-        }
-        if($this->_node_base__need_check_post_key_for_get) {
-            // проверка на CSRF-атаку для GET-запросов (ВЫКЛючена поумолчанию)
-            
-            $this->_node_base__check_post_key_for_get();
-        }
-        
+        // проверка авторизации:
         if($this->_node_base__need_check_auth) {
             $this->_node_base__check_auth();
             
@@ -249,6 +239,18 @@ class node_base__ns8054 {
                     $this->_node_base__need_check_perms
                 );
             }
+        }
+        
+        // проверка на CSRF-атаку:
+        if($this->_node_base__need_check_post_key) {
+            // проверка на CSRF-атаку для POST-запросов (ВКЛючена поумолчанию)
+            
+            $this->_node_base__check_post_key();
+        }
+        if($this->_node_base__need_check_post_key_for_get) {
+            // проверка на CSRF-атаку для GET-запросов (ВЫКЛючена поумолчанию)
+            
+            $this->_node_base__check_post_key_for_get();
         }
     }
     
