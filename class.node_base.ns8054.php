@@ -126,7 +126,7 @@ class node_base__ns8054 {
     
     protected function _node_base__on_add_check_perms() {}
     
-    protected function _node_base__check_perm($perm) {
+    protected function _node_base__is_permitted_nocache($perm) {
         $success = FALSE;
         
         $login = $_SESSION['reg_data']['login'];
@@ -155,21 +155,23 @@ class node_base__ns8054 {
             mysql_free_result($result);
         }
         
-        if(!$success) {
-            throw_site_error__ns14329(
-                sprintf(
-                    'Доступ запрещен (требуемое разрешение: %s)',
-                    $perm
-                ),
-                array('return_back' => TRUE)
-            );
-        }
+        return $success;
     }
     
     protected function _node_base__check_perms($perms) {
         foreach($perms as $perm => $perm_is_required) {
             if($perm_is_required) {
-                $this->_node_base__check_perm($perm);
+                $is_permitted = $this->_node_base__is_permitted_nocache($perm);
+                
+                if(!$is_permitted) {
+                    throw_site_error__ns14329(
+                        sprintf(
+                            'Доступ запрещен (требуемое разрешение: %s)',
+                            $perm
+                        ),
+                        array('return_back' => TRUE)
+                    );
+                }
             }
         }
     }
