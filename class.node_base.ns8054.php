@@ -31,7 +31,9 @@ class node_base__ns8054 {
     protected $_node_base__need_check_post_key = TRUE;
     protected $_node_base__need_check_auth = FALSE;
     protected $_node_base__need_check_perms = array();
+    
     protected $_node_base__db_link = NULL;
+    protected $_node_base__perms_cache = array();
     
     protected function _node_base__db_init() {
         $mysql_conf_php = dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
@@ -158,10 +160,24 @@ class node_base__ns8054 {
         return $success;
     }
     
+    protected function _node_base__is_permitted($perm, $options=array()) {
+        // кэшируемая проверка разрешений
+        
+        if(array_key_exists($perm, $this->_node_base__perms_cache)) {
+            return $this->_node_base__perms_cache[$perm];
+        } else {
+            $is_permitted = $this->_node_base__is_permitted_nocache($perm);
+            
+            $this->_node_base__perms_cache[$perm] = $is_permitted;
+            
+            return $is_permitted;
+        }
+    }
+    
     protected function _node_base__check_perms($perms) {
         foreach($perms as $perm => $perm_is_required) {
             if($perm_is_required) {
-                $is_permitted = $this->_node_base__is_permitted_nocache($perm);
+                $is_permitted = $this->_node_base__is_permitted($perm);
                 
                 if(!$is_permitted) {
                     throw_site_error__ns14329(
