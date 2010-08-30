@@ -137,32 +137,33 @@ class auth_node__ns2464 extends node__ns21085 {
                     '<h2 class="TextAlignCenter">Авторизация в системе</h2>'.
                     '<hr />'.
                     '<p>'.
-                        '<input class="FloatRight Margin5Px" type="text" '.
-                            'name="login" '.
-                            'id="_auth_node__login" '.
-                            'value="" />'.
                         '<label class="FloatLeft Margin5Px" '.
                             'for="_auth_node__login" >'.
                             'Логин: '.
                         '</label>'.
+                        '<input class="FloatRight Margin5Px" type="text" '.
+                            'name="login" '.
+                            'id="_auth_node__login" '.
+                            'value="" />'.
                         '<div class="ClearBoth"></div>'.
                     '</p>'.
                     '<p>'.
-                        '<input class="FloatRight Margin5Px" type="password" '.
-                            'name="password" '.
-                            'id="_auth_node__password" '.
-                            'value="" />'.
                         '<label class="FloatLeft Margin5Px" '.
                             'for="_auth_node__password" >'.
                             'Пароль: '.
                         '</label>'.
+                        '<input class="FloatRight Margin5Px" type="password" '.
+                            'name="password" '.
+                            'id="_auth_node__password" '.
+                            'value="" />'.
                         '<div class="ClearBoth"></div>'.
                     '</p>'.
                     '<p>'.
+                        '<h3>Каптча (тест Тьюринга): </h3>'.
                         $this->_auth_node__captcha_html.
                         '<div>'.
                             '<div class="MarginLeft20Px FontSize08Em">'.
-                                '<b>Комментарий к капче:</b>'.
+                                '<b>Комментарий к Каптче:</b>'.
                                 '<div class="MarginLeft20Px">'.
                                     'Если одно из двух слов плохо-читабельно, <br />'.
                                     'то его можно не писать, или написать неточно'.
