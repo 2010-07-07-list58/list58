@@ -111,11 +111,34 @@ class node_base__ns8054 {
         }
     }
     
+    protected function _node_base__clean_auth() {
+        $_SESSION['authorized'] = FALSE;
+        unset($_SESSION['reg_data']);
+    }
+    
     protected function _node_base__check_auth() {
-        // TODO: эта функция долна быть расширена для более глубокой проверки!
-        
-        if(!$_SESSION['authorized']) {
-            throw new not_authorized_error__ns3300('Доступ ограничен!');
+        try {
+            if(!$_SESSION['authorized']) {
+                throw new not_authorized_error__ns3300();
+            }
+            
+            // TODO: эта часть функции долна быть расширена для более глубокой проверки!
+            //      (
+            //          проверка по идентификаторам сессий (в базе данных),
+            //          проверка по IP-адресам,
+            //          ...
+            //      )
+        } catch(not_authorized_error__ns3300 $e) {
+            $message = $e->getMessage();
+            
+            if(!$message) {
+                $message = 'Доступ ограничен!';
+            }
+            
+            // так или иначе если авторизация не пройдена, то сессия должна быть вычищина от этого
+            $this->_node_base__clean_auth();
+            
+            throw new not_authorized_error__ns3300($message);
         }
     }
     
