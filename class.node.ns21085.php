@@ -85,7 +85,7 @@ class node__ns21085 extends node_base__ns8054 {
     }
     
     protected function _node__get_title() {
-        return 'List58.Ru';
+        return 'List58';
     }
     
     protected function _node__get_head() {
