@@ -46,6 +46,7 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected $_new_items_node__passport_day;
     protected $_new_items_node__residence;
     protected $_new_items_node__phone;
+    protected $_new_items_node__phone2;
     protected $_new_items_node__about;
     protected $_new_items_node__comments;
     
@@ -69,6 +70,7 @@ class new_items_node__ns16127 extends node__ns21085 {
             !$this->_new_items_node__passport_no &&
             !$this->_new_items_node__residence &&
             !$this->_new_items_node__phone &&
+            !$this->_new_items_node__phone2 &&
             !$this->_new_items_node__about &&
             !$this->_new_items_node__comments
         ) {
@@ -153,6 +155,18 @@ class new_items_node__ns16127 extends node__ns21085 {
                 );
             }
         }
+        
+        if($this->_new_items_node__phone2) {
+            try {
+                $this->_new_items_node__phone2 = normalize_phone__ns31025(
+                    $this->_new_items_node__phone2
+                );
+            } catch (parse_error__ns31025 $e) {
+                throw new form_error__ns16127(
+                    '\'Дополнительный Телефон\' указан неверно'
+                );
+            }
+        }
     }
     
     protected function _new_items_node__into_db() {
@@ -178,6 +192,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                     '`passport_day`, '.
                     '`residence`, '.
                     '`phone`, '.
+                    '`phone2`, '.
                     '`about`, '.
                     '`comments`'.
                 ') '.
@@ -192,6 +207,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                     '%s, '.
                     '%s, '.
                     '%s, '.
+                    '\'%s\', '.
                     '\'%s\', '.
                     '\'%s\', '.
                     '\'%s\', '.
@@ -217,6 +233,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                 mysql_real_escape_string($this->_new_items_node__passport_day, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__residence, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__phone, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__phone2, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__about, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__comments, $this->_node_base__db_link)
             ),
@@ -249,6 +266,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                 $this->_new_items_node__passport_day = trim($this->post_arg('passport_day'));
                 $this->_new_items_node__residence = trim($this->post_arg('residence'));
                 $this->_new_items_node__phone = trim($this->post_arg('phone'));
+                $this->_new_items_node__phone2 = trim($this->post_arg('phone2'));
                 $this->_new_items_node__about = trim($this->post_arg('about'));
                 $this->_new_items_node__comments = trim($this->post_arg('comments'));
                 
@@ -472,6 +490,22 @@ class new_items_node__ns16127 extends node__ns21085 {
                                 'name="phone" '.
                                 'id="_new_items_node__phone" '.
                                 'value="'.htmlspecialchars($this->_new_items_node__phone).'" />'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__phone2" >'.
+                                'Дополнительный Телефон: <br />'.
+                                '<span class="FontSize07Em">'.
+                                    '(Например: <br />'.
+                                    '+78412123456, или 88412123456, или 123456) '.
+                                '</span>'.
+                            '</label>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="phone2" '.
+                                'id="_new_items_node__phone2" '.
+                                'value="'.htmlspecialchars($this->_new_items_node__phone2).'" />'.
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.

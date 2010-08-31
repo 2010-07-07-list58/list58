@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `items_base` (
     `passport_day` VARCHAR(255),
     `residence` VARCHAR(255),
     `phone` VARCHAR(255),
+    `phone2` VARCHAR(255),
     `about` TEXT,
     `comments` TEXT,
     PRIMARY KEY (`id`),
@@ -113,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `items_base` (
     KEY `items_base(passport_day)` (`passport_day`),
     KEY `items_base(residence)` (`residence`),
     KEY `items_base(phone)` (`phone`),
+    KEY `items_base(phone2)` (`phone2`),
     KEY `users_base(about)` (`about`(1000)),
     KEY `users_base(comments)` (`comments`(1000))
 );
