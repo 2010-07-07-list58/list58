@@ -274,23 +274,23 @@ class node_base__ns8054 {
         }
     }
     
-    public function get_arg($arg_name) {
+    public function get_arg($arg_name, $def=NULL) {
         if(array_key_exists($arg_name, $_GET)) {
             $arg_value = stripslashes($_GET[$arg_name]);
             
             return $arg_value;
         } else {
-            return NULL;
+            return $def;
         }
     }
     
-    public function post_arg($arg_name) {
+    public function post_arg($arg_name, $def=NULL) {
         if(array_key_exists($arg_name, $_POST)) {
             $arg_value = stripslashes($_POST[$arg_name]);
             
             return $arg_value;
         } else {
-            return NULL;
+            return $def;
         }
     }
     
