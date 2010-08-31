@@ -54,6 +54,7 @@ td { /* cellpadding="0" */
 
 .SmallFrame {
 	border: 1px outset;
+	background: rgba(0,32,64,0.03);
 	-moz-box-shadow: 1px 1px 5px; -webkit-box-shadow: 1px 1px 5px; box-shadow: 1px 1px 5px;
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	padding: 30px;
@@ -61,6 +62,7 @@ td { /* cellpadding="0" */
 
 .GroupFrame {
 	border: 1px outset;
+	background: rgba(255,255,255,0.8);
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	margin: 5px;
 	padding: 5px;
@@ -92,7 +94,12 @@ td { /* cellpadding="0" */
 .TextAlignRight { text-align: right; }
 .DisplayNone { display: none; }
 
+.MarginLeft5Px { margin-left: 5px; }
+.MarginRight5Px { margin-right: 5px; }
+.MarginLeft10Px { margin-left: 10px; }
+.MarginRight10Px { margin-right: 10px; }
 .MarginLeft20Px { margin-left: 20px; }
+.MarginRight20Px { margin-right: 20px; }
 
 .FontSize08Em { font-size: 0.8em; }
 .FontSize07Em { font-size: 0.7em; }

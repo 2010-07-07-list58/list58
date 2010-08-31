@@ -52,15 +52,15 @@ class node__ns21085 extends node_base__ns8054 {
         if($_SESSION['authorized']) {
             $menu[] = array(
                 'menu_name' => 'Начало',
-                'menu_link' => '?'
+                'menu_link' => '?',
             );
             
             if($this->_node_base__is_permitted('search_items')) {
                 // меню для тех кому разрешено искать Элементы Данных
                 
                 $menu[] = array(
-                    'menu_name' => 'Поиск Данных',
-                    'menu_link' => '?node=search_items'
+                    'menu_name' => 'Поиск',
+                    'menu_link' => '?node=search_items',
                 );
                 
                 if($this->_node_base__is_permitted('new_items')) {
@@ -69,7 +69,7 @@ class node__ns21085 extends node_base__ns8054 {
                     
                     $menu[] = array(
                         'menu_name' => 'Новые Данные',
-                        'menu_link' => '?node=new_items'
+                        'menu_link' => '?node=new_items',
                     );
                 }
             }
@@ -79,17 +79,22 @@ class node__ns21085 extends node_base__ns8054 {
                 'menu_link' => sprintf(
                     '?node=exit&post_key=%s',
                     urlencode($_SESSION['post_key'])
-                )
+                ),
+                'is_right' => TRUE,
             );
         } else {
             $menu[] = array(
                 'menu_name' => 'Вход',
-                'menu_link' => '?node=auth'
+                'menu_link' => '?node=auth',
+                'is_right' => TRUE,
             );
         }
         
-        $menu[] = array('menu_name' => 'О Системе', 
-            'menu_link' => '?node=about');
+        $menu[] = array(
+            'menu_name' => 'О Системе', 
+            'menu_link' => '?node=about',
+            'is_right' => TRUE,
+        );
         
         return $menu;
     }
@@ -97,18 +102,40 @@ class node__ns21085 extends node_base__ns8054 {
     protected function _node__get_menu_widget() {
         $menu = $this->_node__get_menu();
         
-        $htmls = array();
-        
-        foreach($menu as $menu_item) {
-            $htmls[] = 
-                '<a href="'.htmlspecialchars($menu_item['menu_link']).'" >'.
-                    htmlspecialchars($menu_item['menu_name']).
-                '</a> ';
-        }
-        
         $html = '';
         
-        $html .= join(' | ', $htmls);
+        foreach($menu as $menu_item) {
+            $is_right = 
+                array_key_exists('is_right', $menu_item)?
+                $menu_item['is_right']:FALSE;
+            
+            $menu_item_html =
+                '<a href="'.htmlspecialchars($menu_item['menu_link']).'" >'.
+                    htmlspecialchars($menu_item['menu_name']).
+                '</a>';
+            
+            if(!$is_right) {
+                $html .=
+                    '<div class="FloatLeft MarginLeft5Px">'.
+                        $menu_item_html.
+                    '</div>';
+                $html .=
+                    '<div class="FloatLeft MarginLeft5Px">'.
+                        '|'.
+                    '</div>';
+            } else {
+                $html .=
+                    '<div class="FloatRight MarginRight5Px">'.
+                        $menu_item_html.
+                    '</div>';
+                $html .=
+                    '<div class="FloatRight MarginRight5Px">'.
+                        '|'.
+                    '</div>';
+            }
+        }
+        
+        $html .= '<div class="ClearBoth"></div>';
         
         return $html;
     }

@@ -257,24 +257,24 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        try{
-            if($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $this->_new_items_node__given_name = trim($this->post_arg('given_name'));
-                $this->_new_items_node__family_name = trim($this->post_arg('family_name'));
-                $this->_new_items_node__patronymic_name = trim($this->post_arg('patronymic_name'));
-                $this->_new_items_node__birthday = trim($this->post_arg('birthday'));
-                $this->_new_items_node__sex = trim($this->post_arg('sex'));
-                $this->_new_items_node__passport_ser = trim($this->post_arg('passport_ser'));
-                $this->_new_items_node__passport_no = trim($this->post_arg('passport_no'));
-                $this->_new_items_node__passport_dep = trim($this->post_arg('passport_dep'));
-                $this->_new_items_node__passport_day = trim($this->post_arg('passport_day'));
-                $this->_new_items_node__residence_city = trim($this->post_arg('residence_city'));
-                $this->_new_items_node__residence = trim($this->post_arg('residence'));
-                $this->_new_items_node__phone = trim($this->post_arg('phone'));
-                $this->_new_items_node__phone2 = trim($this->post_arg('phone2'));
-                $this->_new_items_node__about = trim($this->post_arg('about'));
-                $this->_new_items_node__comments = trim($this->post_arg('comments'));
-                
+        $this->_new_items_node__given_name = trim($this->post_arg('given_name'));
+        $this->_new_items_node__family_name = trim($this->post_arg('family_name'));
+        $this->_new_items_node__patronymic_name = trim($this->post_arg('patronymic_name'));
+        $this->_new_items_node__birthday = trim($this->post_arg('birthday'));
+        $this->_new_items_node__sex = trim($this->post_arg('sex'));
+        $this->_new_items_node__passport_ser = trim($this->post_arg('passport_ser'));
+        $this->_new_items_node__passport_no = trim($this->post_arg('passport_no'));
+        $this->_new_items_node__passport_dep = trim($this->post_arg('passport_dep'));
+        $this->_new_items_node__passport_day = trim($this->post_arg('passport_day'));
+        $this->_new_items_node__residence_city = trim($this->post_arg('residence_city', 'Пенза'));
+        $this->_new_items_node__residence = trim($this->post_arg('residence'));
+        $this->_new_items_node__phone = trim($this->post_arg('phone'));
+        $this->_new_items_node__phone2 = trim($this->post_arg('phone2'));
+        $this->_new_items_node__about = trim($this->post_arg('about'));
+        $this->_new_items_node__comments = trim($this->post_arg('comments'));
+        
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            try{
                 // обработать форму:
                 $this->_new_items_node__parse_form();
                 // поместить значения в Базу Данных:
@@ -291,20 +291,14 @@ class new_items_node__ns16127 extends node__ns21085 {
                 
                 @header('Refresh: 1;url=?node='.urlencode($this->get_arg('node')));
                 $this->_new_items_node__show_form = FALSE;
-            } else {
-                // для инициализации значений по умолчанию
+            } catch(form_error__ns16127 $e) {
+                $message = $e->getMessage();
                 
-                if(!$this->_new_items_node__residence_city) {
-                    $this->_new_items_node__residence_city = 'Пенза';
-                }
+                $this->_new_items_node__message_html .=
+                    '<p class="ErrorColor TextAlignCenter">'.
+                        htmlspecialchars($message).
+                    '</p>';
             }
-        } catch(form_error__ns16127 $e) {
-            $message = $e->getMessage();
-            
-            $this->_new_items_node__message_html .=
-                '<p class="ErrorColor TextAlignCenter">'.
-                    htmlspecialchars($message).
-                '</p>';
         }
     }
     
@@ -334,7 +328,6 @@ class new_items_node__ns16127 extends node__ns21085 {
             $form_html =
                 '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
                     '<h2 class="TextAlignCenter">Новые Данные</h2>'.
-                    '<hr />'.
                     '<div class="GroupFrame">'.
                         '<p>'.
                             '<label class="FloatLeft Margin5Px" '.
@@ -562,7 +555,6 @@ class new_items_node__ns16127 extends node__ns21085 {
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                     '</div>'.
-                    '<hr />'.
                     '<p>'.
                         '<input type="hidden" '.
                             'name="post_key" '.
