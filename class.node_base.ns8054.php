@@ -97,6 +97,9 @@ class node_base__ns8054 {
     protected function _node_base__commit_db() {
         mysql_query('COMMIT', $this->_node_base__db_link);
     }
+    protected function _node_base__clean_db() {
+        $this->_node_base__db_link = NULL;
+    }
     
     protected function _node_base__check_post_key_for($post_key) {
         if(!$post_key || $post_key != $_SESSION['post_key']) {
@@ -269,6 +272,9 @@ class node_base__ns8054 {
                 $this->_node_base__rollback_db();
                 throw $e;
             }
+            
+            // защита от случайного безтранзактного использования базы данных:
+            $this->_node_base__clean_db();
         } else {
             $this->_node_base__on_init();
         }
