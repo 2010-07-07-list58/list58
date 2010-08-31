@@ -44,6 +44,7 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected $_new_items_node__passport_no;
     protected $_new_items_node__passport_dep;
     protected $_new_items_node__passport_day;
+    protected $_new_items_node__residence_city;
     protected $_new_items_node__residence;
     protected $_new_items_node__phone;
     protected $_new_items_node__phone2;
@@ -190,6 +191,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                     '`passport_no`, '.
                     '`passport_dep`, '.
                     '`passport_day`, '.
+                    '`residence_city`, '.
                     '`residence`, '.
                     '`phone`, '.
                     '`phone2`, '.
@@ -215,6 +217,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                     '\'%s\', '.
                     '\'%s\', '.
                     '\'%s\', '.
+                    '\'%s\', '.
                     '\'%s\''.
                 ')',
                 mysql_real_escape_string($item_owner, $this->_node_base__db_link),
@@ -231,6 +234,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                 mysql_real_escape_string($this->_new_items_node__passport_no, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__passport_dep, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__passport_day, $this->_node_base__db_link),
+                mysql_real_escape_string($this->_new_items_node__residence_city, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__residence, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__phone, $this->_node_base__db_link),
                 mysql_real_escape_string($this->_new_items_node__phone2, $this->_node_base__db_link),
@@ -264,6 +268,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                 $this->_new_items_node__passport_no = trim($this->post_arg('passport_no'));
                 $this->_new_items_node__passport_dep = trim($this->post_arg('passport_dep'));
                 $this->_new_items_node__passport_day = trim($this->post_arg('passport_day'));
+                $this->_new_items_node__residence_city = trim($this->post_arg('residence_city'));
                 $this->_new_items_node__residence = trim($this->post_arg('residence'));
                 $this->_new_items_node__phone = trim($this->post_arg('phone'));
                 $this->_new_items_node__phone2 = trim($this->post_arg('phone2'));
@@ -286,6 +291,12 @@ class new_items_node__ns16127 extends node__ns21085 {
                 
                 @header('Refresh: 1;url=?node='.urlencode($this->get_arg('node')));
                 $this->_new_items_node__show_form = FALSE;
+            } else {
+                // для инициализации значений по умолчанию
+                
+                if(!$this->_new_items_node__residence_city) {
+                    $this->_new_items_node__residence_city = 'Пенза';
+                }
             }
         } catch(form_error__ns16127 $e) {
             $message = $e->getMessage();
@@ -456,14 +467,23 @@ class new_items_node__ns16127 extends node__ns21085 {
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                         '<p>'.
+                            '<label class="FloatLeft Margin5Px" '.
+                                    'for="_new_items_node__residence_city" >'.
+                                'Город: '.
+                            '</label>'.
+                            '<input class="FloatRight Margin5Px Width300Px" '.
+                                'type="text" '.
+                                'name="residence_city" '.
+                                'id="_new_items_node__residence_city" '.
+                                'value="'.htmlspecialchars($this->_new_items_node__residence_city).'" />'.
+                            '<div class="ClearBoth"></div>'.
+                        '</p>'.
+                        '<p>'.
                             '<label class="FloatLeft Margin5Px"'.
                                     ' for="_new_items_node__residence" >'.
-                                'Адрес регистрации: <br />'.
+                                'Адрес: <br />'.
                                 '<span class="FontSize07Em">'.
-                                    '(Например: <br />'.
-                                    '622014, Свердловская область, <br />'.
-                                    'г. Нижний Тагил, ул. Королева, <br />'.
-                                    'д.181, кв.354) '.
+                                    '(Например: Королева 181б-354) '.
                                 '</span>'.
                             '</label>'.
                             '<textarea class="FloatRight Margin5Px Width300Px"'.
