@@ -36,7 +36,7 @@ class node_base__ns8054 {
     protected $_node_base__db_link = NULL;
     protected $_node_base__perms_cache = array();
     
-    protected function _node_base__db_init() {
+    protected function _node_base__init_db() {
         $mysql_conf_php = dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
         
         if(file_exists($mysql_conf_php)) {
@@ -88,14 +88,17 @@ class node_base__ns8054 {
         
         $this->_node_base__db_link = $link;
     }
-    protected function _node_base__db_begin() {
+    protected function _node_base__begin_db() {
         mysql_query('BEGIN', $this->_node_base__db_link);
     }
-    protected function _node_base__db_rollback() {
+    protected function _node_base__rollback_db() {
         mysql_query('ROLLBACK', $this->_node_base__db_link);
     }
-    protected function _node_base__db_commit() {
+    protected function _node_base__commit_db() {
         mysql_query('COMMIT', $this->_node_base__db_link);
+    }
+    protected function _node_base__clean_db() {
+        $this->_node_base__db_link = NULL;
     }
     
     protected function _node_base__check_post_key_for($post_key) {
@@ -259,16 +262,19 @@ class node_base__ns8054 {
         
         if($this->_node_base__need_db ||
                 $this->_node_base__need_check_auth) {
-            $this->_node_base__db_init();
+            $this->_node_base__init_db();
             
-            $this->_node_base__db_begin();
+            $this->_node_base__begin_db();
             try{
                 $this->_node_base__on_init();
-                $this->_node_base__db_commit();
+                $this->_node_base__commit_db();
             } catch (Exception $e) {
-                $this->_node_base__db_rollback();
+                $this->_node_base__rollback_db();
                 throw $e;
             }
+            
+            // защита от случайного безтранзактного использования базы данных:
+            $this->_node_base__clean_db();
         } else {
             $this->_node_base__on_init();
         }

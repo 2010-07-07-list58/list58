@@ -23,30 +23,9 @@ require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 class node__ns21085 extends node_base__ns8054 {
     protected $_node_base__need_db = TRUE;
     
-    protected function _node__get_title() {
-        return 'List58.Ru';
-    }
+    protected $_node__main_menu;
     
-    protected function _node__get_head() {
-        $html = '';
-        
-        $html .=
-            '<meta http-equiv="X-UA-Compatible" content="chrome=1" />'.
-            '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'.
-            '<title>'.htmlspecialchars($this->_node__get_title()).'</title>'.
-            '<script type="text/javascript" src="/media/share/js/google-chrome-frame-for-microsoft-ie.js"></script>'.
-            '<link rel="shortcut icon" type="image/x-icon" href="/media/share/favicon.png" />'.
-            '<link rel="stylesheet" type="text/css" href="/media/share/css/style.css" />';//.
-            //'<script type="text/javascript" src="/media/share/js/jquery-1.4.2.js"></script>'.
-            //'<link rel="stylesheet" type="text/css" '.
-            //    'href="/media/share/js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.css" />'.
-            //'<script type="text/javascript" '.
-            //    'src="/media/share/js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.js"></script>';
-        
-        return $html;
-    }
-    
-    protected function _node__get_menu() {
+    protected function _node__init_main_menu() {
         $menu = array();
         
         if($_SESSION['authorized']) {
@@ -96,15 +75,42 @@ class node__ns21085 extends node_base__ns8054 {
             'is_right' => TRUE,
         );
         
-        return $menu;
+        $this->_node__main_menu = $menu;
     }
     
-    protected function _node__get_menu_widget() {
-        $menu = $this->_node__get_menu();
+    protected function _node_base__on_init() {
+        parent::_node_base__on_init();
         
+        $this->_node__init_main_menu();
+    }
+    
+    protected function _node__get_title() {
+        return 'List58.Ru';
+    }
+    
+    protected function _node__get_head() {
         $html = '';
         
-        foreach($menu as $menu_item) {
+        $html .=
+            '<meta http-equiv="X-UA-Compatible" content="chrome=1" />'.
+            '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'.
+            '<title>'.htmlspecialchars($this->_node__get_title()).'</title>'.
+            '<script type="text/javascript" src="/media/share/js/google-chrome-frame-for-microsoft-ie.js"></script>'.
+            '<link rel="shortcut icon" type="image/x-icon" href="/media/share/favicon.png" />'.
+            '<link rel="stylesheet" type="text/css" href="/media/share/css/style.css" />';//.
+            //'<script type="text/javascript" src="/media/share/js/jquery-1.4.2.js"></script>'.
+            //'<link rel="stylesheet" type="text/css" '.
+            //    'href="/media/share/js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.css" />'.
+            //'<script type="text/javascript" '.
+            //    'src="/media/share/js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.js"></script>';
+        
+        return $html;
+    }
+    
+    protected function _node__get_main_menu_widget() {
+        $html = '';
+        
+        foreach($this->_node__main_menu as $menu_item) {
             $is_right = 
                 array_key_exists('is_right', $menu_item)?
                 $menu_item['is_right']:FALSE;
@@ -151,7 +157,7 @@ class node__ns21085 extends node_base__ns8054 {
             '<table class="Width100Per Height100Per">'.
                 '<tr>'.
                     '<td class="Padding10Px MarginColor">'.
-                        $this->_node__get_menu_widget().
+                        $this->_node__get_main_menu_widget().
                     '</td>'.
                 '</tr>'.
                 '<tr>'.
