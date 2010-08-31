@@ -172,7 +172,7 @@ class new_items_node__ns16127 extends node__ns21085 {
     
     protected function _new_items_node__into_db() {
         $item_owner = $_SESSION['reg_data']['login'];
-        $item_created = @time();
+        $item_created = $this->get_time();
         
         $result = mysql_query(
             sprintf(
