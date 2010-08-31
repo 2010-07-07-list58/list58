@@ -334,7 +334,6 @@ class new_items_node__ns16127 extends node__ns21085 {
             $form_html =
                 '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
                     '<h2 class="TextAlignCenter">Новые Данные</h2>'.
-                    '<hr />'.
                     '<div class="GroupFrame">'.
                         '<p>'.
                             '<label class="FloatLeft Margin5Px" '.
@@ -562,7 +561,6 @@ class new_items_node__ns16127 extends node__ns21085 {
                             '<div class="ClearBoth"></div>'.
                         '</p>'.
                     '</div>'.
-                    '<hr />'.
                     '<p>'.
                         '<input type="hidden" '.
                             'name="post_key" '.
