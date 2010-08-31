@@ -35,6 +35,7 @@ class node_base__ns8054 {
     
     protected $_node_base__db_link = NULL;
     protected $_node_base__perms_cache = array();
+    protected $_node_base__time_cache = NULL;
     
     protected function _node_base__init_db() {
         $mysql_conf_php = dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
@@ -277,6 +278,24 @@ class node_base__ns8054 {
             $this->_node_base__clean_db();
         } else {
             $this->_node_base__on_init();
+        }
+    }
+    
+    public function get_time() {
+        // кэшируемое получение времени
+        // пояснение:
+        //      при многократном вызове функции
+        //      будет выдаваться одно и тоже значение времени,
+        //      предотвратив неоднозначность в генерируемых данных
+        
+        if($this->_node_base__time_cache) {
+            return $this->_node_base__time_cache;
+        } else {
+            $time = @time();
+            
+            $this->_node_base__time_cache = $time;
+            
+            return $time;
         }
     }
     
