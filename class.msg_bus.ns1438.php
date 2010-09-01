@@ -19,18 +19,17 @@
 */
 
 
+$msg_bus_queue_size_limit__ns1438 = 1000;
+
 function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
-    if(!$msg_key) {
+    if(
+            !$msg_key || 
+            !array_key_exists('msg_bus', $_SESSION)
+    ) {
         return $def;
     }
     
-    if(array_key_exists('msg_bus', $_SESSION)) {
-        $msg_bus = $_SESSION['msg_bus'];
-    } else {
-        return $def;
-    }
-    
-    foreach($msg_bus as $i => $stored_msg) {
+    foreach($_SESSION['msg_bus'] as $i => $stored_msg) {
         $stored_msg_key = $stored_msg['msg_key'];
         $stored_ns = $stored_msg['ns'];
         
@@ -40,11 +39,9 @@ function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
             $params = $stored_msg['params'];
             
             // удалить это сообщение...
-            unset($msg_bus[$i]);
+            unset($_SESSION['msg_bus'][$i]);
             // ... и положить в список на первое место
-            array_unshift($msg_bus, $stored_msg);
-            
-            $_SESSION['msg_bus'] = $msg_bus;
+            array_unshift($_SESSION['msg_bus'], $stored_msg);
             
             return $params;
         }
@@ -54,13 +51,11 @@ function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
 }
 
 function send_msg__ns1438($ns, $params) {
-    $size_limit = 100;
+    global $msg_bus_queue_size_limit__ns1438;
     
     if(array_key_exists('msg_bus', $_SESSION)) {
-        $msg_bus = $_SESSION['msg_bus'];
-        
         // поиск возможных совпадений:
-        foreach($msg_bus as $i => $stored_msg) {
+        foreach($_SESSION['msg_bus'] as $i => $stored_msg) {
             $stored_ns = $stored_msg['ns'];
             $stored_params = $stored_msg['params'];
             
@@ -73,12 +68,12 @@ function send_msg__ns1438($ns, $params) {
             }
         }
     } else {
-        $msg_bus = array();
+        $_SESSION['msg_bus'] = array();
     }
     
     // чистка устаревших сообщений:
-    while(sizeof($msg_bus) >= $size_limit) {
-        array_pop($msg_bus);
+    while(sizeof($_SESSION['msg_bus']) >= $msg_bus_queue_size_limit__ns1438) {
+        array_pop($_SESSION['msg_bus']);
     }
     
     // создание новых данных о сообщении:
@@ -88,9 +83,7 @@ function send_msg__ns1438($ns, $params) {
         'ns' => $ns,
         'params' => $params,
     );
-    array_unshift($msg_bus, $msg);
-    
-    $_SESSION['msg_bus'] = $msg_bus;
+    array_unshift($_SESSION['msg_bus'], $msg);
     
     return $msg_key;
 }
