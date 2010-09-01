@@ -144,27 +144,24 @@ class main__ns17829 {
                 return;
             } catch(site_error__ns14329 $e) {
                 $message = $e->getMessage();
-                $return_to = NULL;
-                $error_url = sprintf('?node=error&message=%s', urlencode($message));
+                $msg = array(
+                    'message' => $message,
+                );
                 
                 $error_options = get_error_options__ns14329($e);
-                
                 if(array_key_exists('return_back', $error_options) &&
                         $error_options['return_back']) {
                     if(array_key_exists('HTTP_REFERER', $_SERVER)) {
-                        $return_to = $_SERVER['HTTP_REFERER'];
+                        $msg['return_to'] = $_SERVER['HTTP_REFERER'];
                     }
                 }
-                
                 if(array_key_exists('return_to', $error_options)) {
-                    $return_to = $error_options['return_to'];
+                    $msg['return_to'] = $error_options['return_to'];
                 }
                 
-                if($return_to) {
-                    $error_url .= sprintf('&return_to=%s', urlencode($return_to));
-                }
+                $msg_key = send_msg__ns1438('error_node__ns21717::args', $msg);
                 
-                @header(sprintf('Location: %s', $error_url));
+                @header('Location: ?node=error&msg_key='.urlencode($msg_key));
                 
                 return;
             }
