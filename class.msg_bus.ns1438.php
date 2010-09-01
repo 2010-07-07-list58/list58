@@ -60,9 +60,14 @@ function send_msg__ns1438($ns, $params) {
             $stored_params = $stored_msg['params'];
             
             if($stored_ns == $ns && $stored_params == $params) {
-                // совпедение найдено! больше ничего делать не придётся
+                // совпедение найдено! добавлять новые данные не придётся
                 
                 $msg_key = $stored_msg['msg_key'];
+                
+                // удалить это сообщение...
+                unset($_SESSION['msg_bus'][$i]);
+                // ... и положить в список на первое место
+                array_unshift($_SESSION['msg_bus'], $stored_msg);
                 
                 return $msg_key;
             }
