@@ -36,15 +36,13 @@ class auth_node__ns2464 extends node__ns21085 {
         $msg_key = $this->get_arg('msg_key');
         $args = recv_msg__ns1438($msg_key, 'auth_node__ns2464::args');
         
-        if($args) {
-            if(array_key_exists('error_message', $args)) {
-                $error_message = $args['error_message'];
-                
-                $this->_auth_node__message_html .=
-                    '<p class="ErrorColor TextAlignCenter">'.
-                        htmlspecialchars($error_message).
-                    '</p>';
-            }
+        if($args && array_key_exists('error_message', $args)) {
+            $error_message = $args['error_message'];
+            
+            $this->_auth_node__message_html .=
+                '<p class="ErrorColor TextAlignCenter">'.
+                    htmlspecialchars($error_message).
+                '</p>';
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
