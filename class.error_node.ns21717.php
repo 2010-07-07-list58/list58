@@ -21,6 +21,7 @@
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
+require_once dirname(__FILE__).'/class.msg_bus.ns1438.php';
 
 class error_node__ns21717 extends node__ns21085 {
     protected $_error_node__message_html;
@@ -29,14 +30,18 @@ class error_node__ns21717 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $message = $this->get_arg('message');
-        $return_to = $this->get_arg('return_to');
+        $msg_key = $this->get_arg('msg_key');
+        $args = recv_msg__ns1438($msg_key, 'error_node__ns21717::args');
         
-        if(!$message) {
+        if($args && array_key_exists('message', $args)) {
+            $message = $args['message'];
+        } else {
             $message = '(Неопределённая Ошибка)';
         }
         
-        if($return_to) {
+        if($args && array_key_exists('return_to', $args)) {
+            $return_to = $args['return_to'];
+            
             $button = sprintf(
                 '<a href="%s">Назад</a>',
                 htmlspecialchars($return_to)
