@@ -19,12 +19,77 @@
 */
 
 
-public function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
-    // TODO: ...
+function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
+    if(!$msg_key) {
+        return $def;
+    }
+    
+    if(array_key_exists('msg_bus', $_SESSION)) {
+        $msg_bus = $_SESSION['msg_bus'];
+    } else {
+        return $def;
+    }
+    
+    foreach($msg_bus as $i => $stored_msg) {
+        $stored_msg_key = $stored_msg['msg_key'];
+        $stored_ns = $stored_msg['ns'];
+        
+        if($stored_msg_key == $msg_key && $stored_ns == $ns) {
+            // сообщение найдено!
+            
+            $params = $stored_msg['params'];
+            
+            // удалить это сообщение...
+            unset($msg_bus[$i]);
+            // ... и положить в список на первое место
+            array_unshift($msg_bus, $stored_msg);
+            
+            $_SESSION['msg_bus'] = $msg_bus;
+            
+            return $params;
+        }
+    }
+    
+    return $def;
 }
 
-public function send_msg__ns1438($ns, $params) {
-    // TODO ...
+function send_msg__ns1438($ns, $params) {
+    $size_limit = 100;
+    
+    if(array_key_exists('msg_bus', $_SESSION)) {
+        $msg_bus = $_SESSION['msg_bus'];
+        
+        // поиск возможных совпадений:
+        foreach($msg_bus as $i => $stored_msg) {
+            $stored_ns = $stored_msg['ns'];
+            $stored_params = $stored_msg['params'];
+            
+            if($stored_ns == $ns && $stored_params == $params) {
+                // совпедение найдено! больше ничего делать не придётся
+                
+                $msg_key = $stored_msg['msg_key'];
+                
+                return $msg_key;
+            }
+        }
+    } else {
+        $msg_bus = array();
+    }
+    
+    // чистка устаревших сообщений:
+    while(sizeof($msg_bus) > $size_limit) {
+        array_pop($msg_bus);
+    }
+    
+    // создание новых данных о сообщении:
+    $msg_key = sprintf('%s-%s', @time(), rand());
+    $msg_bus['msg_key'] = $msg_key;
+    $msg_bus['ns'] = $ns;
+    $msg_bus['params'] = $params;
+    
+    $_SESSION['msg_bus'] = $msg_bus;
+    
+    return $msg_key;
 }
 
 
