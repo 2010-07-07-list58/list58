@@ -29,6 +29,8 @@ function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
         return $def;
     }
     
+    $is_head = TRUE;
+    
     foreach($_SESSION['msg_bus'] as $i => $stored_msg) {
         $stored_msg_key = $stored_msg['msg_key'];
         $stored_ns = $stored_msg['ns'];
@@ -38,13 +40,17 @@ function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
             
             $params = $stored_msg['params'];
             
-            // удалить это сообщение...
-            unset($_SESSION['msg_bus'][$i]);
-            // ... и положить в список на первое место
-            array_unshift($_SESSION['msg_bus'], $stored_msg);
+            if(!$is_head) {
+                // удалить это сообщение...
+                unset($_SESSION['msg_bus'][$i]);
+                // ... и положить в список на первое место
+                array_unshift($_SESSION['msg_bus'], $stored_msg);
+            }
             
             return $params;
         }
+        
+        $is_head = FALSE;
     }
     
     return $def;
@@ -54,6 +60,8 @@ function send_msg__ns1438($ns, $params) {
     global $msg_bus_queue_size_limit__ns1438;
     
     if(array_key_exists('msg_bus', $_SESSION)) {
+        $is_head = TRUE;
+        
         // поиск возможных совпадений:
         foreach($_SESSION['msg_bus'] as $i => $stored_msg) {
             $stored_ns = $stored_msg['ns'];
@@ -64,13 +72,17 @@ function send_msg__ns1438($ns, $params) {
                 
                 $msg_key = $stored_msg['msg_key'];
                 
-                // удалить это сообщение...
-                unset($_SESSION['msg_bus'][$i]);
-                // ... и положить в список на первое место
-                array_unshift($_SESSION['msg_bus'], $stored_msg);
+                if(!$is_head) {
+                    // удалить это сообщение...
+                    unset($_SESSION['msg_bus'][$i]);
+                    // ... и положить в список на первое место
+                    array_unshift($_SESSION['msg_bus'], $stored_msg);
+                }
                 
                 return $msg_key;
             }
+            
+            $is_head = FALSE;
         }
     } else {
         $_SESSION['msg_bus'] = array();
