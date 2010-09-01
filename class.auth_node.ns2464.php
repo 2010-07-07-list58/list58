@@ -21,6 +21,7 @@
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
+require_once dirname(__FILE__).'/class.msg_bus.ns1438.php';
 
 class auth_node__ns2464 extends node__ns21085 {
     protected $_node_base__need_db = TRUE;    
@@ -32,11 +33,15 @@ class auth_node__ns2464 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $arg_error = $this->get_arg('error');
-        if($arg_error) {
+        $msg_key = $this->get_arg('msg_key');
+        $args = recv_msg__ns1438($msg_key, 'auth_node__ns2464::args');
+        
+        if($args) {
+            $error_message = $args['error_message'];
+            
             $this->_auth_node__message_html .=
                 '<p class="ErrorColor TextAlignCenter">'.
-                    htmlspecialchars($arg_error).
+                    htmlspecialchars($error_message).
                 '</p>';
         }
         

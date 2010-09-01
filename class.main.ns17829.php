@@ -22,6 +22,7 @@ require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.low_level_error.ns28655.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
+require_once dirname(__FILE__).'/class.msg_bus.ns1438.php';
 
 class main__ns17829 {
     public function __construct() {}
@@ -130,9 +131,15 @@ class main__ns17829 {
                     );
                 }
             } catch(not_authorized_error__ns3300 $e) {
-                $error = $e->getMessage();
+                $error_message = $e->getMessage();
+                $msg_key = send_msg__ns1438(
+                    'auth_node__ns2464::args',
+                    array(
+                        'error_message' => $error_message,
+                    )
+                );
                 
-                @header('Location: ?node=auth&error='.urlencode($error));
+                @header('Location: ?node=auth&msg_key='.urlencode($msg_key));
                 
                 return;
             } catch(site_error__ns14329 $e) {
