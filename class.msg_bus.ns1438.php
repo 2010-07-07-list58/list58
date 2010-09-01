@@ -77,15 +77,18 @@ function send_msg__ns1438($ns, $params) {
     }
     
     // чистка устаревших сообщений:
-    while(sizeof($msg_bus) > $size_limit) {
+    while(sizeof($msg_bus) >= $size_limit) {
         array_pop($msg_bus);
     }
     
     // создание новых данных о сообщении:
     $msg_key = sprintf('%s-%s', @time(), rand());
-    $msg_bus['msg_key'] = $msg_key;
-    $msg_bus['ns'] = $ns;
-    $msg_bus['params'] = $params;
+    $msg = array(
+        'msg_key' => $msg_key,
+        'ns' => $ns,
+        'params' => $params,
+    );
+    array_unshift($msg_bus, $msg);
     
     $_SESSION['msg_bus'] = $msg_bus;
     
