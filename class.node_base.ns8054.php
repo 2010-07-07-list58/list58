@@ -45,7 +45,7 @@ class node_base__ns8054 {
         } else {
             throw new low_level_error__ns28655(
                 sprintf(
-                    'Конфигураций файл Базы Данных отсутствует (%s)',
+                    'Конфигурационный файл Базы Данных отсутствует (%s)',
                     $mysql_conf_php
                 )
             );
