@@ -21,7 +21,7 @@
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
-require_once dirname(__FILE__).'/class.msg_bus.ns1438.php';
+require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 
 class error_node__ns21717 extends node__ns21085 {
     protected $_error_node__message_html;
@@ -30,8 +30,8 @@ class error_node__ns21717 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $msg_key = $this->get_arg('msg_key');
-        $args = recv_msg__ns1438($msg_key, 'error_node__ns21717::args');
+        $msg_token = $this->get_arg('msg_token');
+        $args = recv_msg__ns1438($msg_token, 'error_node__ns21717::args');
         
         if($args && array_key_exists('message', $args)) {
             $message = $args['message'];
@@ -39,21 +39,21 @@ class error_node__ns21717 extends node__ns21085 {
             $message = '(Неопределённая Ошибка)';
         }
         
-        if($args && array_key_exists('return_to', $args)) {
-            $return_to = $args['return_to'];
+        if($args && array_key_exists('next', $args)) {
+            $next = $args['next'];
             
             $button = sprintf(
-                '<a href="%s">Назад</a>',
-                htmlspecialchars($return_to)
+                '<a href="%s">ОК</a>',
+                htmlspecialchars($next)
             );
         } else {
             $button = '<a href="?">Начало</a>';
         }
         
         $this->_error_node__message_html =
-            '<p class="ErrorColor TextAlignCenter">'.
-                htmlspecialchars($message).
-            '</p>';
+            '<div class="ErrorColor TextAlignCenter">'.
+                $this->html_from_txt($message).
+            '</div>';
         
         $this->_error_node__buttons_html = '<p>'.$button.'</p>';
     }
@@ -84,7 +84,9 @@ class error_node__ns21717 extends node__ns21085 {
         $html .=
             '<div class="SmallFrame">'.
                 $this->_error_node__message_html.
-                $this->_error_node__buttons_html.
+                '<div class="ErrorColor TextAlignCenter">'.
+                    $this->_error_node__buttons_html.
+                '</div>'.
             '</div>';
         
         return $html;

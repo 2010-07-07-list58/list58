@@ -21,7 +21,7 @@
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
-require_once dirname(__FILE__).'/class.msg_bus.ns1438.php';
+require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 
 class auth_node__ns2464 extends node__ns21085 {
     protected $_node_base__need_db = TRUE;    
@@ -33,8 +33,8 @@ class auth_node__ns2464 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $msg_key = $this->get_arg('msg_key');
-        $args = recv_msg__ns1438($msg_key, 'auth_node__ns2464::args');
+        $msg_token = $this->get_arg('msg_token');
+        $args = recv_msg__ns1438($msg_token, 'auth_node__ns2464::args');
         
         if($args && array_key_exists('error_message', $args)) {
             $error_message = $args['error_message'];
@@ -180,8 +180,8 @@ class auth_node__ns2464 extends node__ns21085 {
                     '<hr />'.
                     '<p>'.
                         '<input type="hidden" '.
-                            'name="post_key" '.
-                            'value="'.htmlspecialchars($_SESSION['post_key']).'" />'.
+                            'name="post_token" '.
+                            'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
                         '<input class="FloatLeft Margin5Px" type="submit" value="Войти" />'.
                         '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
                         '<div class="ClearBoth"></div>'.

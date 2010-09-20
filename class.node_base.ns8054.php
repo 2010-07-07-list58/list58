@@ -28,14 +28,13 @@ class node_base__ns8054 {
     public $environ;
     
     protected $_node_base__need_db = FALSE;
-    protected $_node_base__need_check_post_key = TRUE;
-    protected $_node_base__need_check_post_key_for_get = FALSE;
+    protected $_node_base__need_check_post_token = TRUE;
+    protected $_node_base__need_check_post_token_for_get = FALSE;
     protected $_node_base__need_check_auth = FALSE;
     protected $_node_base__need_check_perms = array();
     
     protected $_node_base__db_link = NULL;
     protected $_node_base__perms_cache = array();
-    protected $_node_base__time_cache = NULL;
     
     protected function _node_base__init_db() {
         $mysql_conf_php = dirname(__FILE__).'/data/class.mysql_conf.ns14040.php';
@@ -102,11 +101,11 @@ class node_base__ns8054 {
         $this->_node_base__db_link = NULL;
     }
     
-    protected function _node_base__check_post_key_for($post_key) {
-        if(!$post_key || $post_key != $_SESSION['post_key']) {
+    protected function _node_base__check_post_token_for($post_token) {
+        if(!$post_token || $post_token != $_SESSION['post_token']) {
             throw_site_error__ns14329(
-                'Ошибка системы безопасности: '.
-                'Неавторизованный POST-запрос ('.
+                'Ошибка системы безопасности: '."\n".
+                'Неавторизованный модифицирующий запрос ('.
                 'внезапная потеря сессии или, '.
                 'возможно, была произведена попытка CSRF-атаки)',
                 array('return_back' => TRUE)
@@ -114,18 +113,18 @@ class node_base__ns8054 {
         }
     }
     
-    protected function _node_base__check_post_key() {
+    protected function _node_base__check_post_token() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $post_key = $this->post_arg('post_key');
+            $post_token = $this->post_arg('post_token');
             
-            $this->_node_base__check_post_key_for($post_key);
+            $this->_node_base__check_post_token_for($post_token);
         }
     }
     
-    protected function _node_base__check_post_key_for_get() {
-        $post_key = $this->get_arg('post_key');
+    protected function _node_base__check_post_token_for_get() {
+        $post_token = $this->get_arg('post_token');
         
-        $this->_node_base__check_post_key_for($post_key);
+        $this->_node_base__check_post_token_for($post_token);
     }
     
     protected function _node_base__clean_auth() {
@@ -246,15 +245,15 @@ class node_base__ns8054 {
         }
         
         // проверка на CSRF-атаку:
-        if($this->_node_base__need_check_post_key) {
+        if($this->_node_base__need_check_post_token) {
             // проверка на CSRF-атаку для POST-запросов (ВКЛючена поумолчанию)
             
-            $this->_node_base__check_post_key();
+            $this->_node_base__check_post_token();
         }
-        if($this->_node_base__need_check_post_key_for_get) {
+        if($this->_node_base__need_check_post_token_for_get) {
             // проверка на CSRF-атаку для GET-запросов (ВЫКЛючена поумолчанию)
             
-            $this->_node_base__check_post_key_for_get();
+            $this->_node_base__check_post_token_for_get();
         }
     }
     
@@ -281,24 +280,6 @@ class node_base__ns8054 {
         }
     }
     
-    public function get_time() {
-        // кэшируемое получение времени
-        // пояснение:
-        //      при многократном вызове функции
-        //      будет выдаваться одно и тоже значение времени,
-        //      предотвратив неоднозначность в генерируемых данных
-        
-        if($this->_node_base__time_cache) {
-            return $this->_node_base__time_cache;
-        } else {
-            $time = @time();
-            
-            $this->_node_base__time_cache = $time;
-            
-            return $time;
-        }
-    }
-    
     public function get_arg($arg_name, $def=NULL) {
         if(array_key_exists($arg_name, $_GET)) {
             $arg_value = stripslashes($_GET[$arg_name]);
@@ -317,6 +298,17 @@ class node_base__ns8054 {
         } else {
             return $def;
         }
+    }
+    
+    public function html_from_txt($txt) {
+        $html = 
+            '<p>'.
+            str_replace("\n", '</p><p>',
+                htmlspecialchars($txt)
+            ).
+            '</p>';
+        
+        return $html;
     }
     
     protected function _node_base__get_redirect() {

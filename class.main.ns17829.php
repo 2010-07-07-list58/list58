@@ -22,7 +22,8 @@ require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.low_level_error.ns28655.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
-require_once dirname(__FILE__).'/class.msg_bus.ns1438.php';
+require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
+require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 class main__ns17829 {
     public function __construct() {}
@@ -55,9 +56,8 @@ class main__ns17829 {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        if(!array_key_exists('post_key', $_SESSION)) {
-            $_SESSION['post_key'] = 
-                rand().':'.rand().':'.rand().':'.rand();
+        if(!array_key_exists('post_token', $_SESSION)) {
+            $_SESSION['post_token'] =  $token = new_token__ns29922();
         }
         
         if(!array_key_exists('authorized', $_SESSION)) {
@@ -132,14 +132,14 @@ class main__ns17829 {
                 }
             } catch(not_authorized_error__ns3300 $e) {
                 $error_message = $e->getMessage();
-                $msg_key = send_msg__ns1438(
+                $msg_token = send_msg__ns1438(
                     'auth_node__ns2464::args',
                     array(
                         'error_message' => $error_message,
                     )
                 );
                 
-                @header('Location: ?node=auth&msg_key='.urlencode($msg_key));
+                @header('Location: ?node=auth&msg_token='.urlencode($msg_token));
                 
                 return;
             } catch(site_error__ns14329 $e) {
@@ -152,16 +152,16 @@ class main__ns17829 {
                 if(array_key_exists('return_back', $error_options) &&
                         $error_options['return_back']) {
                     if(array_key_exists('HTTP_REFERER', $_SERVER)) {
-                        $msg['return_to'] = $_SERVER['HTTP_REFERER'];
+                        $msg['next'] = $_SERVER['HTTP_REFERER'];
                     }
                 }
-                if(array_key_exists('return_to', $error_options)) {
-                    $msg['return_to'] = $error_options['return_to'];
+                if(array_key_exists('next', $error_options)) {
+                    $msg['next'] = $error_options['next'];
                 }
                 
-                $msg_key = send_msg__ns1438('error_node__ns21717::args', $msg);
+                $msg_token = send_msg__ns1438('error_node__ns21717::args', $msg);
                 
-                @header('Location: ?node=error&msg_key='.urlencode($msg_key));
+                @header('Location: ?node=error&msg_token='.urlencode($msg_token));
                 
                 return;
             }
