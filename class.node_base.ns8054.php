@@ -104,7 +104,7 @@ class node_base__ns8054 {
     protected function _node_base__check_post_token_for($post_token) {
         if(!$post_token || $post_token != $_SESSION['post_token']) {
             throw_site_error__ns14329(
-                'Ошибка системы безопасности: '.
+                'Ошибка системы безопасности: '."\n".
                 'Неавторизованный модифицирующий запрос ('.
                 'внезапная потеря сессии или, '.
                 'возможно, была произведена попытка CSRF-атаки)',
