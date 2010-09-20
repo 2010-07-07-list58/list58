@@ -21,6 +21,7 @@
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.parse_form.ns31025.php';
+require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 class form_error__ns16127
         extends Exception {}
@@ -172,7 +173,7 @@ class new_items_node__ns16127 extends node__ns21085 {
     
     protected function _new_items_node__into_db() {
         $item_owner = $_SESSION['reg_data']['login'];
-        $item_created = $this->get_time();
+        $item_created = get_time__ns29922();
         
         $result = mysql_query(
             sprintf(

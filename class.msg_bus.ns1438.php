@@ -19,6 +19,8 @@
 */
 
 
+require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
+
 $msg_bus_queue_size_limit__ns1438 = 1000;
 
 function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
@@ -94,7 +96,7 @@ function send_msg__ns1438($ns, $params) {
     }
     
     // создание новых данных о сообщении:
-    $msg_key = sprintf('%s-%s', @time(), rand());
+    $msg_key = sprintf('%s-%s', get_time__ns29922(), rand());
     $msg = array(
         'msg_key' => $msg_key,
         'ns' => $ns,
