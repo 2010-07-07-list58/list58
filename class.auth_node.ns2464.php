@@ -33,8 +33,8 @@ class auth_node__ns2464 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $msg_key = $this->get_arg('msg_key');
-        $args = recv_msg__ns1438($msg_key, 'auth_node__ns2464::args');
+        $msg_token = $this->get_arg('msg_token');
+        $args = recv_msg__ns1438($msg_token, 'auth_node__ns2464::args');
         
         if($args && array_key_exists('error_message', $args)) {
             $error_message = $args['error_message'];

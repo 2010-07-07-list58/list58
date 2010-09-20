@@ -23,9 +23,9 @@ require_once dirname(__FILE__).'/class.cached_time.ns29922.php';
 
 $msg_bus_queue_size_limit__ns1438 = 1000;
 
-function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
+function recv_msg__ns1438($msg_token, $ns, $def=NULL) {
     if(
-            !$msg_key || 
+            !$msg_token || 
             !array_key_exists('msg_bus', $_SESSION)
     ) {
         return $def;
@@ -34,10 +34,10 @@ function recv_msg__ns1438($msg_key, $ns, $def=NULL) {
     $is_head = TRUE;
     
     foreach($_SESSION['msg_bus'] as $i => $stored_msg) {
-        $stored_msg_key = $stored_msg['msg_key'];
+        $stored_msg_token = $stored_msg['msg_token'];
         $stored_ns = $stored_msg['ns'];
         
-        if($stored_msg_key == $msg_key && $stored_ns == $ns) {
+        if($stored_msg_token == $msg_token && $stored_ns == $ns) {
             // сообщение найдено!
             
             $params = $stored_msg['params'];
@@ -72,7 +72,7 @@ function send_msg__ns1438($ns, $params) {
             if($stored_ns == $ns && $stored_params == $params) {
                 // совпедение найдено! добавлять новые данные не придётся
                 
-                $msg_key = $stored_msg['msg_key'];
+                $msg_token = $stored_msg['msg_token'];
                 
                 if(!$is_head) {
                     // удалить это сообщение...
@@ -81,7 +81,7 @@ function send_msg__ns1438($ns, $params) {
                     array_unshift($_SESSION['msg_bus'], $stored_msg);
                 }
                 
-                return $msg_key;
+                return $msg_token;
             }
             
             $is_head = FALSE;
@@ -96,15 +96,15 @@ function send_msg__ns1438($ns, $params) {
     }
     
     // создание новых данных о сообщении:
-    $msg_key = sprintf('%s-%s', get_time__ns29922(), rand());
+    $msg_token = new_token__ns29922();
     $msg = array(
-        'msg_key' => $msg_key,
+        'msg_token' => $msg_token,
         'ns' => $ns,
         'params' => $params,
     );
     array_unshift($_SESSION['msg_bus'], $msg);
     
-    return $msg_key;
+    return $msg_token;
 }
 
 

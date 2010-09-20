@@ -132,14 +132,14 @@ class main__ns17829 {
                 }
             } catch(not_authorized_error__ns3300 $e) {
                 $error_message = $e->getMessage();
-                $msg_key = send_msg__ns1438(
+                $msg_token = send_msg__ns1438(
                     'auth_node__ns2464::args',
                     array(
                         'error_message' => $error_message,
                     )
                 );
                 
-                @header('Location: ?node=auth&msg_key='.urlencode($msg_key));
+                @header('Location: ?node=auth&msg_token='.urlencode($msg_token));
                 
                 return;
             } catch(site_error__ns14329 $e) {
@@ -159,9 +159,9 @@ class main__ns17829 {
                     $msg['return_to'] = $error_options['return_to'];
                 }
                 
-                $msg_key = send_msg__ns1438('error_node__ns21717::args', $msg);
+                $msg_token = send_msg__ns1438('error_node__ns21717::args', $msg);
                 
-                @header('Location: ?node=error&msg_key='.urlencode($msg_key));
+                @header('Location: ?node=error&msg_token='.urlencode($msg_token));
                 
                 return;
             }

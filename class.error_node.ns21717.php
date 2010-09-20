@@ -30,8 +30,8 @@ class error_node__ns21717 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        $msg_key = $this->get_arg('msg_key');
-        $args = recv_msg__ns1438($msg_key, 'error_node__ns21717::args');
+        $msg_token = $this->get_arg('msg_token');
+        $args = recv_msg__ns1438($msg_token, 'error_node__ns21717::args');
         
         if($args && array_key_exists('message', $args)) {
             $message = $args['message'];
