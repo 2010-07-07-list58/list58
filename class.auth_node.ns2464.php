@@ -180,8 +180,8 @@ class auth_node__ns2464 extends node__ns21085 {
                     '<hr />'.
                     '<p>'.
                         '<input type="hidden" '.
-                            'name="post_key" '.
-                            'value="'.htmlspecialchars($_SESSION['post_key']).'" />'.
+                            'name="post_token" '.
+                            'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
                         '<input class="FloatLeft Margin5Px" type="submit" value="Войти" />'.
                         '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
                         '<div class="ClearBoth"></div>'.

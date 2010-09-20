@@ -55,8 +55,8 @@ class main__ns17829 {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        if(!array_key_exists('post_key', $_SESSION)) {
-            $_SESSION['post_key'] = 
+        if(!array_key_exists('post_token', $_SESSION)) {
+            $_SESSION['post_token'] = 
                 rand().':'.rand().':'.rand().':'.rand();
         }
         

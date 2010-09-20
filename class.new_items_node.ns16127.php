@@ -557,8 +557,8 @@ class new_items_node__ns16127 extends node__ns21085 {
                     '</div>'.
                     '<p>'.
                         '<input type="hidden" '.
-                            'name="post_key" '.
-                            'value="'.htmlspecialchars($_SESSION['post_key']).'" />'.
+                            'name="post_token" '.
+                            'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
                         '<input class="FloatLeft Margin5Px" type="submit" value="Создать" />'.
                         '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
                         '<div class="ClearBoth"></div>'.
