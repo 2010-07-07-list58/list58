@@ -19,7 +19,7 @@
 */
 
 
-require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
+require_once dirname(__FILE__).'/class.cached_time.ns29922.php';
 
 $msg_bus_queue_size_limit__ns1438 = 1000;
 
