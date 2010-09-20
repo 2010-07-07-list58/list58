@@ -41,4 +41,10 @@ function get_time__ns29922() {
     }
 }
 
+function new_token__ns29922() {
+    $token = sprintf('%s-%s', get_time__ns29922(), rand());
+    
+    return $token;
+}
+
 
