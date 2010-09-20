@@ -300,6 +300,17 @@ class node_base__ns8054 {
         }
     }
     
+    public function html_from_txt($txt) {
+        $html = 
+            '<p>'.
+            str_replace("\n", '</p><p>',
+                htmlspecialchars($txt)
+            ).
+            '</p>';
+        
+        return $html;
+    }
+    
     protected function _node_base__get_redirect() {
         return NULL;
     }
