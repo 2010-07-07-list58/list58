@@ -152,11 +152,11 @@ class main__ns17829 {
                 if(array_key_exists('return_back', $error_options) &&
                         $error_options['return_back']) {
                     if(array_key_exists('HTTP_REFERER', $_SERVER)) {
-                        $msg['return_to'] = $_SERVER['HTTP_REFERER'];
+                        $msg['next'] = $_SERVER['HTTP_REFERER'];
                     }
                 }
-                if(array_key_exists('return_to', $error_options)) {
-                    $msg['return_to'] = $error_options['return_to'];
+                if(array_key_exists('next', $error_options)) {
+                    $msg['next'] = $error_options['next'];
                 }
                 
                 $msg_token = send_msg__ns1438('error_node__ns21717::args', $msg);

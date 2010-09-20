@@ -39,21 +39,21 @@ class error_node__ns21717 extends node__ns21085 {
             $message = '(Неопределённая Ошибка)';
         }
         
-        if($args && array_key_exists('return_to', $args)) {
-            $return_to = $args['return_to'];
+        if($args && array_key_exists('next', $args)) {
+            $next = $args['next'];
             
             $button = sprintf(
-                '<a href="%s">Назад</a>',
-                htmlspecialchars($return_to)
+                '<a href="%s">ОК</a>',
+                htmlspecialchars($next)
             );
         } else {
             $button = '<a href="?">Начало</a>';
         }
         
         $this->_error_node__message_html =
-            '<p class="ErrorColor TextAlignCenter">'.
-                htmlspecialchars($message).
-            '</p>';
+            '<div class="ErrorColor TextAlignCenter">'.
+                $this->html_from_txt($message).
+            '</div>';
         
         $this->_error_node__buttons_html = '<p>'.$button.'</p>';
     }
