@@ -23,6 +23,7 @@ require_once dirname(__FILE__).'/class.low_level_error.ns28655.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
+require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 class main__ns17829 {
     public function __construct() {}
@@ -56,8 +57,7 @@ class main__ns17829 {
         }
         
         if(!array_key_exists('post_token', $_SESSION)) {
-            $_SESSION['post_token'] = 
-                rand().':'.rand().':'.rand().':'.rand();
+            $_SESSION['post_token'] =  $token = new_token__ns29922();
         }
         
         if(!array_key_exists('authorized', $_SESSION)) {
