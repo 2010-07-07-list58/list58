@@ -84,7 +84,9 @@ class error_node__ns21717 extends node__ns21085 {
         $html .=
             '<div class="SmallFrame">'.
                 $this->_error_node__message_html.
-                $this->_error_node__buttons_html.
+                '<div class="ErrorColor TextAlignCenter">'.
+                    $this->_error_node__buttons_html.
+                '</div>'.
             '</div>';
         
         return $html;
