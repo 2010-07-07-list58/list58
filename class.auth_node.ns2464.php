@@ -128,7 +128,7 @@ class auth_node__ns2464 extends node__ns21085 {
         $html .=
             $parent_head.
             '<link rel="stylesheet" type="text/css" href="/media/auth_node/css/style.css" />'.
-            '<script type="application/javascript" src="/media/auth_node/js/autofocus.js" /></script>';
+            '<script type="application/javascript" src="/media/auth_node/js/autofocus.js" ></script>';
         
         return $html;
     }
@@ -141,7 +141,7 @@ class auth_node__ns2464 extends node__ns21085 {
                 '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
                     '<h2 class="TextAlignCenter">Авторизация в системе</h2>'.
                     '<hr />'.
-                    '<p>'.
+                    '<div>'.
                         '<label class="FloatLeft Margin5Px" '.
                             'for="_auth_node__login" >'.
                             'Логин: '.
@@ -151,8 +151,8 @@ class auth_node__ns2464 extends node__ns21085 {
                             'id="_auth_node__login" '.
                             'value="" />'.
                         '<div class="ClearBoth"></div>'.
-                    '</p>'.
-                    '<p>'.
+                    '</div>'.
+                    '<div>'.
                         '<label class="FloatLeft Margin5Px" '.
                             'for="_auth_node__password" >'.
                             'Пароль: '.
@@ -162,8 +162,8 @@ class auth_node__ns2464 extends node__ns21085 {
                             'id="_auth_node__password" '.
                             'value="" />'.
                         '<div class="ClearBoth"></div>'.
-                    '</p>'.
-                    '<p>'.
+                    '</div>'.
+                    '<div>'.
                         '<h3>Каптча (тест Тьюринга): </h3>'.
                         $this->_auth_node__captcha_html.
                         '<div>'.
@@ -176,16 +176,16 @@ class auth_node__ns2464 extends node__ns21085 {
                             '</div>'.
                         '</div>'.
                         '<div class="ClearBoth"></div>'.
-                    '</p>'.
+                    '</div>'.
                     '<hr />'.
-                    '<p>'.
+                    '<div>'.
                         '<input type="hidden" '.
                             'name="post_token" '.
                             'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
                         '<input class="FloatLeft Margin5Px" type="submit" value="Войти" />'.
                         '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
                         '<div class="ClearBoth"></div>'.
-                    '</p>'.
+                    '</div>'.
                 '</form>';
         }
         
