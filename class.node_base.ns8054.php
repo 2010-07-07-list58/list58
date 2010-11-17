@@ -20,6 +20,7 @@
 
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
+require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
 class abstract_function_error__ns8054
         extends site_error__ns14329 {}
@@ -84,18 +85,20 @@ class node_base__ns8054 {
             );
         }
         
-        mysql_query('AUTOCOMMIT = 0', $link);
+        try{
+            mysql_query_or_error('AUTOCOMMIT = 0', $link);
+        } catch(MysqlError $e) {}
         
         $this->_node_base__db_link = $link;
     }
     protected function _node_base__begin_db() {
-        mysql_query('BEGIN', $this->_node_base__db_link);
+        mysql_query_or_error('BEGIN', $this->_node_base__db_link);
     }
     protected function _node_base__rollback_db() {
-        mysql_query('ROLLBACK', $this->_node_base__db_link);
+        mysql_query_or_error('ROLLBACK', $this->_node_base__db_link);
     }
     protected function _node_base__commit_db() {
-        mysql_query('COMMIT', $this->_node_base__db_link);
+        mysql_query_or_error('COMMIT', $this->_node_base__db_link);
     }
     protected function _node_base__clean_db() {
         $this->_node_base__db_link = NULL;
@@ -172,7 +175,7 @@ class node_base__ns8054 {
         
         $login = $_SESSION['reg_data']['login'];
         
-        $result = mysql_query(
+        $result = mysql_query_or_error(
             sprintf(
                 'SELECT `login`, `group` FROM `user_groups` WHERE '.
                     '`login` = \'%s\' AND `group` = \'%s\'',
