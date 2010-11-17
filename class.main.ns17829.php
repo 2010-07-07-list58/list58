@@ -65,12 +65,22 @@ class main__ns17829 {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        $success = @ini_set('session.gc_maxlifetime', $lifetime) !== FALSE;
+        $success = @ini_set('session.save_path', $session_save_path) !== FALSE;
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        $success = @ini_set('session.save_path', $session_save_path) !== FALSE;
+        $success = @ini_set('session.gc_probability', '1');
+        if(!$success) {
+            throw new low_level_error__ns28655($error_msg);
+        }
+        
+        $success = @ini_set('session.gc_divisor', '10');
+        if(!$success) {
+            throw new low_level_error__ns28655($error_msg);
+        }
+        
+        $success = @ini_set('session.gc_maxlifetime', strval($lifetime)) !== FALSE;
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
