@@ -60,13 +60,13 @@ class main__ns17829 {
         
         $lifetime = 60 * 60 * 24 * 7 * 4; // 4 недели, секунд
         
-        $success = @ini_set('session.gc_maxlifetime', $lifetime) !== FALSE;
-        if(!$success) {
+        $session_save_path = get_session_save_path__ns17829('list58');
+        if(!$session_save_path) {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        $session_save_path = get_session_save_path__ns17829('list58');
-        if(!$session_save_path) {
+        $success = @ini_set('session.gc_maxlifetime', $lifetime) !== FALSE;
+        if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
         
