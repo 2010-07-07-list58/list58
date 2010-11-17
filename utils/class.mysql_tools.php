@@ -27,9 +27,17 @@ function mysql_query_or_error($query, $link) {
     $result = @mysql_query($query, $link);
     
     if ($result === FALSE) {
-        $error = new MysqlError('Mysql query error');
-        $error->mysql_errno = mysql_errno($link);
-        $error->mysql_error = mysql_error($link);
+        $mysql_errno = mysql_errno($link);
+        $mysql_error = mysql_error($link);
+        
+        $error = new MysqlError(
+            sprintf(
+                'Mysql query error: %s',
+                $mysql_error
+            )
+        );
+        $error->mysql_errno = $mysql_errno;
+        $error->mysql_error = $mysql_error;
         
         throw $error;
     }
