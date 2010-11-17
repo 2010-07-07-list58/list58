@@ -20,6 +20,7 @@
 
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
+require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 require_once dirname(__FILE__).'/utils/class.parse_form.ns31025.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
@@ -175,81 +176,81 @@ class new_items_node__ns16127 extends node__ns21085 {
         $item_owner = $_SESSION['reg_data']['login'];
         $item_created = get_time__ns29922();
         
-        $result = mysql_query(
-            sprintf(
-                'INSERT INTO `items_base` ('.
-                    '`item_owner`, '.
-                    '`item_created`, '.
-                    '`item_modified`, '.
-                    '`given_name`, '.
-                    '`family_name`, '.
-                    '`patronymic_name`, '.
-                    '`birth_year`, '.
-                    '`birth_month`, '.
-                    '`birth_day`, '.
-                    '`sex`, '.
-                    '`passport_ser`, '.
-                    '`passport_no`, '.
-                    '`passport_dep`, '.
-                    '`passport_day`, '.
-                    '`residence_city`, '.
-                    '`residence`, '.
-                    '`phone`, '.
-                    '`phone2`, '.
-                    '`about`, '.
-                    '`comments`'.
-                ') '.
-                'VALUES ('.
-                    '\'%s\', '.
-                    '%s, '.
-                    '%s, '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '%s, '.
-                    '%s, '.
-                    '%s, '.
-                    '%s, '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\', '.
-                    '\'%s\''.
-                ')',
-                mysql_real_escape_string($item_owner, $this->_node_base__db_link),
-                intval($item_created),
-                intval($item_created),
-                mysql_real_escape_string($this->_new_items_node__given_name, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__family_name, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__patronymic_name, $this->_node_base__db_link),
-                intval($this->_new_items_node__birth_year),
-                intval($this->_new_items_node__birth_month),
-                intval($this->_new_items_node__birth_day),
-                intval($this->_new_items_node__sex_enum),
-                mysql_real_escape_string($this->_new_items_node__passport_ser, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__passport_no, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__passport_dep, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__passport_day, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__residence_city, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__residence, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__phone, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__phone2, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__about, $this->_node_base__db_link),
-                mysql_real_escape_string($this->_new_items_node__comments, $this->_node_base__db_link)
-            ),
-            $this->_node_base__db_link
-        );
-        
-        if(!$result) {
+        try {
+            $result = mysql_query_or_error(
+                sprintf(
+                    'INSERT INTO `items_base` ('.
+                        '`item_owner`, '.
+                        '`item_created`, '.
+                        '`item_modified`, '.
+                        '`given_name`, '.
+                        '`family_name`, '.
+                        '`patronymic_name`, '.
+                        '`birth_year`, '.
+                        '`birth_month`, '.
+                        '`birth_day`, '.
+                        '`sex`, '.
+                        '`passport_ser`, '.
+                        '`passport_no`, '.
+                        '`passport_dep`, '.
+                        '`passport_day`, '.
+                        '`residence_city`, '.
+                        '`residence`, '.
+                        '`phone`, '.
+                        '`phone2`, '.
+                        '`about`, '.
+                        '`comments`'.
+                    ') '.
+                    'VALUES ('.
+                        '\'%s\', '.
+                        '%s, '.
+                        '%s, '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '%s, '.
+                        '%s, '.
+                        '%s, '.
+                        '%s, '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\', '.
+                        '\'%s\''.
+                    ')',
+                    mysql_real_escape_string($item_owner, $this->_node_base__db_link),
+                    intval($item_created),
+                    intval($item_created),
+                    mysql_real_escape_string($this->_new_items_node__given_name, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__family_name, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__patronymic_name, $this->_node_base__db_link),
+                    intval($this->_new_items_node__birth_year),
+                    intval($this->_new_items_node__birth_month),
+                    intval($this->_new_items_node__birth_day),
+                    intval($this->_new_items_node__sex_enum),
+                    mysql_real_escape_string($this->_new_items_node__passport_ser, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__passport_no, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__passport_dep, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__passport_day, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__residence_city, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__residence, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__phone, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__phone2, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__about, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__comments, $this->_node_base__db_link)
+                ),
+                $this->_node_base__db_link
+            );
+        } catch(MysqlError $e) {
             throw new form_error__ns16127(
                 sprintf(
                     'Ошибка при сохранении данных внутри Базы Данных (%s)',
-                    mysql_error($this->_node_base__db_link)
+                    $e->mysql_error
                 )
             );
         }
