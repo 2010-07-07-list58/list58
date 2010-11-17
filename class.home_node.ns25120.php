@@ -24,6 +24,10 @@ require_once dirname(__FILE__).'/class.node.ns21085.php';
 class home_node__ns25120 extends node__ns21085 {
     protected $_node_base__need_check_auth = TRUE;
     
+    protected $_home_node__items_page;
+    protected $_home_node__items_limit;
+    protected $_home_node__items;
+    
     protected function _node_base__on_add_check_perms() {
         parent::_node_base__on_add_check_perms();
         
@@ -37,6 +41,42 @@ class home_node__ns25120 extends node__ns21085 {
     
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
+        
+        if(array_key_exists('items_page', $_GET)) {
+            $this->_home_node__items_page = $this->get_arg('items_page');
+        } else {
+            $this->_home_node__items_page = 0;
+        }
+        
+        if(array_key_exists('items_limit', $_GET)) {
+            $this->_home_node__items_limit = $this->get_arg('items_limit');
+        } else {
+            $this->_home_node__items_limit = 20;
+        }
+        
+        $result = mysql_query_or_error(
+            sprintf(
+                'SELECT * FROM `items_base` ORDER BY  `item_modified` DESC LIMIT %s OFFSET %s',
+                intval($this->_home_node__items_limit),
+                intval($this->_home_node__items_page * $this->_home_node__items_limit)
+            ),
+            $this->_node_base__db_link
+        );
+        
+        $this->_home_node__items = array();
+        if($result) {
+            for(;;) {
+                $row = mysql_fetch_assoc($result);
+                if($row) {
+                    $this->_home_node__items[] = $row;
+                }
+                else {
+                    break;
+                }
+            }
+            
+            mysql_free_result($result);
+        }
         
         // TODO: код для инициализации
     }
@@ -58,12 +98,10 @@ class home_node__ns25120 extends node__ns21085 {
         
         $html .=
             '<div class="SmallFrame">'.
-                '<p style="color: rgb(255,0,0)">(здесь в будущем будет основная страницца)</p>'.
-                '<p style="color: rgb(128,128,0)">(здесь в будущем будет основная страницца)</p>'.
-                '<p style="color: rgb(0,255,0)">(здесь в будущем будет основная страницца)</p>'.
-                '<p style="color: rgb(0,128,128)">(здесь в будущем будет основная страницца)</p>'.
-                '<p style="color: rgb(0,0,255)">(здесь в будущем будет основная страницца)</p>'.
-                '<p style="color: rgb(128,0,128)">(здесь в будущем будет основная страницца)</p>'.
+                '<h1>Последние добавленные</h1>'.
+                '<pre>'.
+                    str_replace(' ', '&nbsp;', htmlspecialchars(print_r($this->_home_node__items, TRUE))).
+                '</pre>'.
             '</div>';
         
         return $html;
