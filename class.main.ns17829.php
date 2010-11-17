@@ -29,7 +29,7 @@ function get_session_save_path__ns17829($name) {
     global $original_session_save_path__ns17829;
     
     if(!$original_session_save_path__ns17829) {
-        $original_session_save_path__ns17829 = ini_get('session.save_path');
+        $original_session_save_path__ns17829 = @ini_get('session.save_path');
         
         if(!$original_session_save_path__ns17829) {
             $original_session_save_path__ns17829 = '/tmp';
@@ -60,7 +60,7 @@ class main__ns17829 {
         
         $lifetime = 60 * 60 * 24 * 7 * 4; // 4 недели, секунд
         
-        $success = ini_set('session.gc_maxlifetime', $lifetime) !== FALSE;
+        $success = @ini_set('session.gc_maxlifetime', $lifetime) !== FALSE;
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
@@ -70,19 +70,17 @@ class main__ns17829 {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        $success = ini_set('session.save_path', $session_save_path) !== FALSE;
+        $success = @ini_set('session.save_path', $session_save_path) !== FALSE;
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
-        
-        session_set_cookie_params($lifetime);
         
         $success = @session_start();
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        $success = @session_regenerate_id(TRUE);
+        $success = @setcookie(session_name(), session_id(), get_time__ns29922() + $lifetime);
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
