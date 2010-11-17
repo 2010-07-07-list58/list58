@@ -85,9 +85,7 @@ class node_base__ns8054 {
             );
         }
         
-        try{
-            mysql_query_or_error('AUTOCOMMIT = 0', $link);
-        } catch(MysqlError $e) {}
+        mysql_query_or_error('SET autocommit = 0', $link);
         
         $this->_node_base__db_link = $link;
     }
