@@ -21,6 +21,7 @@
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/class.item_list_widget.ns28376.php';
+require_once dirname(__FILE__).'/class.page_links_widget.ns22493.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 class home_node__ns25120 extends node__ns21085 {
@@ -31,6 +32,7 @@ class home_node__ns25120 extends node__ns21085 {
     protected $_home_node__items_count;
     protected $_home_node__items;
     protected $_home_node__item_list_widget;
+    protected $_home_node__page_links_widget;
     
     protected function _node_base__on_add_check_perms() {
         parent::_node_base__on_add_check_perms();
@@ -97,8 +99,14 @@ class home_node__ns25120 extends node__ns21085 {
         }
         mysql_free_result($result);
         
-        $this->_home_node__item_list_widget = 
+        $this->_home_node__item_list_widget =
             new item_list_widget__ns28376($this->_home_node__items);
+        $this->_home_node__page_links_widget = 
+            new page_links_widget__ns22493(
+                $this->_home_node__items_real_limit,
+                $this->_home_node__items_offset,
+                $this->_home_node__items_count
+            );
     }
     
     protected function _node__get_head() {
@@ -114,7 +122,7 @@ class home_node__ns25120 extends node__ns21085 {
     }
     
     protected function _node__get_aside() {
-        $page_links_html = '';
+        $short_page_links_html = '';
         
         if($this->_home_node__items_offset > 0) {
             $query_node = $this->get_arg('node');
@@ -132,8 +140,8 @@ class home_node__ns25120 extends node__ns21085 {
                 $query_data['items_offset'] = $query_items_offset;
             }
             
-            $page_links_html .=
-                '<a class="Margin10Px FloatLeft" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+            $short_page_links_html .=
+                '<a class="FloatLeft" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
                     htmlspecialchars('<< Более новые').
                 '</a>';
         }
@@ -157,8 +165,8 @@ class home_node__ns25120 extends node__ns21085 {
                 $query_data['items_offset'] = $query_items_offset;
             }
             
-            $page_links_html .=
-                '<a class="Margin10Px FloatRight" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+            $short_page_links_html .=
+                '<a class="FloatRight" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
                     htmlspecialchars('Более старые >>').
                 '</a>';
         }
@@ -170,7 +178,10 @@ class home_node__ns25120 extends node__ns21085 {
                 '<h1>Последние добавленные</h1>'.
                 $this->_home_node__item_list_widget->get_widget().
                 '<div>'.
-                    $page_links_html.
+                    $short_page_links_html.
+                    '<div class="Margin10Px TextAlignCenter">'.
+                        'Стр.: '.$this->_home_node__page_links_widget->get_widget().
+                    '</div>'.
                     '<div class="ClearBoth"></div>'.
                 '</div>'.
             '</div>';
