@@ -20,6 +20,7 @@
 
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
+require_once dirname(__FILE__).'/class.items_list_widget.ns28376.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 class home_node__ns25120 extends node__ns21085 {
@@ -28,6 +29,7 @@ class home_node__ns25120 extends node__ns21085 {
     protected $_home_node__items_page = 0;
     protected $_home_node__items_limit = 20;
     protected $_home_node__items;
+    protected $_home_node__items_list_widget;
     
     protected function _node_base__on_add_check_perms() {
         parent::_node_base__on_add_check_perms();
@@ -86,7 +88,10 @@ class home_node__ns25120 extends node__ns21085 {
             mysql_free_result($result);
         }
         
-        // TODO: код для инициализации
+        $this->_home_node__items_list_widget = 
+            new items_list_widget__ns28376($this->_home_node__items);
+        
+        // TODO: код для инициализации: страницы
     }
     
     protected function _node__get_head() {
@@ -107,15 +112,11 @@ class home_node__ns25120 extends node__ns21085 {
         $html .=
             '<div class="SmallFrame">'.
                 '<h1>Последние добавленные</h1>'.
-                '<pre>'.
-                    str_replace(' ', '&nbsp;', htmlspecialchars(print_r($this->_home_node__items, TRUE))).
-                '</pre>'.
+                $this->_home_node__items_list_widget->get_widget().
+                // TODO: сделать перелистывание страниц
             '</div>';
         
         return $html;
     }
 }
-
-
-
 
