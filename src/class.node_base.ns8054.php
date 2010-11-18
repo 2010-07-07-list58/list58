@@ -18,6 +18,7 @@
 
 */
 
+require_once dirname(__FILE__).'/class.paths.ns1609.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
@@ -38,7 +39,7 @@ class node_base__ns8054 {
     protected $_node_base__perms_cache = array();
     
     protected function _node_base__init_db() {
-        $mysql_conf_php = dirname(__FILE__).'/../var/class.mysql_conf.ns14040.php';
+        $mysql_conf_php = get_var__ns1609().'/class.mysql_conf.ns14040.php';
         
         if(file_exists($mysql_conf_php)) {
             require_once $mysql_conf_php;

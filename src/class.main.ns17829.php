@@ -18,6 +18,7 @@
 
 */
 
+require_once dirname(__FILE__).'/class.paths.ns1609.php';
 require_once dirname(__FILE__).'/class.node_base.ns8054.php';
 require_once dirname(__FILE__).'/class.low_level_error.ns28655.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
@@ -26,7 +27,7 @@ require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 function get_session_save_path__ns17829() {
-    $session_save_path = dirname(__FILE__).'/../var/sessions';
+    $session_save_path = get_sessions__ns1609();
     
     if(!@file_exists($session_save_path)) {
         @mkdir($session_save_path, 0700);
