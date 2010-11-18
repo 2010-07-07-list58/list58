@@ -25,8 +25,8 @@ require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 class home_node__ns25120 extends node__ns21085 {
     protected $_node_base__need_check_auth = TRUE;
     
-    protected $_home_node__items_page;
-    protected $_home_node__items_limit;
+    protected $_home_node__items_page = 0;
+    protected $_home_node__items_limit = 20;
     protected $_home_node__items;
     
     protected function _node_base__on_add_check_perms() {
@@ -44,15 +44,19 @@ class home_node__ns25120 extends node__ns21085 {
         parent::_node_base__on_init();
         
         if(array_key_exists('items_page', $_GET)) {
-            $this->_home_node__items_page = $this->get_arg('items_page');
-        } else {
-            $this->_home_node__items_page = 0;
+            $items_page = intval($this->get_arg('items_page'));
+            
+            if($items_page >= 0) {
+                $this->_home_node__items_page = $items_page;
+            }
         }
         
         if(array_key_exists('items_limit', $_GET)) {
-            $this->_home_node__items_limit = $this->get_arg('items_limit');
-        } else {
-            $this->_home_node__items_limit = 20;
+            $items_limit = intval($this->get_arg('items_limit'));
+            
+            if($items_limit >= 1 && $items_limit <= 200) {
+                $this->_home_node__items_limit = $items_limit;
+            }
         }
         
         $result = mysql_query_or_error(
