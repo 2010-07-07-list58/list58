@@ -28,6 +28,7 @@ class home_node__ns25120 extends node__ns21085 {
     
     protected $_home_node__items_page = 0;
     protected $_home_node__items_limit = 0;
+    protected $_home_node__items_pages;
     protected $_home_node__items;
     protected $_home_node__items_list_widget;
     
@@ -64,6 +65,14 @@ class home_node__ns25120 extends node__ns21085 {
         $sql_limit = $this->_home_node__items_limit?$this->_home_node__items_limit:20;
         
         $result = mysql_query_or_error(
+            'SELECT COUNT(*) FROM `items_base`',
+            $this->_node_base__db_link
+        );
+        list($sql_count) = mysql_fetch_array($result);
+        $this->_home_node__items_pages = intval(ceil(floatval($sql_count) / $sql_limit));
+        mysql_free_result($result);
+        
+        $result = mysql_query_or_error(
             sprintf(
                 'SELECT * FROM `items_base` '.
                     'ORDER BY ABS(%s - `item_modified`) '.
@@ -76,19 +85,16 @@ class home_node__ns25120 extends node__ns21085 {
         );
         
         $this->_home_node__items = array();
-        if($result) {
-            for(;;) {
-                $row = mysql_fetch_assoc($result);
-                if($row) {
-                    $this->_home_node__items[] = $row;
-                }
-                else {
-                    break;
-                }
+        for(;;) {
+            $row = mysql_fetch_assoc($result);
+            if($row) {
+                $this->_home_node__items[] = $row;
             }
-            
-            mysql_free_result($result);
+            else {
+                break;
+            }
         }
+        mysql_free_result($result);
         
         $this->_home_node__items_list_widget = 
             new items_list_widget__ns28376($this->_home_node__items);
@@ -133,7 +139,7 @@ class home_node__ns25120 extends node__ns21085 {
                 '</a>';
         }
         
-        if($this->_home_node__items) {
+        if($this->_home_node__items_page < ($this->_home_node__items_pages - 1)) {
             $query_node = $this->get_arg('node');
             $query_items_page = $this->_home_node__items_page + 1;
             $query_items_limit = $this->_home_node__items_limit;
