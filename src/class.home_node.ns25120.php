@@ -27,7 +27,7 @@ class home_node__ns25120 extends node__ns21085 {
     protected $_node_base__need_check_auth = TRUE;
     
     protected $_home_node__items_page = 0;
-    protected $_home_node__items_limit = 20;
+    protected $_home_node__items_limit = 0;
     protected $_home_node__items;
     protected $_home_node__items_list_widget;
     
@@ -56,10 +56,12 @@ class home_node__ns25120 extends node__ns21085 {
         if(array_key_exists('items_limit', $_GET)) {
             $items_limit = intval($this->get_arg('items_limit'));
             
-            if($items_limit >= 1 && $items_limit <= 200) {
+            if($items_limit >= 0 && $items_limit <= 200) {
                 $this->_home_node__items_limit = $items_limit;
             }
         }
+        
+        $sql_limit = $this->_home_node__items_limit?$this->_home_node__items_limit:20;
         
         $result = mysql_query_or_error(
             sprintf(
@@ -67,8 +69,8 @@ class home_node__ns25120 extends node__ns21085 {
                     'ORDER BY ABS(%s - `item_modified`) '.
                     'LIMIT %s OFFSET %s',
                 intval(get_time__ns29922()),
-                intval($this->_home_node__items_limit),
-                intval($this->_home_node__items_page * $this->_home_node__items_limit)
+                intval($sql_limit),
+                intval($this->_home_node__items_page * $sql_limit)
             ),
             $this->_node_base__db_link
         );
@@ -107,13 +109,62 @@ class home_node__ns25120 extends node__ns21085 {
     }
     
     protected function _node__get_aside() {
+        $page_links_html = '';
+        
+        if($this->_home_node__items_page > 0) {
+            $query_node = $this->get_arg('node');
+            $query_items_page = $this->_home_node__items_page - 1;
+            $query_items_limit = $this->_home_node__items_limit;
+            
+            $query_data = array();
+            if($query_node) {
+                $query_data['node'] = $query_node;
+            }
+            if($query_items_limit) {
+                $query_data['items_limit'] = $query_items_limit;
+            }
+            if($query_items_page) {
+                $query_data['items_page'] = $query_items_page;
+            }
+            
+            $page_links_html .=
+                '<a class="Margin10Px FloatLeft" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                    htmlspecialchars('<< Более новые').
+                '</a>';
+        }
+        
+        if(sizeof($this->_home_node__items)) {
+            $query_node = $this->get_arg('node');
+            $query_items_page = $this->_home_node__items_page + 1;
+            $query_items_limit = $this->_home_node__items_limit;
+            
+            $query_data = array();
+            if($query_node) {
+                $query_data['node'] = $query_node;
+            }
+            if($query_items_limit) {
+                $query_data['items_limit'] = $query_items_limit;
+            }
+            if($query_items_page) {
+                $query_data['items_page'] = $query_items_page;
+            }
+            
+            $page_links_html .=
+                '<a class="Margin10Px FloatRight" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                    htmlspecialchars('Более старые >>').
+                '</a>';
+        }
+        
         $html = '';
         
         $html .=
             '<div class="SmallFrame">'.
                 '<h1>Последние добавленные</h1>'.
                 $this->_home_node__items_list_widget->get_widget().
-                // TODO: сделать перелистывание страниц
+                '<div>'.
+                    $page_links_html.
+                    '<div class="ClearBoth"></div>'.
+                '</div>'.
             '</div>';
         
         return $html;
