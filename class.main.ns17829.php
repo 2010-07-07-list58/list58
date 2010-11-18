@@ -70,12 +70,12 @@ class main__ns17829 {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        $success = @ini_set('session.gc_probability', '1');
+        $success = @ini_set('session.gc_probability', '1') !== FALSE;
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
         
-        $success = @ini_set('session.gc_divisor', '10');
+        $success = @ini_set('session.gc_divisor', '10') !== FALSE;
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
         }
