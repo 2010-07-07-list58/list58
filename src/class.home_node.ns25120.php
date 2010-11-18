@@ -105,7 +105,8 @@ class home_node__ns25120 extends node__ns21085 {
             new page_links_widget__ns22493(
                 $this->_home_node__items_real_limit,
                 $this->_home_node__items_offset,
-                $this->_home_node__items_count
+                $this->_home_node__items_count,
+                array($this, '_home_node__page_links_widget__get_link_html')
             );
     }
     
@@ -121,20 +122,41 @@ class home_node__ns25120 extends node__ns21085 {
         return $html;
     }
     
+    public function _home_node__page_links_widget__get_link_html($items_offset, $label) {
+        $query_node = $this->get_arg('node');
+        
+        $query_data = array();
+        if($query_node) {
+            $query_data['node'] = $query_node;
+        }
+        if($this->_home_node__items_limit) {
+            $query_data['items_limit'] = $this->_home_node__items_limit;
+        }
+        if($items_offset > 0) {
+            $query_data['items_offset'] = $items_offset;
+        }
+        
+        $html =
+            '<a href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                htmlspecialchars($label).
+            '</a>';
+        
+        return $html;
+    }
+    
     protected function _node__get_aside() {
+        $query_node = $this->get_arg('node');
         $short_page_links_html = '';
         
         if($this->_home_node__items_offset > 0) {
-            $query_node = $this->get_arg('node');
             $query_items_offset = $this->_home_node__items_offset - $this->_home_node__items_real_limit;
-            $query_items_limit = $this->_home_node__items_limit;
             
             $query_data = array();
             if($query_node) {
                 $query_data['node'] = $query_node;
             }
-            if($query_items_limit) {
-                $query_data['items_limit'] = $query_items_limit;
+            if($this->_home_node__items_limit) {
+                $query_data['items_limit'] = $this->_home_node__items_limit;
             }
             if($query_items_offset > 0) {
                 $query_data['items_offset'] = $query_items_offset;
@@ -150,16 +172,14 @@ class home_node__ns25120 extends node__ns21085 {
             $this->_home_node__items_offset + $this->_home_node__items_real_limit <
             $this->_home_node__items_count
         ) {
-            $query_node = $this->get_arg('node');
             $query_items_offset = $this->_home_node__items_offset + $this->_home_node__items_real_limit;
-            $query_items_limit = $this->_home_node__items_limit;
             
             $query_data = array();
             if($query_node) {
                 $query_data['node'] = $query_node;
             }
-            if($query_items_limit) {
-                $query_data['items_limit'] = $query_items_limit;
+            if($this->_home_node__items_limit) {
+                $query_data['items_limit'] = $this->_home_node__items_limit;
             }
             if($query_items_offset > 0) {
                 $query_data['items_offset'] = $query_items_offset;

@@ -22,17 +22,24 @@ class page_links_widget__ns22493 {
     protected $_items_limit;
     protected $_items_offset;
     protected $_items_count;
+    protected $_get_link_html;
     
-    public function __construct($items_limit, $items_offset, $items_count) {
+    public function __construct($items_limit, $items_offset, $items_count, $get_link_html) {
         $this->_items_limit = $items_limit;
         $this->_items_offset = $items_offset;
         $this->_items_count = $items_count;
+        $this->_get_link_html = $get_link_html;
     }
     
     public function get_widget() {
         $html = '';
         
-        $html .= '123';
+        // TEST:
+        $html .=
+            join(' ', array(
+                call_user_func($this->_get_link_html, 0, '[0]'),
+                call_user_func($this->_get_link_html, 3, '[1]'),
+            ));
         
         return $html;
     }
