@@ -23,12 +23,14 @@ class page_links_widget__ns22493 {
     protected $_items_offset;
     protected $_items_count;
     protected $_get_link_html;
+    protected $_size;
     
-    public function __construct($items_limit, $items_offset, $items_count, $get_link_html) {
+    public function __construct($items_limit, $items_offset, $items_count, $get_link_html, $size) {
         $this->_items_limit = $items_limit;
         $this->_items_offset = $items_offset;
         $this->_items_count = $items_count;
         $this->_get_link_html = $get_link_html;
+        $this->_size = $size;
     }
     
     public function get_widget() {

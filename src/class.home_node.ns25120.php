@@ -106,7 +106,8 @@ class home_node__ns25120 extends node__ns21085 {
                 $this->_home_node__items_real_limit,
                 $this->_home_node__items_offset,
                 $this->_home_node__items_count,
-                array($this, '_home_node__page_links_widget__get_link_html')
+                array($this, '_home_node__page_links_widget__get_link_html'),
+                5
             );
     }
     
