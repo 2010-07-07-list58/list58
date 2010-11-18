@@ -28,10 +28,14 @@ class items_list_widget__ns28376 {
     public function get_widget() {
         $html = '';
         
-        $html .= 
-            '<pre>'.
-                htmlspecialchars(print_r($this->_items, TRUE)).
-            '</pre>';
+        if($this->_items) {
+            $html .= 
+                '<pre>'.
+                    htmlspecialchars(print_r($this->_items, TRUE)).
+                '</pre>';
+        } else {
+            $html .= '<div class="TextAlignCenter Margin20Px">(Пусто)</div>';
+        }
         
         return $html;
     }

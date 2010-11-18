@@ -133,7 +133,7 @@ class home_node__ns25120 extends node__ns21085 {
                 '</a>';
         }
         
-        if(sizeof($this->_home_node__items)) {
+        if($this->_home_node__items) {
             $query_node = $this->get_arg('node');
             $query_items_page = $this->_home_node__items_page + 1;
             $query_items_limit = $this->_home_node__items_limit;
