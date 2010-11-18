@@ -25,21 +25,14 @@ require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
-function get_session_save_path__ns17829($name) {
-    global $original_session_save_path__ns17829;
+function get_session_save_path__ns17829() {
+    $session_save_path = dirname(__FILE__).'/data/sessions';
     
-    if(!$original_session_save_path__ns17829) {
-        $original_session_save_path__ns17829 = @ini_get('session.save_path');
-        
-        if(!$original_session_save_path__ns17829) {
-            $original_session_save_path__ns17829 = '/tmp';
-        }
+    if(!@file_exists($session_save_path)) {
+        @mkdir($session_save_path, 0700);
     }
     
-    $session_save_path__ns17829 = sprintf('%s/%s', $original_session_save_path__ns17829, $name);
-    @mkdir($session_save_path__ns17829, 0700);
-    
-    return $session_save_path__ns17829;
+    return $session_save_path;
 }
 
 class main__ns17829 {
@@ -59,11 +52,7 @@ class main__ns17829 {
         $error_msg = 'Ошибка открытия HTTP-сессии';
         
         $lifetime = 60 * 60 * 24 * 7 * 4; // 4 недели, секунд
-        
-        $session_save_path = get_session_save_path__ns17829('list58');
-        if(!$session_save_path) {
-            throw new low_level_error__ns28655($error_msg);
-        }
+        $session_save_path = get_session_save_path__ns17829();
         
         $success = @ini_set('session.save_path', $session_save_path) !== FALSE;
         if(!$success) {
