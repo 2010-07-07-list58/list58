@@ -1,5 +1,5 @@
-data/class.mysql_conf.ns14040.php
+var/class.mysql_conf.ns14040.php
 cgi-bin/environment
 htdocs/phpmyadmin/*
 !htdocs/phpmyadmin/.htaccess
-data/sessions
+var/sessions

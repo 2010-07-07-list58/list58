@@ -5,7 +5,7 @@ if (!ini_get('display_errors')) {
 }
 error_reporting(E_ALL);
 
-require_once dirname(__FILE__).'/../class.main.ns17829.php';
+require_once dirname(__FILE__).'/../src/class.main.ns17829.php';
 
 $main = new main__ns17829();
 
