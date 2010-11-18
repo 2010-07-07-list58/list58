@@ -26,7 +26,7 @@ require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 function get_session_save_path__ns17829() {
-    $session_save_path = dirname(__FILE__).'/data/sessions';
+    $session_save_path = dirname(__FILE__).'/../var/sessions';
     
     if(!@file_exists($session_save_path)) {
         @mkdir($session_save_path, 0700);
