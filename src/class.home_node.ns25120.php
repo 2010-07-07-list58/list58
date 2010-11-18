@@ -26,9 +26,9 @@ require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 class home_node__ns25120 extends node__ns21085 {
     protected $_node_base__need_check_auth = TRUE;
     
-    protected $_home_node__items_page = 0;
     protected $_home_node__items_limit = 0;
-    protected $_home_node__items_pages;
+    protected $_home_node__items_offset = 0;
+    protected $_home_node__items_count;
     protected $_home_node__items;
     protected $_home_node__items_list_widget;
     
@@ -46,30 +46,31 @@ class home_node__ns25120 extends node__ns21085 {
     protected function _node_base__on_init() {
         parent::_node_base__on_init();
         
-        if(array_key_exists('items_page', $_GET)) {
-            $items_page = intval($this->get_arg('items_page'));
+        if(array_key_exists('items_offset', $_GET)) {
+            $items_offset = intval($this->get_arg('items_offset'));
             
-            if($items_page >= 0) {
-                $this->_home_node__items_page = $items_page;
+            if($items_offset > 0) {
+                $this->_home_node__items_offset = $items_offset;
             }
         }
         
         if(array_key_exists('items_limit', $_GET)) {
             $items_limit = intval($this->get_arg('items_limit'));
             
-            if($items_limit >= 0 && $items_limit <= 200) {
+            if($items_limit > 0 && $items_limit <= 200) {
                 $this->_home_node__items_limit = $items_limit;
             }
         }
         
-        $sql_limit = $this->_home_node__items_limit?$this->_home_node__items_limit:20;
+        $this->_home_node__items_real_limit = 
+            $this->_home_node__items_limit?
+            $this->_home_node__items_limit:20;
         
         $result = mysql_query_or_error(
             'SELECT COUNT(*) FROM `items_base`',
             $this->_node_base__db_link
         );
-        list($sql_count) = mysql_fetch_array($result);
-        $this->_home_node__items_pages = intval(ceil(floatval($sql_count) / $sql_limit));
+        list($this->_home_node__items_count) = mysql_fetch_array($result);
         mysql_free_result($result);
         
         $result = mysql_query_or_error(
@@ -78,8 +79,8 @@ class home_node__ns25120 extends node__ns21085 {
                     'ORDER BY ABS(%s - `item_modified`) '.
                     'LIMIT %s OFFSET %s',
                 intval(get_time__ns29922()),
-                intval($sql_limit),
-                intval($this->_home_node__items_page * $sql_limit)
+                intval($this->_home_node__items_real_limit),
+                intval($this->_home_node__items_offset)
             ),
             $this->_node_base__db_link
         );
@@ -98,8 +99,6 @@ class home_node__ns25120 extends node__ns21085 {
         
         $this->_home_node__items_list_widget = 
             new items_list_widget__ns28376($this->_home_node__items);
-        
-        // TODO: код для инициализации: страницы
     }
     
     protected function _node__get_head() {
@@ -117,9 +116,9 @@ class home_node__ns25120 extends node__ns21085 {
     protected function _node__get_aside() {
         $page_links_html = '';
         
-        if($this->_home_node__items_page > 0) {
+        if($this->_home_node__items_offset > 0) {
             $query_node = $this->get_arg('node');
-            $query_items_page = $this->_home_node__items_page - 1;
+            $query_items_offset = $this->_home_node__items_offset - $this->_home_node__items_real_limit;
             $query_items_limit = $this->_home_node__items_limit;
             
             $query_data = array();
@@ -129,8 +128,8 @@ class home_node__ns25120 extends node__ns21085 {
             if($query_items_limit) {
                 $query_data['items_limit'] = $query_items_limit;
             }
-            if($query_items_page) {
-                $query_data['items_page'] = $query_items_page;
+            if($query_items_offset > 0) {
+                $query_data['items_offset'] = $query_items_offset;
             }
             
             $page_links_html .=
@@ -139,9 +138,12 @@ class home_node__ns25120 extends node__ns21085 {
                 '</a>';
         }
         
-        if($this->_home_node__items_page < ($this->_home_node__items_pages - 1)) {
+        if(
+            $this->_home_node__items_offset + $this->_home_node__items_real_limit <
+            $this->_home_node__items_count
+        ) {
             $query_node = $this->get_arg('node');
-            $query_items_page = $this->_home_node__items_page + 1;
+            $query_items_offset = $this->_home_node__items_offset + $this->_home_node__items_real_limit;
             $query_items_limit = $this->_home_node__items_limit;
             
             $query_data = array();
@@ -151,8 +153,8 @@ class home_node__ns25120 extends node__ns21085 {
             if($query_items_limit) {
                 $query_data['items_limit'] = $query_items_limit;
             }
-            if($query_items_page) {
-                $query_data['items_page'] = $query_items_page;
+            if($query_items_offset > 0) {
+                $query_data['items_offset'] = $query_items_offset;
             }
             
             $page_links_html .=
