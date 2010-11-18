@@ -18,7 +18,7 @@
 
 */
 
-class items_list_widget__ns28376 {
+class item_list_widget__ns28376 {
     protected $_items;
     
     public function __construct($items) {
