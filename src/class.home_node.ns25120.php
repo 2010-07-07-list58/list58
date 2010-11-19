@@ -197,7 +197,9 @@ class home_node__ns25120 extends node__ns21085 {
         $html .=
             '<div class="SmallFrame">'.
                 '<h1>Последние добавленные</h1>'.
-                $this->_home_node__item_list_widget->get_widget().
+                '<div class="GroupFrame">'.
+                    $this->_home_node__item_list_widget->get_widget().
+                '</div>'.
                 '<div>'.
                     $short_page_links_html.
                     '<div class="Margin10Px TextAlignCenter">'.
