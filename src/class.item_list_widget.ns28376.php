@@ -28,14 +28,58 @@ class item_list_widget__ns28376 {
     public function get_widget() {
         $html = '';
         
+        $html .= '<table class="ItemTable">';
+        $html .= '<thead>';
+        $html .= '<tr>';
+        $html .= '<th>Id</th>';
+        $html .= '<th>Фамилия И О</th>';
+        $html .= '<th>Дата Рождения</th>';
+        $html .= '<th>Телефон</th>';
+        $html .= '<th>Доп. Описание</th>';
+        $html .= '<th>Действия</th>';
+        $html .= '</tr>';
+        $html .= '</thead>';
+        
+        $html .= '<tbody>';
+        
         if($this->_items) {
-            $html .= 
-                '<pre>'.
-                    htmlspecialchars(print_r($this->_items, TRUE)).
-                '</pre>';
+            foreach($this->_items as $item) {
+                $html .= '<tr>';
+                $html .= sprintf('<td>%s</td>', htmlspecialchars($item['id']));
+                $html .= sprintf('<td>%s</td>', htmlspecialchars(
+                    ($item['family_name']?$item['family_name']:'••••••••••').' '.
+                    ($item['given_name']?mb_substr($item['given_name'], 0, 1, 'utf-8'):'•').' '.
+                    ($item['patronymic_name']?mb_substr($item['patronymic_name'], 0, 1, 'utf-8'):'•')
+                ));
+                $html .= sprintf('<td>%s</td>', htmlspecialchars(
+                    ($item['birth_year'] || $item['birth_month'] || $item['birth_day'])?
+                    sprintf('%02s.%02s.%s', $item['birth_day'], $item['birth_month'], $item['birth_year']):''
+                ));
+                $html .= sprintf('<td>%s</td>', htmlspecialchars(
+                    $item['phone']?$item['phone']:$item['phone2']
+                ));
+                $html .= sprintf('<td>%s</td>', str_replace(
+                    "\n", '<br />',
+                    htmlspecialchars(
+                        mb_strlen($item['about'], 'utf-8') < 100?$item['about']:mb_substr($item['about'], 0, 100, 'utf-8').'...'
+                    )
+                ));
+                $html .= '<td><!-- в разработке /--></td>';
+                $html .= '</tr>';
+            }
+            
+            # DEBUG:
+            #$html .= '<tr>';
+            #$html .= '<td colspan="6"><pre>'.htmlspecialchars(print_r($this->_items, TRUE)).'</pre></td>';
+            #$html .= '</tr>';
         } else {
-            $html .= '<div class="TextAlignCenter Margin20Px">(Пусто)</div>';
+            $html .= '<tr>';
+            $html .= '<td colspan="6"><p class="TextAlignCenter Padding20Px">(Пусто)</p></td>';
+            $html .= '</tr>';
         }
+        
+        $html .= '</tbody>';
+        $html .= '</table>';
         
         return $html;
     }
