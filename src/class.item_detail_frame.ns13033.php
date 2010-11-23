@@ -63,6 +63,10 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
             $this->_item_detail_frame__item = $row;
         }
         mysql_free_result($result);
+        
+        if(!$this->_item_detail_frame__item) {
+            throw_site_frame_error__ns14329('Данные отсутствуют');
+        }
     }
     
     protected function _frame__get_head() {
@@ -78,8 +82,6 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
     }
     
     protected function _frame__get_aside() {
-        // TODO: if($this->_item_detail_frame__item) { ... } else { ... }
-        
         $html =
             '<h2>Полная информация ...</h2>'.
             '<pre>'.
