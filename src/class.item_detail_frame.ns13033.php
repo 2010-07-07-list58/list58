@@ -20,10 +20,10 @@
 
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
-require_once dirname(__FILE__).'/class.node.ns21085.php';
+require_once dirname(__FILE__).'/class.frame.ns26442.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
-class item_detail_frame__ns13033 extends node__ns21085 {
+class item_detail_frame__ns13033 extends frame__ns26442 {
     protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
@@ -47,7 +47,7 @@ class item_detail_frame__ns13033 extends node__ns21085 {
         if(array_key_exists('item_id', $_GET)) {
             $this->_item_detail_frame__item_id = intval($this->get_arg('item_id'));
         } else {
-            throw_site_error__ns14329('Недостаточно аргументов');
+            throw_site_frame_error__ns14329('Недостаточно аргументов');
         }
         
         $result = mysql_query_or_error(
@@ -65,8 +65,8 @@ class item_detail_frame__ns13033 extends node__ns21085 {
         mysql_free_result($result);
     }
     
-    protected function _node__get_head() {
-        $parent_head = parent::_node__get_head();
+    protected function _frame__get_head() {
+        $parent_head = parent::_frame__get_head();
         
         $html = '';
         
@@ -77,16 +77,14 @@ class item_detail_frame__ns13033 extends node__ns21085 {
         return $html;
     }
     
-    protected function _node__get_aside() {
+    protected function _frame__get_aside() {
         // TODO: if($this->_item_detail_frame__item) { ... } else { ... }
         
         $html =
-            '<div class="SmallFrame">'.
-                '<h2>Полная информация ...</h2>'.
-                '<pre>'.
-                    htmlspecialchars(print_r($this->_item_detail_frame__item, TRUE)).
-                '</pre>'.
-            '</div>';
+            '<h2>Полная информация ...</h2>'.
+            '<pre>'.
+                htmlspecialchars(print_r($this->_item_detail_frame__item, TRUE)).
+            '</pre>';
         
         return $html;
     }
