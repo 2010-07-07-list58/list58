@@ -18,14 +18,14 @@
 
 */
 
-require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/class.item_list_widget.ns28376.php';
 require_once dirname(__FILE__).'/class.page_links_widget.ns22493.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 class home_node__ns25120 extends node__ns21085 {
-    protected $_node_base__need_check_auth = TRUE;
+    protected $_base_node__need_check_auth = TRUE;
     
     protected $_home_node__items_limit = 0;
     protected $_home_node__items_offset = 0;
@@ -34,10 +34,10 @@ class home_node__ns25120 extends node__ns21085 {
     protected $_home_node__item_list_widget;
     protected $_home_node__page_links_widget;
     
-    protected function _node_base__on_add_check_perms() {
-        parent::_node_base__on_add_check_perms();
+    protected function _base_node__on_add_check_perms() {
+        parent::_base_node__on_add_check_perms();
         
-        $this->_node_base__add_check_perms(
+        $this->_base_node__add_check_perms(
             array(
                 // требуется разрешение на поиск Элементов Данных:
                 'search_items' => TRUE,
@@ -45,8 +45,8 @@ class home_node__ns25120 extends node__ns21085 {
         );
     }
     
-    protected function _node_base__on_init() {
-        parent::_node_base__on_init();
+    protected function _base_node__on_init() {
+        parent::_base_node__on_init();
         
         if(array_key_exists('items_offset', $_GET)) {
             $items_offset = intval($this->get_arg('items_offset'));
@@ -70,7 +70,7 @@ class home_node__ns25120 extends node__ns21085 {
         
         $result = mysql_query_or_error(
             'SELECT COUNT(*) FROM `items_base`',
-            $this->_node_base__db_link
+            $this->_base_node__db_link
         );
         list($this->_home_node__items_count) = mysql_fetch_array($result);
         mysql_free_result($result);
@@ -84,7 +84,7 @@ class home_node__ns25120 extends node__ns21085 {
                 intval($this->_home_node__items_real_limit),
                 intval($this->_home_node__items_offset)
             ),
-            $this->_node_base__db_link
+            $this->_base_node__db_link
         );
         
         $this->_home_node__items = array();

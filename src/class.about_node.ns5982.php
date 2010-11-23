@@ -18,7 +18,7 @@
 
 */
 
-require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 
 class about_node__ns5982 extends node__ns21085 {

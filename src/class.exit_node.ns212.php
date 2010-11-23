@@ -18,17 +18,17 @@
 
 */
 
-require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 
 class exit_node__ns212 extends node__ns21085 {
-    protected $_node_base__need_check_auth = TRUE;
-    protected $_node_base__need_check_post_token_for_get = TRUE;
+    protected $_base_node__need_check_auth = TRUE;
+    protected $_base_node__need_check_post_token_for_get = TRUE;
     
-    protected function _node_base__on_init() {
-        parent::_node_base__on_init();
+    protected function _base_node__on_init() {
+        parent::_base_node__on_init();
         
-        $this->_node_base__clean_auth();
+        $this->_base_node__clean_auth();
         
         @header('Refresh: 1;url=?');
     }
