@@ -125,6 +125,13 @@ class main__ns17829 {
                     
                     break;
                 
+                case 'error_frame':
+                    require_once dirname(__FILE__).'/class.error_frame.ns22966.php';
+                    
+                    $node = new error_frame__ns22966($environ);
+                    
+                    break;
+                
                 case 'auth':
                     require_once dirname(__FILE__).'/class.auth_node.ns2464.php';
                     
