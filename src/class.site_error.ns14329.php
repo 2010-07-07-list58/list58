@@ -18,25 +18,31 @@
 
 */
 
-class site_error__ns14329
+class base_site_error__ns14329
         extends Exception {
-    protected $_site_error__options = array();
+    protected $_base_site_error__options = array();
     
-    public function _public__site_error__get_options() {
-        return $this->_site_error__options;
+    public function _public__base_site_error__get_options() {
+        return $this->_base_site_error__options;
     }
     
-    public function _public__site_error__set_options($options) {
-        $this->_site_error__options = $options;
+    public function _public__base_site_error__set_options($options) {
+        $this->_base_site_error__options = $options;
     }
 }
 
+class site_error__ns14329
+        extends base_site_error__ns14329 {}
+
+class site_frame_error__ns14329
+        extends base_site_error__ns14329 {}
+
 function get_error_options__ns14329($e) {
-    return $e->_public__site_error__get_options();
+    return $e->_public__base_site_error__get_options();
 }
 
 function set_error_options__ns14329($e, $options) {
-    $e->_public__site_error__set_options($options);
+    $e->_public__base_site_error__set_options($options);
 }
 
 function throw_site_error__ns14329($message, $options=array()) {
@@ -50,4 +56,14 @@ function throw_site_error__ns14329($message, $options=array()) {
     throw $e;
 }
 
+function throw_site_frame_error__ns14329($message, $options=array()) {
+    // конструктор для PHP-класса 'Exception' -- различается в PHP-5.2 и PHP-5.3.
+    //  поэтому данная функция предоставляет совместимость
+    
+    $e = new site_frame_error__ns14329($message);
+    
+    set_error_options__ns14329($e, $options);
+    
+    throw $e;
+}
 

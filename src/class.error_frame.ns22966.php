@@ -19,44 +19,50 @@
 */
 
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
-require_once dirname(__FILE__).'/class.node.ns21085.php';
+require_once dirname(__FILE__).'/class.frame.ns26442.php';
+require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 
-class exit_node__ns212 extends node__ns21085 {
-    protected $_base_node__need_check_auth = TRUE;
-    protected $_base_node__need_check_post_token_for_get = TRUE;
+class error_frame__ns22966 extends frame__ns26442 {
+    protected $_error_frame__message_html;
+    protected $_error_frame__buttons_html;
     
     protected function _base_node__on_init() {
         parent::_base_node__on_init();
         
-        $this->_base_node__clean_auth();
+        $msg_token = $this->get_arg('msg_token');
+        $args = recv_msg__ns1438($msg_token, 'error_frame__ns22966::args');
         
-        @header('Refresh: 1;url=?');
+        if($args && array_key_exists('message', $args)) {
+            $message = $args['message'];
+        } else {
+            $message = '(Неопределённая Ошибка)';
+        }
+        
+        $this->_error_frame__message_html = $this->html_from_txt($message);
     }
     
-    protected function _node__get_title() {
-        $parent_title = parent::_node__get_title();
-        
-        return 'Выход - '.$parent_title;
-    }
-    
-    protected function _node__get_head() {
-        $parent_head = parent::_node__get_head();
+    protected function _frame__get_head() {
+        $parent_head = parent::_frame__get_head();
         
         $html = '';
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" href="/media/about_node/css/style.css" />';
+            '<link rel="stylesheet" href="/media/error_frame/css/style.css" />';
         
         return $html;
     }
     
-    protected function _node__get_aside() {
+    protected function _frame__get_aside() {
+        $button_html = '';
+        
         $html = '';
         
         $html .=
             '<div class="SmallFrame">'.
-                'Выход...'.
+                '<div class="ErrorColor TextAlignCenter">'.
+                    $this->_error_frame__message_html.
+                '</div>'.
             '</div>';
         
         return $html;

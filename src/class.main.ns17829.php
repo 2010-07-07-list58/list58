@@ -132,6 +132,13 @@ class main__ns17829 {
                     
                     break;
                 
+                case 'error_frame':
+                    require_once dirname(__FILE__).'/class.error_frame.ns22966.php';
+                    
+                    $node = new error_frame__ns22966($environ);
+                    
+                    break;
+                
                 case 'auth':
                     require_once dirname(__FILE__).'/class.auth_node.ns2464.php';
                     
@@ -202,6 +209,17 @@ class main__ns17829 {
                 @header('Location: ?node=error&msg_token='.urlencode($msg_token));
                 
                 return;
+            } catch(site_frame_error__ns14329 $e) {
+                $message = $e->getMessage();
+                $msg = array(
+                    'message' => $message,
+                );
+                
+                $msg_token = send_msg__ns1438('error_frame__ns22966::args', $msg);
+                
+                @header('Location: ?node=error_frame&msg_token='.urlencode($msg_token));
+                
+                return;
             }
             
             $redirect = $node->get_redirect();
@@ -238,6 +256,4 @@ class main__ns17829 {
         return $this->_main__run();
     }
 }
-
-
 

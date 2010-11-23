@@ -35,7 +35,7 @@ class about_node__ns5982 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" type="text/css" href="/media/about_node/css/style.css" />';
+            '<link rel="stylesheet" href="/media/about_node/css/style.css" />';
         
         return $html;
     }
@@ -56,7 +56,4 @@ class about_node__ns5982 extends node__ns21085 {
         return $html;
     }
 }
-
-
-
 

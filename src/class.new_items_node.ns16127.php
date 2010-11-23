@@ -318,8 +318,8 @@ class new_items_node__ns16127 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" type="text/css" href="/media/new_items_node/css/style.css" />'.
-            '<script type="application/javascript" src="/media/new_items_node/js/autofocus.js" ></script>';
+            '<link rel="stylesheet" href="/media/new_items_node/css/style.css" />'.
+            '<script src="/media/new_items_node/js/autofocus.js" ></script>';
         
         return $html;
     }
@@ -580,7 +580,4 @@ class new_items_node__ns16127 extends node__ns21085 {
         return $html;
     }
 }
-
-
-
 
