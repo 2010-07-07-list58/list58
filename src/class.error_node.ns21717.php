@@ -20,7 +20,6 @@
 
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
-require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 
 class error_node__ns21717 extends node__ns21085 {
@@ -71,7 +70,7 @@ class error_node__ns21717 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" type="text/css" href="/media/error_node/css/style.css" />';
+            '<link rel="stylesheet" href="/media/error_node/css/style.css" />';
         
         return $html;
     }
@@ -92,7 +91,4 @@ class error_node__ns21717 extends node__ns21085 {
         return $html;
     }
 }
-
-
-
 
