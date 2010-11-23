@@ -28,6 +28,7 @@ class form_error__ns16127
         extends Exception {}
 
 class new_items_node__ns16127 extends node__ns21085 {
+    protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
     protected $_new_items_node__show_form = TRUE;
