@@ -19,18 +19,18 @@
 */
 
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
-require_once dirname(__FILE__).'/class.node.ns21085.php';
+require_once dirname(__FILE__).'/class.frame.ns26442.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 
-class error_node__ns21717 extends node__ns21085 {
-    protected $_error_node__message_html;
-    protected $_error_node__buttons_html;
+class error_frame__ns22966 extends frame__ns26442 {
+    protected $_error_frame__message_html;
+    protected $_error_frame__buttons_html;
     
     protected function _base_node__on_init() {
         parent::_base_node__on_init();
         
         $msg_token = $this->get_arg('msg_token');
-        $args = recv_msg__ns1438($msg_token, 'error_node__ns21717::args');
+        $args = recv_msg__ns1438($msg_token, 'error_frame__ns22966::args');
         
         if($args && array_key_exists('message', $args)) {
             $message = $args['message'];
@@ -38,41 +38,22 @@ class error_node__ns21717 extends node__ns21085 {
             $message = '(Неопределённая Ошибка)';
         }
         
-        if($args && array_key_exists('next', $args)) {
-            $next = $args['next'];
-            
-            $button = sprintf(
-                '<a href="%s">ОК</a>',
-                htmlspecialchars($next)
-            );
-        } else {
-            $button = '<a href="?">Начало</a>';
-        }
-        
-        $this->_error_node__message_html = $this->html_from_txt($message);
-        
-        $this->_error_node__buttons_html = $button;
+        $this->_error_frame__message_html = $this->html_from_txt($message);
     }
     
-    protected function _node__get_title() {
-        $parent_title = parent::_node__get_title();
-        
-        return 'Ошибка - '.$parent_title;
-    }
-    
-    protected function _node__get_head() {
-        $parent_head = parent::_node__get_head();
+    protected function _frame__get_head() {
+        $parent_head = parent::_frame__get_head();
         
         $html = '';
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" href="/media/error_node/css/style.css" />';
+            '<link rel="stylesheet" href="/media/error_frame/css/style.css" />';
         
         return $html;
     }
     
-    protected function _node__get_aside() {
+    protected function _frame__get_aside() {
         $button_html = '';
         
         $html = '';
@@ -80,10 +61,7 @@ class error_node__ns21717 extends node__ns21085 {
         $html .=
             '<div class="SmallFrame">'.
                 '<div class="ErrorColor TextAlignCenter">'.
-                    $this->_error_node__message_html.
-                '</div>'.
-                '<div class="ErrorColor TextAlignCenter">'.
-                    '<p>'.$this->_error_node__buttons_html.'</p>'.
+                    $this->_error_frame__message_html.
                 '</div>'.
             '</div>';
         
