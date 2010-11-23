@@ -19,7 +19,7 @@
 */
 
 require_once dirname(__FILE__).'/class.paths.ns1609.php';
-require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.low_level_error.ns28655.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';

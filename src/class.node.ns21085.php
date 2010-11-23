@@ -18,10 +18,10 @@
 
 */
 
-require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 
-class node__ns21085 extends node_base__ns8054 {
-    protected $_node_base__need_db = TRUE;
+class node__ns21085 extends base_node__ns8054 {
+    protected $_base_node__need_db = TRUE;
     
     protected $_node__main_menu;
     
@@ -34,7 +34,7 @@ class node__ns21085 extends node_base__ns8054 {
                 'menu_link' => '?',
             );
             
-            if($this->_node_base__is_permitted('search_items')) {
+            if($this->_base_node__is_permitted('search_items')) {
                 // меню для тех кому разрешено искать Элементы Данных
                 
                 $menu[] = array(
@@ -42,7 +42,7 @@ class node__ns21085 extends node_base__ns8054 {
                     'menu_link' => '?node=search_items',
                 );
                 
-                if($this->_node_base__is_permitted('new_items')) {
+                if($this->_base_node__is_permitted('new_items')) {
                     // меню для тех кому дополнительно разрешено и
                     //  создавать Новые Элементы Данных
                     
@@ -78,8 +78,8 @@ class node__ns21085 extends node_base__ns8054 {
         $this->_node__main_menu = $menu;
     }
     
-    protected function _node_base__on_init() {
-        parent::_node_base__on_init();
+    protected function _base_node__on_init() {
+        parent::_base_node__on_init();
         
         $this->_node__init_main_menu();
     }
@@ -179,7 +179,7 @@ class node__ns21085 extends node_base__ns8054 {
         return $html;
     }
     
-    protected function _node_base__get_html() {
+    protected function _base_node__get_html() {
         $html = '';
         
         $html .=

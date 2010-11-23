@@ -18,7 +18,7 @@
 
 */
 
-require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
@@ -27,8 +27,8 @@ class error_node__ns21717 extends node__ns21085 {
     protected $_error_node__message_html;
     protected $_error_node__buttons_html;
     
-    protected function _node_base__on_init() {
-        parent::_node_base__on_init();
+    protected function _base_node__on_init() {
+        parent::_base_node__on_init();
         
         $msg_token = $this->get_arg('msg_token');
         $args = recv_msg__ns1438($msg_token, 'error_node__ns21717::args');

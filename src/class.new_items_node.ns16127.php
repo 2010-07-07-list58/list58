@@ -18,7 +18,7 @@
 
 */
 
-require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 require_once dirname(__FILE__).'/utils/class.parse_form.ns31025.php';
@@ -28,7 +28,7 @@ class form_error__ns16127
         extends Exception {}
 
 class new_items_node__ns16127 extends node__ns21085 {
-    protected $_node_base__need_check_auth = TRUE;
+    protected $_base_node__need_check_auth = TRUE;
     
     protected $_new_items_node__show_form = TRUE;
     protected $_new_items_node__message_html = '';
@@ -53,10 +53,10 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected $_new_items_node__about;
     protected $_new_items_node__comments;
     
-    protected function _node_base__on_add_check_perms() {
-        parent::_node_base__on_add_check_perms();
+    protected function _base_node__on_add_check_perms() {
+        parent::_base_node__on_add_check_perms();
         
-        $this->_node_base__add_check_perms(
+        $this->_base_node__add_check_perms(
             array(
                 // требуется разрешение на поиск Элементов Данных:
                 'search_items' => TRUE,
@@ -223,28 +223,28 @@ class new_items_node__ns16127 extends node__ns21085 {
                         '\'%s\', '.
                         '\'%s\''.
                     ')',
-                    mysql_real_escape_string($item_owner, $this->_node_base__db_link),
+                    mysql_real_escape_string($item_owner, $this->_base_node__db_link),
                     intval($item_created),
                     intval($item_created),
-                    mysql_real_escape_string($this->_new_items_node__given_name, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__family_name, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__patronymic_name, $this->_node_base__db_link),
+                    mysql_real_escape_string($this->_new_items_node__given_name, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__family_name, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__patronymic_name, $this->_base_node__db_link),
                     intval($this->_new_items_node__birth_year),
                     intval($this->_new_items_node__birth_month),
                     intval($this->_new_items_node__birth_day),
                     intval($this->_new_items_node__sex_enum),
-                    mysql_real_escape_string($this->_new_items_node__passport_ser, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__passport_no, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__passport_dep, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__passport_day, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__residence_city, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__residence, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__phone, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__phone2, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__about, $this->_node_base__db_link),
-                    mysql_real_escape_string($this->_new_items_node__comments, $this->_node_base__db_link)
+                    mysql_real_escape_string($this->_new_items_node__passport_ser, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__passport_no, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__passport_dep, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__passport_day, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__residence_city, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__residence, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__phone, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__phone2, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__about, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__comments, $this->_base_node__db_link)
                 ),
-                $this->_node_base__db_link
+                $this->_base_node__db_link
             );
         } catch(MysqlError $e) {
             throw new form_error__ns16127(
@@ -256,8 +256,8 @@ class new_items_node__ns16127 extends node__ns21085 {
         }
     }
     
-    protected function _node_base__on_init() {
-        parent::_node_base__on_init();
+    protected function _base_node__on_init() {
+        parent::_base_node__on_init();
         
         $this->_new_items_node__given_name = trim($this->post_arg('given_name'));
         $this->_new_items_node__family_name = trim($this->post_arg('family_name'));

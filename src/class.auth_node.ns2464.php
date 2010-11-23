@@ -18,20 +18,20 @@
 
 */
 
-require_once dirname(__FILE__).'/class.node_base.ns8054.php';
+require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 
 class auth_node__ns2464 extends node__ns21085 {
-    protected $_node_base__need_db = TRUE;    
+    protected $_base_node__need_db = TRUE;    
     
     protected $_auth_node__show_form = TRUE;
     protected $_auth_node__captcha_html = '';
     protected $_auth_node__message_html = '';
     
-    protected function _node_base__on_init() {
-        parent::_node_base__on_init();
+    protected function _base_node__on_init() {
+        parent::_base_node__on_init();
         
         $msg_token = $this->get_arg('msg_token');
         $args = recv_msg__ns1438($msg_token, 'auth_node__ns2464::args');
@@ -56,10 +56,10 @@ class auth_node__ns2464 extends node__ns21085 {
                     sprintf(
                         'SELECT `login`, `password` FROM `users_base` WHERE '.
                             '`login` = \'%s\' AND `password` = \'%s\'',
-                        mysql_real_escape_string($login, $this->_node_base__db_link),
-                        mysql_real_escape_string($password, $this->_node_base__db_link)
+                        mysql_real_escape_string($login, $this->_base_node__db_link),
+                        mysql_real_escape_string($password, $this->_base_node__db_link)
                     ),
-                    $this->_node_base__db_link
+                    $this->_base_node__db_link
                 );
                 
                 if($result) {
