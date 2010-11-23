@@ -24,6 +24,7 @@ require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
 class item_detail_frame__ns13033 extends node__ns21085 {
+    protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
     protected $_item_detail_frame__item_id;
