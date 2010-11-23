@@ -95,13 +95,13 @@ class node__ns21085 extends base_node__ns8054 {
             '<meta http-equiv="X-UA-Compatible" content="chrome=1" />'.
             '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'.
             '<title>'.htmlspecialchars($this->_node__get_title()).'</title>'.
-            '<script type="text/javascript" src="/media/share/js/google-chrome-frame-for-microsoft-ie.js"></script>'.
-            '<link rel="shortcut icon" type="image/x-icon" href="/media/share/favicon.png" />'.
-            '<link rel="stylesheet" type="text/css" href="/media/share/css/style.css" />';//.
-            //'<script type="text/javascript" src="/media/share/js/jquery-1.4.2.js"></script>'.
-            //'<link rel="stylesheet" type="text/css" '.
+            '<script src="/media/share/js/google-chrome-frame-for-microsoft-ie.js"></script>'.
+            '<link rel="shortcut icon" href="/media/share/favicon.png" />'.
+            '<link rel="stylesheet" href="/media/share/css/style.css" />';//.
+            //'<script src="/media/share/js/jquery-1.4.2.js"></script>'.
+            //'<link rel="stylesheet" '.
             //    'href="/media/share/js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.css" />'.
-            //'<script type="text/javascript" '.
+            //'<script '.
             //    'src="/media/share/js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.js"></script>';
         
         return $html;
@@ -196,7 +196,4 @@ class node__ns21085 extends base_node__ns8054 {
         return $html;
     }
 }
-
-
-
 
