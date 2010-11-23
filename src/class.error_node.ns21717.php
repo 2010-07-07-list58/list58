@@ -50,12 +50,9 @@ class error_node__ns21717 extends node__ns21085 {
             $button = '<a href="?">Начало</a>';
         }
         
-        $this->_error_node__message_html =
-            '<div class="ErrorColor TextAlignCenter">'.
-                $this->html_from_txt($message).
-            '</div>';
+        $this->_error_node__message_html = $this->html_from_txt($message);
         
-        $this->_error_node__buttons_html = '<p>'.$button.'</p>';
+        $this->_error_node__buttons_html = $button;
     }
     
     protected function _node__get_title() {
@@ -83,16 +80,15 @@ class error_node__ns21717 extends node__ns21085 {
         
         $html .=
             '<div class="SmallFrame">'.
-                $this->_error_node__message_html.
                 '<div class="ErrorColor TextAlignCenter">'.
-                    $this->_error_node__buttons_html.
+                    $this->_error_node__message_html.
+                '</div>'.
+                '<div class="ErrorColor TextAlignCenter">'.
+                    '<p>'.$this->_error_node__buttons_html.'</p>'.
                 '</div>'.
             '</div>';
         
         return $html;
     }
 }
-
-
-
 
