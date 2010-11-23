@@ -25,6 +25,17 @@ class item_list_widget__ns28376 {
         $this->_items = $items;
     }
     
+    protected function _item_list_widget__get_detail_link($item_id, $label) {
+        $link = '?'.http_build_query(array(
+            'node' => 'item_detail_frame',
+            'item_id' => $item_id,
+        ));
+        
+        $html = sprintf('<a href="%s" rel="big_frame_fancybox">%s</a>', htmlspecialchars($link), htmlspecialchars($label));
+        
+        return $html;
+    }
+    
     public function get_widget() {
         $html = '';
         
@@ -44,18 +55,26 @@ class item_list_widget__ns28376 {
         
         if($this->_items) {
             foreach($this->_items as $item) {
+                $item_id = $item['id'];
+                
                 $html .= '<tr>';
-                $html .= sprintf('<td>%s</td>', htmlspecialchars($item['id']));
-                $html .= sprintf('<td>%s</td>', htmlspecialchars(
+                $html .= sprintf('<td>%s</td>', $this->_item_list_widget__get_detail_link(
+                    $item_id,
+                    $item_id
+                ));
+                $html .= sprintf('<td>%s</td>', $this->_item_list_widget__get_detail_link(
+                    $item_id,
                     ($item['family_name']?$item['family_name']:'••••••••••').' '.
                     ($item['given_name']?mb_substr($item['given_name'], 0, 1, 'utf-8'):'•').' '.
                     ($item['patronymic_name']?mb_substr($item['patronymic_name'], 0, 1, 'utf-8'):'•')
                 ));
-                $html .= sprintf('<td>%s</td>', htmlspecialchars(
+                $html .= sprintf('<td>%s</td>', $this->_item_list_widget__get_detail_link(
+                    $item_id,
                     ($item['birth_year'] || $item['birth_month'] || $item['birth_day'])?
                     sprintf('%02s.%02s.%s', $item['birth_day'], $item['birth_month'], $item['birth_year']):''
                 ));
-                $html .= sprintf('<td>%s</td>', htmlspecialchars(
+                $html .= sprintf('<td>%s</td>', $this->_item_list_widget__get_detail_link(
+                    $item_id,
                     $item['phone']?$item['phone']:$item['phone2']
                 ));
                 $html .= sprintf('<td>%s</td>', str_replace(

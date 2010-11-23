@@ -118,6 +118,13 @@ class main__ns17829 {
                     
                     break;
                 
+                case 'item_detail_frame':
+                    require_once dirname(__FILE__).'/class.item_detail_frame.ns13033.php';
+                    
+                    $node = new item_detail_frame__ns13033($environ);
+                    
+                    break;
+                
                 case 'error':
                     require_once dirname(__FILE__).'/class.error_node.ns21717.php';
                     
