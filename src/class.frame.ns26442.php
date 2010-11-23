@@ -21,7 +21,7 @@
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 
 class frame__ns26442 extends base_node__ns8054 {
-    protected function _node__get_head() {
+    protected function _frame__get_head() {
         $html = '';
         
         $html .=
@@ -35,11 +35,11 @@ class frame__ns26442 extends base_node__ns8054 {
         return $html;
     }
     
-    protected function _node__get_aside() {
+    protected function _frame__get_aside() {
         throw new abstract_function_error__ns8054();
     }
     
-    protected function _node__get_body() {
+    protected function _frame__get_body() {
         $html = '';
         
         $html .=
@@ -49,7 +49,7 @@ class frame__ns26442 extends base_node__ns8054 {
                         '<table class="MarginAuto">'.
                             '<tr>'.
                                 '<td>'.
-                                    $this->_node__get_aside().
+                                    $this->_frame__get_aside().
                                 '</td>'.
                             '</tr>'.
                         '</table>'.
@@ -67,10 +67,10 @@ class frame__ns26442 extends base_node__ns8054 {
             '<!DOCTYPE html>'."\n".
             '<html>'.
             '<head>'.
-                $this->_node__get_head().
+                $this->_frame__get_head().
             '</head>'.
             '<body>'.
-                $this->_node__get_body().
+                $this->_frame__get_body().
             '</body>'.
             '</html>';
         
