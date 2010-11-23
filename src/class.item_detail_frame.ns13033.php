@@ -83,7 +83,7 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
     
     protected function _frame__get_aside() {
         $html =
-            '<h2>Полная информация ...</h2>'.
+            '<h2 class="TextAlignCenter">Полная информация ...</h2>'.
             '<pre>'.
                 htmlspecialchars(print_r($this->_item_detail_frame__item, TRUE)).
             '</pre>';
