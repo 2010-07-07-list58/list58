@@ -118,6 +118,13 @@ class main__ns17829 {
                     
                     break;
                 
+                case 'search_items':
+                    require_once dirname(__FILE__).'/class.search_items_node.ns8184.php';
+                    
+                    $node = new search_items_node__ns8184($environ);
+                    
+                    break;
+                
                 case 'item_detail_frame':
                     require_once dirname(__FILE__).'/class.item_detail_frame.ns13033.php';
                     
