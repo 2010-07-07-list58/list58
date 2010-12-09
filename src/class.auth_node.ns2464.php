@@ -128,7 +128,7 @@ class auth_node__ns2464 extends node__ns21085 {
         $html .=
             $parent_head.
             '<link rel="stylesheet" href="/media/auth_node/css/style.css" />'.
-            '<script src="/media/auth_node/js/autofocus.js" ></script>';
+            '<script src="/media/auth_node/js/autofocus.js"></script>';
         
         return $html;
     }
