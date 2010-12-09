@@ -118,9 +118,7 @@ class search_items_node__ns8184 extends node__ns21085 {
         $search_widget_html = $this->_search_items_node__get_search_widget();
         $result_widget_html = $this->_search_items_node__get_result_widget();
         
-        $html = '';
-        
-        $html .=
+        $html =
             '<div class="SmallFrame">'.
                 '<h2 class="TextAlignCenter">Поиск данных</h2>'.
                 $search_widget_html.
