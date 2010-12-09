@@ -29,7 +29,9 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
-    // TODO: данные поиска (получаемые через msg_bus)
+    protected $_search_items_node__general_search = '';
+    protected $_search_items_node__advanced_search_params = array();
+    
     protected $_search_items_node__items_limit = 0;
     protected $_search_items_node__items_offset = 0;
     protected $_search_items_node__items_count;
@@ -64,7 +66,9 @@ class search_items_node__ns8184 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" href="/media/search_items_node/css/style.css" />';
+            '<link rel="stylesheet" href="/media/search_items_node/css/style.css" />'.
+            '<script src="/media/search_items_node/js/dynamic_fields.js"></script>'.
+            '<script src="/media/search_items_node/js/autofocus.js"></script>';
         
         return $html;
     }
@@ -98,7 +102,25 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected function _search_items_node__get_search_widget() {
         $html =
             '<div class="GroupFrame">'.
-                '(форма поиска)'.
+                '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
+                    '<div><label for="_search_items_node__general_search">Введите одно или несколько ключевых слов:</label></div>'.
+                    '<div>'.
+                        '<input class="Width500Px" '.
+                            'type="text" '.
+                            'name="general_search" '.
+                            'id="_search_items_node__general_search" '.
+                            'value="'.htmlspecialchars($this->_search_items_node__general_search).'" />'.
+                    '</div>'.
+                    '<div>'.
+                        '<input type="hidden" '.
+                            'name="post_token" '.
+                            'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
+                        '<input class="FloatLeft Margin5Px" type="submit" value="Найти" />'.
+                        '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
+                        '<div class="ClearBoth"></div>'.
+                    '</div>'.
+                    '<h4>Расширенные параметры:</h4>'.
+                '</form>'.
             '</div>';
         
         return $html;
