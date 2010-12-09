@@ -238,14 +238,14 @@ class main__ns17829 {
             
             $html = $node->get_html();
             
-            @header('Content-Type: text/html;charset=UTF-8');
+            @header('Content-Type: text/html;charset=utf-8');
             @header('X-UA-Compatible: chrome=1');
             echo $html."\n";
         } catch(low_level_error__ns28655 $e) {
             $error = $e->getMessage();
             $message = sprintf('Низкоуровневая Ошибка: %s', $error);
             
-            @header('Content-Type: text/plain;charset=UTF-8');
+            @header('Content-Type: text/plain;charset=utf-8');
             if(array_key_exists('HTTP_REFERER', $_SERVER)) {
                 @header('Refresh: 1;url='.$_SERVER['HTTP_REFERER']);
             }
@@ -254,7 +254,7 @@ class main__ns17829 {
             $error = $e->getMessage();
             $message = sprintf('Неожидаемая Ошибка: %s', $error);
             
-            @header('Content-Type: text/plain;charset=UTF-8');
+            @header('Content-Type: text/plain;charset=utf-8');
             echo $message."\n";
         }
     }

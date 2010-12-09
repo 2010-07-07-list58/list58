@@ -319,7 +319,7 @@ class new_items_node__ns16127 extends node__ns21085 {
         $html .=
             $parent_head.
             '<link rel="stylesheet" href="/media/new_items_node/css/style.css" />'.
-            '<script src="/media/new_items_node/js/autofocus.js" ></script>';
+            '<script src="/media/new_items_node/js/autofocus.js"></script>';
         
         return $html;
     }
