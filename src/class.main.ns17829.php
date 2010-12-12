@@ -23,6 +23,7 @@ require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.low_level_error.ns28655.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
+require_once dirname(__FILE__).'/utils/class.gpc.ns2886.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 
@@ -38,16 +39,6 @@ function get_session_save_path__ns17829() {
 
 class main__ns17829 {
     public function __construct() {}
-    
-    public function _main__get_arg($arg_name) {
-        if(array_key_exists($arg_name, $_GET)) {
-            $arg_value = stripslashes($_GET[$arg_name]);
-            
-            return $arg_value;
-        } else {
-            return NULL;
-        }
-    }
     
     public function _main__init_session() {
         $error_msg = 'Ошибка открытия HTTP-сессии';
@@ -100,7 +91,7 @@ class main__ns17829 {
         try {
             $this->_main__init_session();
             
-            $node = $this->_main__get_arg('node');
+            $node = get_get__ns2886('node');
             if($node == NULL) {
                 $node = 'home';
             }
