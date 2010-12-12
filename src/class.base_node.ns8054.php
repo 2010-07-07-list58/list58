@@ -21,6 +21,7 @@
 require_once dirname(__FILE__).'/class.paths.ns1609.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
+require_once dirname(__FILE__).'/utils/class.gpc.ns2886.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
 class abstract_function_error__ns8054
@@ -282,24 +283,12 @@ class base_node__ns8054 {
         }
     }
     
-    public function get_arg($arg_name, $def=NULL) {
-        if(array_key_exists($arg_name, $_GET)) {
-            $arg_value = stripslashes($_GET[$arg_name]);
-            
-            return $arg_value;
-        } else {
-            return $def;
-        }
+    public function get_arg($arg_name, $def_value=NULL) {
+        return get_get__ns2886($arg_name, $def_value);
     }
     
-    public function post_arg($arg_name, $def=NULL) {
-        if(array_key_exists($arg_name, $_POST)) {
-            $arg_value = stripslashes($_POST[$arg_name]);
-            
-            return $arg_value;
-        } else {
-            return $def;
-        }
+    public function post_arg($arg_name, $def_value=NULL) {
+        return get_post__ns2886($arg_name, $def_value);
     }
     
     public function html_from_txt($txt) {
