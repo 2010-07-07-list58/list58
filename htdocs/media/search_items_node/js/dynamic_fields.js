@@ -17,13 +17,25 @@
 */
 
 (function() {
-    //var for_<...> = '<...>'
+    var html_ns = 'http://www.w3.org/1999/xhtml'
+    var id_search_element_prefix = '_search_items_node__advanced_search_element__'
+    
+    var replace_noscript = function() {
+        var noscript = document.getElementById('_search_items_node__advanced_search_params_noscript')
+        
+        if(noscript) {
+            var fragment = document.createDocumentFragment()
+            fragment.appendChild(document.createTextNode('(тут будет кнопка "добавить")'))
+            
+            noscript.parentNode.replaceChild(fragment, noscript)
+        }
+    }
     
     var main = function(event) {
+        replace_noscript()
         // TODO: ...
     }
     
     addEventListener('load', main, false)
 })()
-
 
