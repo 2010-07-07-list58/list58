@@ -108,9 +108,14 @@ td { /* cellpadding="0" */
 .Margin20Px { margin: 20px; }
 .Padding20Px { padding: 20px; }
 
+.Width150Px { width: 150px; }
+.Width200Px { width: 200px; }
 .Width300Px { width: 300px; }
 .Width400Px { width: 400px; }
 .Width500Px { width: 500px; }
+.Width600Px { width: 600px; }
+.Width700Px { width: 700px; }
+.Width800Px { width: 800px; }
 .MaxWidth800Px { max-width: 800px; }
 
 .TextAlignCenter { text-align: center; }

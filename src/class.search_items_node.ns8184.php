@@ -29,8 +29,20 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
-    protected $_search_items_node__general_search = '';
-    protected $_search_items_node__advanced_search_params = array();
+    protected $_search_items_node__general_search = 
+        '<<<фигня>>>'; // TEST
+    protected $_search_items_node__sex_search =
+        'какойт'; // TEST
+    protected $_search_items_node__advanced_search_params = array(
+        array(                                  // TEST
+            'search_type' => 'Возраст от',      // TEST
+            'search_value' => '18',             // TEST
+        ),                                      // TEST
+        array(                                  // TEST
+            'search_type' => 'Возраст до',      // TEST
+            'search_value' => '27',             // TEST
+        ),                                      // TEST
+    );
     
     protected $_search_items_node__items_limit = 0;
     protected $_search_items_node__items_offset = 0;
@@ -99,17 +111,84 @@ class search_items_node__ns8184 extends node__ns21085 {
         return $html;
     }
     
+    protected function _search_items_node__advanced_search_element($name_postfix, $search_type, $search_value) {
+        $html =
+            '<div id="'.htmlspecialchars('_search_items_node__advanced_search_element__div__'.$name_postfix).'">'.
+                '<select class="FloatLeft Margin5Px Width200Px" '.
+                        'name="'.htmlspecialchars('search_type__'.$name_postfix).'" '.
+                        'id="'.htmlspecialchars('_search_items_node__advanced_search_element__search_type__'.$name_postfix).'">'.
+                    ($search_type?
+                        '<option value="'.
+                                htmlspecialchars($search_type).
+                        '">'.
+                            htmlspecialchars(
+                                sprintf('(Выбрано: %s)', $search_type)
+                            ).
+                        '</option>':
+                        ''
+                    ).
+                    '<option></option>'.
+                    '<option value="Возраст от">Возраст от</option>'.
+                    '<option value="Возраст до">Возраст до</option>'.
+                '</select>'.
+                '<input class="FloatLeft Margin5Px Width300Px" '.
+                    'type="text" '.
+                    'name="'.htmlspecialchars('search_value__'.$name_postfix).'" '.
+                    'id="'.htmlspecialchars('_search_items_node__advanced_search_element__search_value__'.$name_postfix).'" '.
+                    'value="'.htmlspecialchars($search_value).'" />'.
+                    '<div class="FloatRight Margin5Px" id="'.htmlspecialchars('_search_items_node__advanced_search_element__remove_noscript__'.$name_postfix).'"></div>'.
+                '<div class="ClearBoth"></div>'.
+            '</div>';
+        
+        return $html;
+    }
+    
     protected function _search_items_node__get_search_widget() {
+        $last_advanced_search_elements = '';
+        
+        foreach($this->_search_items_node__advanced_search_params as $id => $param) {
+            $name_postfix = 'last_'.$id;
+            $search_type = $param['search_type'];
+            $search_value = $param['search_value'];
+            
+            $last_advanced_search_elements .=
+                $this->_search_items_node__advanced_search_element($name_postfix, $search_type, $search_value);
+        }
+        
         $html =
             '<div class="GroupFrame">'.
                 '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
-                    '<div><label for="_search_items_node__general_search">Введите одно или несколько ключевых слов:</label></div>'.
-                    '<div>'.
-                        '<input class="Width500Px" '.
+                    '<div class="Margin5Px"><label for="_search_items_node__general_search">Введите одно или несколько ключевых слов:</label></div>'.
+                    '<div class="Margin5Px">'.
+                        '<input class="Width700Px" '.
                             'type="text" '.
                             'name="general_search" '.
                             'id="_search_items_node__general_search" '.
                             'value="'.htmlspecialchars($this->_search_items_node__general_search).'" />'.
+                    '</div>'.
+                    '<div>'.
+                        '<select class="FloatRight Margin5Px Width150Px" '.
+                                'name="sex_search" '.
+                                'id="_search_items_node__sex_search">'.
+                            ($this->_search_items_node__sex_search?
+                                '<option value="'.
+                                        htmlspecialchars($this->_search_items_node__sex_search).
+                                '">'.
+                                    htmlspecialchars(
+                                        sprintf('(Выбрано: %s)', $this->_search_items_node__sex_search)
+                                    ).
+                                '</option>':
+                                ''
+                            ).
+                            '<option></option>'.
+                            '<option value="Мужской">Мужской</option>'.
+                            '<option value="Женский">Женский</option>'.
+                        '</select> '.
+                        '<label class="FloatRight Margin5Px" '.
+                                'for="_search_items_node__sex_search" >'.
+                            'Пол:'.
+                        '</label>'.
+                        '<div class="ClearBoth"></div>'.
                     '</div>'.
                     '<div>'.
                         '<input type="hidden" '.
@@ -120,6 +199,14 @@ class search_items_node__ns8184 extends node__ns21085 {
                         '<div class="ClearBoth"></div>'.
                     '</div>'.
                     '<h4>Расширенные параметры:</h4>'.
+                    $last_advanced_search_elements.
+                    '<div id="_search_items_node__advanced_search_params_noscript">'.
+                        $this->_search_items_node__advanced_search_element('noscript_0', '', '').
+                        $this->_search_items_node__advanced_search_element('noscript_1', '', '').
+                        $this->_search_items_node__advanced_search_element('noscript_2', '', '').
+                        $this->_search_items_node__advanced_search_element('noscript_3', '', '').
+                        $this->_search_items_node__advanced_search_element('noscript_4', '', '').
+                    '</div>'.
                 '</form>'.
             '</div>';
         
