@@ -32,48 +32,39 @@ function get_magic_quotes_gpc__ns2886() {
     return function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc();
 }
 
-function get_get__ns2886($name, $def_value=NULL) {
+function get_get__ns2886($name) {
     if(array_key_exists($name, $_GET)) {
         if(get_magic_quotes_gpc__ns2886()) {
             $value = stripslashes($_GET[$name]);
-        }
-        else {
+        } else {
             $value = $_GET[$name];
         }
         
         return $value;
-    } else {
-        return $def_value;
     }
 }
 
-function get_post__ns2886($name, $def_value=NULL) {
+function get_post__ns2886($name) {
     if(array_key_exists($name, $_POST)) {
         if(get_magic_quotes_gpc__ns2886()) {
             $value = stripslashes($_POST[$name]);
-        }
-        else {
+        } else {
             $value = $_POST[$name];
         }
         
         return $value;
-    } else {
-        return $def_value;
     }
 }
 
-function get_cookie__ns2886($name, $def_value=NULL) {
+function get_cookie__ns2886($name) {
     if(array_key_exists($name, $_COOKIE)) {
         if(get_magic_quotes_gpc__ns2886()) {
             $value = stripslashes($_COOKIE[$name]);
-        }
-        else {
+        } else {
             $value = $_COOKIE[$name];
         }
         
         return $value;
-    } else {
-        return $def_value;
     }
 }
 
