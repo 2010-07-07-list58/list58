@@ -5,8 +5,8 @@ echo
 
 . "$(dirname "$0")/environment" 2>&1
 
-if [ "$allow_www_bzr_update" = "" ] || [ "$allow_www_bzr_update" = "0" ]; then
-    echo "*** Www Bazaar update is not allowed ***"
+if [ "$allow_www_bzr_revert" = "" ] || [ "$allow_www_bzr_revert" = "0" ]; then
+    echo "*** Www Bazaar revert is not allowed ***"
     
     exit
 fi
@@ -17,7 +17,7 @@ export PYTHONPATH
 
 echo "*** BEGIN ***"
 
-(cd "$(dirname "$0")/../"; nice -n 25 bzr update) 2>&1
+(cd "$(dirname "$0")/../"; nice -n 25 bzr revert) 2>&1
 
 echo "*** END ***"
 

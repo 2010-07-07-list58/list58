@@ -3,8 +3,9 @@
 # Syntax: simple "KEY=VAL" pairs on separate lines
 #
 
-allow_www_bzr_update=0
-allow_www_bzr_status=0
+#allow_www_bzr_update=1 # default value is 0
+#allow_www_bzr_status=1 # default value is 0
+#allow_www_bzr_revert=1 # default value is 0
 
 HOME="$(dirname "$0")/../../.."
 PATH="$HOME/bin:$PATH"
