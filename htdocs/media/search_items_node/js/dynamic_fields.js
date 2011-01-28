@@ -17,6 +17,8 @@
 */
 
 (function() {
+    "use strict"
+    
     var html_ns = 'http://www.w3.org/1999/xhtml'
     var id_search_element_prefix = '_search_items_node__advanced_search_element__'
     
