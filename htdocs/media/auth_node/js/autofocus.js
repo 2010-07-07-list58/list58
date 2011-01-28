@@ -17,6 +17,8 @@
 */
 
 (function() {
+    "use strict"
+    
     var for_focus_id = '_auth_node__login'
     
     var main = function(event) {
@@ -29,5 +31,4 @@
     
     addEventListener('load', main, false)
 })()
-
 
