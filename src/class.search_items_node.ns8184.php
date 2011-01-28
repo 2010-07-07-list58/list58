@@ -82,6 +82,21 @@ class search_items_node__ns8184 extends node__ns21085 {
             '<script src="/media/search_items_node/js/dynamic_fields.js"></script>'.
             '<script src="/media/search_items_node/js/autofocus.js"></script>';
         
+        $advanced_search_params_elems_type =
+                '/2010/07/07/List58/search_items_node/dynamic_fields/advanced_search_params_ids';
+        $advanced_search_params_elems = array();
+        foreach($this->_search_items_node__advanced_search_params as $id => $param) {
+            $name_postfix = 'last_'.$id;
+            $advanced_search_params_elems []= $name_postfix;
+        }
+        $html .= sprintf(
+            '<meta name="%s" content="%s" />',
+            htmlspecialchars($advanced_search_params_elems_type),
+            htmlspecialchars(
+                json_encode($advanced_search_params_elems)
+            )
+        );
+        
         return $html;
     }
     
