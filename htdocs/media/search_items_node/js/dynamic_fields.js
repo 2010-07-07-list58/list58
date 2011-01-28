@@ -23,7 +23,7 @@
     var replace_noscript = function() {
         var noscript = document.getElementById('_search_items_node__advanced_search_params_noscript')
         
-        if(noscript) {
+        if(noscript && noscript.parentNode) {
             var fragment = document.createDocumentFragment()
             fragment.appendChild(document.createTextNode('(тут будет кнопка "добавить")'))
             
