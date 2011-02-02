@@ -20,55 +20,54 @@
     'use strict'
     
     var func_tools_module_name = '/2010/07/07/List58/share/func_tools'
+    var html_ns = 'http://www.w3.org/1999/xhtml'
+    
+    function FuncToolsModule() {}
+    
+    function new_func_tools_module() {
+        var func_tools_module = new FuncToolsModule
+        func_tools_module.init()
+        return func_tools_module
+    }
+    
+    FuncToolsModule.prototype.init = function() {}
+    
+    FuncToolsModule.prototype.args_array = function(raw_args) {
+        var args = []
+    
+        for(var i = 0; i < raw_args.length; ++i) {
+            args.push(raw_args[i])
+        }
+        
+        return args
+    }
+    
+    FuncToolsModule.prototype.func_bind = function(func, this_arg) {
+        var args = this.args_array(arguments).slice(2)
+        
+        if(func.bind) {
+            // using built 'func.bind()'. this is more effective way
+            
+            var bound = func.bind.apply(func, [this_arg].concat(args))
+            
+            return bound
+        } else {
+           // using emulation  of 'func.bind()'. this is less effective way
+            
+            var self_module = this
+            
+            var bound = function() {
+                var func_args = args.concat(self_module.args_array(arguments))
+                var func_res = func.apply(this_arg, func_args)
+                
+                return func_res
+            }
+            
+            return bound
+        }
+    }
     
     if(!window[func_tools_module_name]) {
-        var html_ns = 'http://www.w3.org/1999/xhtml'
-        
-        function FuncToolsModule() {}
-        
-        function new_func_tools_module() {
-            var func_tools_module = new FuncToolsModule
-            func_tools_module.init()
-            return func_tools_module
-        }
-        
-        FuncToolsModule.prototype.init = function() {}
-        
-        FuncToolsModule.prototype.args_array = function(raw_args) {
-            var args = []
-        
-            for(var i = 0; i < raw_args.length; ++i) {
-                args.push(raw_args[i])
-            }
-            
-            return args
-        }
-        
-        FuncToolsModule.prototype.func_bind = function(func, this_arg) {
-            var args = this.args_array(arguments).slice(2)
-            
-            if(func.bind) {
-                // using built 'func.bind()'. this is more effective way
-                
-                var bound = func.bind.apply(func, [this_arg].concat(args))
-                
-                return bound
-            } else {
-               // using emulation  of 'func.bind()'. this is less effective way
-                
-                var self_module = this
-                
-                var bound = function() {
-                    var func_args = args.concat(self_module.args_array(arguments))
-                    var func_res = func.apply(this_arg, func_args)
-                    
-                    return func_res
-                }
-                
-                return bound
-            }
-        }
-        
         window[func_tools_module_name] = new_func_tools_module()
     }
 })()
