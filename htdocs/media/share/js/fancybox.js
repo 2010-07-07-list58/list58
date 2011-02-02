@@ -17,7 +17,7 @@
 */
 
 (function() {
-    "use strict"
+    'use strict'
     
     jQuery(function() {
         jQuery('a[rel=sm_frame_fancybox]').fancybox({
