@@ -17,7 +17,7 @@
 */
 
 (function() {
-    "use strict"
+    'use strict'
     
     var for_focus_id = '_search_items_node__general_search'
     
