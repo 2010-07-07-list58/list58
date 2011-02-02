@@ -29,6 +29,11 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
+    protected $_search_items_node__advanced_search_types = array(
+        'Возраст от',
+        'Возраст до',
+    );
+    
     protected $_search_items_node__general_search = 
         '<<<фигня>>>'; // TEST
     protected $_search_items_node__sex_search =
@@ -129,6 +134,15 @@ class search_items_node__ns8184 extends node__ns21085 {
     }
     
     protected function _search_items_node__advanced_search_element($name_postfix, $search_type, $search_value) {
+        $search_options_html = '';
+        
+        foreach($this->_search_items_node__advanced_search_types as $type) {
+            $search_options_html .= sprintf(
+                    '<option value="%s">%s</option>',
+                    htmlspecialchars($type),
+                    htmlspecialchars($type));
+        }
+        
         $html =
             '<div id="'.htmlspecialchars('_search_items_node__advanced_search_element__div__'.$name_postfix).'">'.
                 '<select class="FloatLeft Margin5Px Width200Px" '.
@@ -145,8 +159,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                         ''
                     ).
                     '<option></option>'.
-                    '<option value="Возраст от">Возраст от</option>'.
-                    '<option value="Возраст до">Возраст до</option>'.
+                    $search_options_html.
                 '</select>'.
                 '<input class="FloatLeft Margin5Px Width300Px" '.
                     'type="text" '.
