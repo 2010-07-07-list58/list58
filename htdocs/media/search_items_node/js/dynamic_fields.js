@@ -93,6 +93,8 @@
         select.style.width = '200px'
         select.name = 'search_type__' + name_postfix
         
+        select.appendChild(document.createElementNS(html_ns, 'html:option'))
+        
         for(var i = 0; i < this._search_types.length; ++i) {
             var search_type = this._search_types[i]
             
@@ -109,7 +111,7 @@
         input.style.width = '300px'
         input.name = 'search_value__' + name_postfix
         
-        var clear_div = document.createElementNS(html_ns, 'html:clear')
+        var clear_div = document.createElementNS(html_ns, 'html:div')
         clear_div.style.clear = 'both'
         
         var remove_button = create_remove_button(search_element)
