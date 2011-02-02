@@ -22,7 +22,7 @@
     var html_ns = 'http://www.w3.org/1999/xhtml'
     var id_search_element_prefix = '_search_items_node__advanced_search_element__'
     var advanced_search_params_ids_params_name =
-            '/2010/07/07/List58/search_items_node/dynamic_fields/advanced_search_params_ids'
+            '/2010/07/07/List58/search_items_node/dynamic_fields/advanced_search_ids_params'
     
     var func_tools = window['/2010/07/07/List58/share/func_tools']
     var meta_module = window['/2010/07/07/List58/share/meta']
@@ -60,11 +60,13 @@
     function add_delete_button_to_last() {
         var ids = meta_module.get_json_params(advanced_search_params_ids_params_name)
         
-        for(var i = 0; i < ids.length; ++i) {
-            var search_element_id = id_search_element_prefix + 'div__' + ids[i]
-            var remove_noscript_id = id_search_element_prefix + 'remove_noscript__' + ids[i]
-            
-            add_delete_button_to_id(search_element_id, remove_noscript_id)
+        if(ids) {
+            for(var i = 0; i < ids.length; ++i) {
+                var search_element_id = id_search_element_prefix + 'div__' + ids[i]
+                var remove_noscript_id = id_search_element_prefix + 'remove_noscript__' + ids[i]
+                
+                add_delete_button_to_id(search_element_id, remove_noscript_id)
+            }
         }
     }
     
