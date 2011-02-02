@@ -24,17 +24,17 @@
     if(!window[func_tools_module_name]) {
         var html_ns = 'http://www.w3.org/1999/xhtml'
         
-        function FuncTools() {}
+        function FuncToolsModule() {}
         
-        function new_func_tools() {
-            var func_tools = new FuncTools
-            func_tools.init()
-            return func_tools
+        function new_func_tools_module() {
+            var func_tools_module = new FuncToolsModule
+            func_tools_module.init()
+            return func_tools_module
         }
         
-        FuncTools.prototype.init = function() {}
+        FuncToolsModule.prototype.init = function() {}
         
-        FuncTools.prototype.args_array = function(raw_args) {
+        FuncToolsModule.prototype.args_array = function(raw_args) {
             var args = []
         
             for(var i = 0; i < raw_args.length; ++i) {
@@ -44,7 +44,7 @@
             return args
         }
         
-        FuncTools.prototype.func_bind = function(func, this_arg) {
+        FuncToolsModule.prototype.func_bind = function(func, this_arg) {
             var args = this.args_array(arguments).slice(2)
             
             if(func.bind) {
