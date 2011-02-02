@@ -21,7 +21,7 @@
     
     var for_focus_id = '_new_items_node__family_name'
     
-    var main = function(event) {
+    function main(event) {
         var element = document.getElementById(for_focus_id)
         
         if(element) {

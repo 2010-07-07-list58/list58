@@ -21,7 +21,7 @@
     
     var for_focus_id = '_auth_node__login'
     
-    var main = function(event) {
+    function main(event) {
         var element = document.getElementById(for_focus_id)
         
         if(element) {
