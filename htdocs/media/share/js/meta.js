@@ -34,7 +34,7 @@
         
         MetaModule.prototype.init = function() {}
         
-        MetaModule.prototype.head_params_iterate = function(params_name, params_ns, iter) {
+        MetaModule.prototype.get_json_params = function(params_name) {
             for(var in_root_node = document.firstChild;
                     in_root_node;
                     in_root_node = in_root_node.nextSibling) {
@@ -48,9 +48,14 @@
                             for(var in_head_node = in_html_node.firstChild;
                                     in_head_node;
                                     in_head_node = in_head_node.nextSibling) {
-                                if(in_head_node.localName == params_name &&
-                                        in_head_node.namespaceURI == params_ns) {
-                                    iter(in_head_node)
+                                
+                                var in_head_node_name = in_head_node.getAttributeNS('', 'name')
+                                var in_head_node_content = in_head_node.getAttributeNS('', 'content')
+                                
+                                if(in_head_node_name == params_name && in_head_node_content) {
+                                    var params_content = JSON.parse(in_head_node_content)
+                                    
+                                    return params_content
                                 }
                             }
                         }
