@@ -17,7 +17,7 @@
 */
 
 (function() {
-    "use strict"
+    'use strict'
     
     var for_focus_id = '_auth_node__login'
     
