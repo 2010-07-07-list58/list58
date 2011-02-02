@@ -85,7 +85,41 @@
     }
     
     SearchElementFactory.prototype.create_search_element = function(name_postfix) {
-        return document.createTextNode('[фигня:'+name_postfix+'] ') // TEST
+        var search_element = document.createElementNS(html_ns, 'html:div')
+        
+        var select = document.createElementNS(html_ns, 'html:select')
+        select.style.cssFloat = 'left'
+        select.style.margin = '5px'
+        select.style.width = '200px'
+        select.name = 'search_type__' + name_postfix
+        
+        for(var i = 0; i < this._search_types.length; ++i) {
+            var search_type = this._search_types[i]
+            
+            var option = document.createElementNS(html_ns, 'html:option')
+            option.value = search_type
+            option.appendChild(document.createTextNode(search_type))
+            
+            select.appendChild(option)
+        }
+        
+        var input = document.createElementNS(html_ns, 'html:input')
+        input.style.cssFloat = 'left'
+        input.style.margin = '5px'
+        input.style.width = '300px'
+        input.name = 'search_value__' + name_postfix
+        
+        var clear_div = document.createElementNS(html_ns, 'html:clear')
+        clear_div.style.clear = 'both'
+        
+        var remove_button = create_remove_button(search_element)
+        
+        search_element.appendChild(select)
+        search_element.appendChild(input)
+        search_element.appendChild(remove_button)
+        search_element.appendChild(clear_div)
+        
+        return search_element
     }
     
     function DynamicButtons() {
@@ -114,10 +148,15 @@
         }
         
         this._add_noscript_id = add_noscript_id
-        this.add_button = this._create_add_button()
-        this.add_panel = document.createElementNS(html_ns, 'html:div')
+        this._add_button = this._create_add_button()
         
-        this.add_panel.appendChild(this.add_button)
+        this._add_elements_panel = document.createElementNS(html_ns, 'html:div')
+        this._add_button_panel = document.createElementNS(html_ns, 'html:div')
+        this._add_panel = document.createElementNS(html_ns, 'html:div')
+        
+        this._add_button_panel.appendChild(this._add_button)
+        this._add_panel.appendChild(this._add_elements_panel)
+        this._add_panel.appendChild(this._add_button_panel)
     }
     
     DynamicButtons.prototype._new_id = function(add_noscript_id) {
@@ -130,13 +169,14 @@
         var name_postfix = 'dynamic_' + this._new_id()
         var search_element = this._create_search_element(name_postfix)
         
-        this.add_panel.insertBefore(search_element, this.add_button)
+        this._add_elements_panel.appendChild(search_element)
     }
     
     DynamicButtons.prototype._create_add_button = function() {
         var button = document.createElementNS(html_ns, 'html:input')
+        button.style.margin = '5px'
         button.type = 'button'
-        button.value = 'Добавить ограничивающий параметр'
+        button.value = 'Добавить параметр'
         
         button.addEventListener(
                 'click', func_tools.func_bind(this._on_add_button_click, this), false)
@@ -148,7 +188,7 @@
         var add_noscript = document.getElementById(this._add_noscript_id)
         
         if(add_noscript && add_noscript.parentNode) {
-            add_noscript.parentNode.replaceChild(this.add_panel, add_noscript)
+            add_noscript.parentNode.replaceChild(this._add_panel, add_noscript)
         }
     }
     
