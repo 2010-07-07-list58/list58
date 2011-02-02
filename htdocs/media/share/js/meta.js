@@ -24,7 +24,7 @@
     if(!window[meta_module_name]) {
         var html_ns = 'http://www.w3.org/1999/xhtml'
         
-        function MetaModule {}
+        function MetaModule() {}
         
         function new_meta_module() {
             var meta_module = new MetaModule

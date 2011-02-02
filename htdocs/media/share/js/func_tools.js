@@ -24,7 +24,7 @@
     if(!window[func_tools_module_name]) {
         var html_ns = 'http://www.w3.org/1999/xhtml'
         
-        function FuncTools {}
+        function FuncTools() {}
         
         function new_func_tools() {
             var func_tools = new FuncTools
