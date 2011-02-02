@@ -79,6 +79,8 @@ class search_items_node__ns8184 extends node__ns21085 {
         $html .=
             $parent_head.
             '<link rel="stylesheet" href="/media/search_items_node/css/style.css" />'.
+            '<script src="/media/share/js/func_tools.js"></script>'.
+            '<script src="/media/share/js/meta.js"></script>'.
             '<script src="/media/search_items_node/js/dynamic_fields.js"></script>'.
             '<script src="/media/search_items_node/js/autofocus.js"></script>';
         

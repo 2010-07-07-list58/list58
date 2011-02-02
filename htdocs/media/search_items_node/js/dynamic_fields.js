@@ -22,6 +22,9 @@
     var html_ns = 'http://www.w3.org/1999/xhtml'
     var id_search_element_prefix = '_search_items_node__advanced_search_element__'
     
+    var func_tools = window['/2010/07/07/List58/share/func_tools']
+    var meta_module = window['/2010/07/07/List58/share/meta']
+    
     var replace_noscript = function() {
         var noscript = document.getElementById('_search_items_node__advanced_search_params_noscript')
         
