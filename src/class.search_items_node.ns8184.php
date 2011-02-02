@@ -32,6 +32,7 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected $_search_items_node__advanced_search_types = array(
         'Возраст от',
         'Возраст до',
+        // TODO: ...
     );
     
     protected $_search_items_node__general_search = 
