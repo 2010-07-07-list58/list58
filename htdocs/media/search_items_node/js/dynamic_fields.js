@@ -30,7 +30,7 @@
     function create_remove_button(search_element) {
         var button = document.createElementNS(html_ns, 'html:input')
         button.type = 'button'
-        button.value = 'Удалить'
+        button.value = 'Удалить параметр'
         
         button.style.cssFloat = 'right'
         button.style.margin = '5px'
@@ -70,20 +70,92 @@
         }
     }
     
-    function add_add_button() {
-        var add_noscript = document.getElementById('_search_items_node__advanced_search_params_noscript')
+    function SearchElementFactory() {}
+    
+    function new_search_element_factory() {
+        var search_element_factory = new SearchElementFactory
+        search_element_factory.init()
+        return search_element_factory
+    }
+    
+    SearchElementFactory.prototype.init = function() {
+        // TODO: ...
+    }
+    
+    SearchElementFactory.prototype.create_search_element = function(name_postfix) {
+        return document.createTextNode('[фигня:'+name_postfix+'] ') // TEST
+    }
+    
+    function DynamicButtons() {
+        this._next_id = 0
+    }
+    
+    function new_dynamic_buttons(add_noscript_id, kwargs) {
+        var new_dynamic_buttons = new DynamicButtons
+        new_dynamic_buttons.init(add_noscript_id, kwargs)
+        return new_dynamic_buttons
+    }
+    
+    DynamicButtons.prototype.init = function(add_noscript_id, kwargs) {
+        if(!kwargs) {
+            kwargs = {}
+        }
+        
+        if(kwargs.create_search_element) {
+            this._create_search_element = kwargs.create_search_element
+        } else {
+            var search_element_factory = new_search_element_factory()
+            this._create_search_element = 
+                    func_tools.func_bind(
+                            search_element_factory.create_search_element,
+                            search_element_factory)
+        }
+        
+        this._add_noscript_id = add_noscript_id
+        this.add_button = this._create_add_button()
+        this.add_panel = document.createElementNS(html_ns, 'html:div')
+        
+        this.add_panel.appendChild(this.add_button)
+    }
+    
+    DynamicButtons.prototype._new_id = function(add_noscript_id) {
+        var id = this._next_id
+        ++this._next_id
+        return id
+    }
+    
+    DynamicButtons.prototype._on_add_button_click = function() {
+        var name_postfix = 'dynamic_' + this._new_id()
+        var search_element = this._create_search_element(name_postfix)
+        
+        this.add_panel.insertBefore(search_element, this.add_button)
+    }
+    
+    DynamicButtons.prototype._create_add_button = function() {
+        var button = document.createElementNS(html_ns, 'html:input')
+        button.type = 'button'
+        button.value = 'Добавить ограничивающий параметр'
+        
+        button.addEventListener(
+                'click', func_tools.func_bind(this._on_add_button_click, this), false)
+        
+        return button
+    }
+    
+   DynamicButtons.prototype.show = function() {
+        var add_noscript = document.getElementById(this._add_noscript_id)
         
         if(add_noscript && add_noscript.parentNode) {
-            var fragment = document.createDocumentFragment()
-            fragment.appendChild(document.createTextNode('(тут будет кнопка "добавить")'))
-            
-            add_noscript.parentNode.replaceChild(fragment, add_noscript)
+            add_noscript.parentNode.replaceChild(this.add_panel, add_noscript)
         }
     }
     
     function main(event) {
+        var dynamic_buttons = new_dynamic_buttons(
+                '_search_items_node__advanced_search_params_noscript')
+        
         add_delete_button_to_last()
-        add_add_button()
+        dynamic_buttons.show()
     }
     
     addEventListener('load', main, false)
