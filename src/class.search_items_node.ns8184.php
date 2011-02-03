@@ -38,20 +38,9 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected $_search_items_node__show_form_results = FALSE;
     protected $_search_items_node__message_html = '';
     
-    protected $_search_items_node__general_search = 
-        '<<<фигня>>>'; // TEST
-    protected $_search_items_node__sex_search =
-        'какойт'; // TEST
-    protected $_search_items_node__advanced_search_params = array(
-        array(                                  // TEST
-            'search_type' => 'Возраст от',      // TEST
-            'search_value' => '18',             // TEST
-        ),                                      // TEST
-        array(                                  // TEST
-            'search_type' => 'Возраст до',      // TEST
-            'search_value' => '27',             // TEST
-        ),                                      // TEST
-    );
+    protected $_search_items_node__general_search = '';
+    protected $_search_items_node__sex_search = '';
+    protected $_search_items_node__advanced_search_params = array();
     
     protected $_search_items_node__items_limit = 0;
     protected $_search_items_node__items_offset = 0;
@@ -73,7 +62,36 @@ class search_items_node__ns8184 extends node__ns21085 {
         parent::_base_node__on_init();
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $msg_token = 123; // this FAKE FOR TEST
+            $search_args = array();
+            $general_search = $this->post_arg('general_search');
+            if($general_search) {
+                $search_args['general_search'] = $general_search;
+            }
+            $sex_search = $this->post_arg('sex_search');
+            if($sex_search) {
+                $search_args['sex_search'] = $sex_search;
+            }
+            
+            $raw_advanced_search_params = array();
+            foreach($_POST as $post_name => $raw_post_value) {
+                if(strpos($post_name, 'search_type__') === 0) {
+                    $name_postfix = substr($post_name, strlen('search_type__'));
+                    $raw_advanced_search_params[$name_postfix]['search_type'] = $this->post_arg($post_name);
+                } elseif(strpos($post_name, 'search_value__') === 0) {
+                    $name_postfix = substr($post_name, strlen('search_value__'));
+                    $raw_advanced_search_params[$name_postfix]['search_value'] = $this->post_arg($post_name);
+                }
+            }
+            $advanced_search_params = array();
+            foreach($raw_advanced_search_params as $search_param) {
+                if(array_key_exists('search_type', $search_param) && $search_param['search_type'] &&
+                        array_key_exists('search_value', $search_param) && $search_param['search_value']) {
+                    $advanced_search_params []= $search_param;
+                }
+            }
+            $search_args['advanced_search_params'] = $advanced_search_params;
+            
+            $msg_token = send_msg__ns1438('search_items_node__ns8184::search_args', $search_args);
             
             $this->_search_items_node__message_html .=
                     '<p class="TextAlignCenter">'.
@@ -93,7 +111,15 @@ class search_items_node__ns8184 extends node__ns21085 {
             $search_args = recv_msg__ns1438($msg_token, 'search_items_node__ns8184::search_args');
             
             if($search_args) {
-                // TODO: ...
+                if(array_key_exists('general_search', $search_args)) {
+                    $this->_search_items_node__general_search = $search_args['general_search'];
+                }
+                if(array_key_exists('sex_search', $search_args)) {
+                    $this->_search_items_node__sex_search = $search_args['sex_search'];
+                }
+                if(array_key_exists('advanced_search_params', $search_args)) {
+                    $this->_search_items_node__advanced_search_params = $search_args['advanced_search_params'];
+                }
             }
         }
     }
