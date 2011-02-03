@@ -34,6 +34,9 @@ class search_items_node__ns8184 extends node__ns21085 {
         'Возраст до',
         // TODO: ...
     );
+    protected $_search_items_node__show_form = TRUE;
+    protected $_search_items_node__show_form_results = FALSE;
+    protected $_search_items_node__message_html = '';
     
     protected $_search_items_node__general_search = 
         '<<<фигня>>>'; // TEST
@@ -69,11 +72,29 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected function _base_node__on_init() {
         parent::_base_node__on_init();
         
-        $msg_token = $this->get_arg('msg_token');
-        $search_args = recv_msg__ns1438($msg_token, 'search_items_node__ns8184::search_args');
-        
-        if($search_args) {
-            // TODO: ...
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $msg_token = 123; // this FAKE FOR TEST
+            
+            $this->_search_items_node__message_html .=
+                    '<p class="TextAlignCenter">'.
+                        'Поиск...'.
+                    '</p>';
+            
+            @header(sprintf(
+                'Refresh: 0.2;url=?%s',
+                http_build_query(array(
+                    'node' => $this->get_arg('node'),
+                    'msg_token' => $msg_token,
+                ))
+            ));
+            $this->_search_items_node__show_form = FALSE;
+        } else {
+            $msg_token = $this->get_arg('msg_token');
+            $search_args = recv_msg__ns1438($msg_token, 'search_items_node__ns8184::search_args');
+            
+            if($search_args) {
+                // TODO: ...
+            }
         }
     }
     
@@ -271,20 +292,29 @@ class search_items_node__ns8184 extends node__ns21085 {
     }
     
     protected function _node__get_aside() {
-        $search_widget_html = $this->_search_items_node__get_search_widget();
-        $result_widget_html = $this->_search_items_node__get_result_widget();
+        $form_html = '';
+        
+        if($this->_search_items_node__show_form) {
+            $search_widget_html = $this->_search_items_node__get_search_widget();
+            
+            $form_html =
+                    '<h2 class="TextAlignCenter">Поиск данных</h2>'.
+                    $search_widget_html;
+            
+            if($this->_search_items_node__show_form_results) {
+                $result_widget_html = $this->_search_items_node__get_result_widget();
+                
+                $form_html .=
+                        '<h3>Найдено:</h3>'.
+                        $result_widget_html;
+            }
+        }
         
         $html =
-            '<div class="SmallFrame">'.
-                '<h2 class="TextAlignCenter">Поиск данных</h2>'.
-                $search_widget_html.
-                (
-                    $result_widget_html?
-                    '<h3>Найдено:</h3>'.
-                    $result_widget_html
-                    :''
-                ).
-            '</div>';
+                '<div class="SmallFrame">'.
+                    $this->_search_items_node__message_html.
+                    $form_html.
+                '</div>';
         
         return $html;
     }
