@@ -92,10 +92,8 @@ class node__ns21085 extends base_node__ns8054 {
         $html = '';
         
         $html .=
-            '<meta http-equiv="X-UA-Compatible" content="chrome=1" />'.
-            '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />'.
+            '<meta charset="utf-8" />'.
             '<title>'.htmlspecialchars($this->_node__get_title()).'</title>'.
-            '<script src="/media/share/js/google-chrome-frame-for-microsoft-ie.js"></script>'.
             '<link rel="shortcut icon" href="/media/share/favicon.png" />'.
             '<link rel="stylesheet" href="/media/share/css/style.css" />'.
             '<script src="/media/share/import-lib/jquery/jquery-1.4.4.js"></script>'.
