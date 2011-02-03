@@ -77,6 +77,12 @@ class search_items_node__ns8184 extends node__ns21085 {
         }
     }
     
+    protected function _node__get_title() {
+        $parent_title = parent::_node__get_title();
+        
+        return 'Поиск - '.$parent_title;
+    }
+    
     protected function _node__get_head() {
         $parent_head = parent::_node__get_head();
         
