@@ -230,7 +230,6 @@ class main__ns17829 {
             $html = $node->get_html();
             
             @header('Content-Type: text/html;charset=utf-8');
-            @header('X-UA-Compatible: chrome=1');
             echo $html."\n";
         } catch(low_level_error__ns28655 $e) {
             $error = $e->getMessage();
