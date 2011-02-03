@@ -119,7 +119,8 @@ class home_node__ns25120 extends node__ns21085 {
         
         $html .=
             $parent_head.
-            '<link rel="stylesheet" href="/media/home_node/css/style.css" />';
+            '<link rel="stylesheet" href="/media/home_node/css/style.css" />'.
+            '<script src="/media/home_node/js/autofocus.js"></script>';
         
         return $html;
     }
@@ -197,6 +198,24 @@ class home_node__ns25120 extends node__ns21085 {
         
         $html .=
             '<div class="SmallFrame">'.
+                '<form action="'.htmlspecialchars('?node=search_items').'" method="post">'.
+                    '<div class="Margin5Px"><label for="_home_node__general_search">Поиск:</label></div>'.
+                    '<div class="Margin5Px">'.
+                        '<input class="Width700Px" '.
+                            'type="text" '.
+                            'name="general_search" '.
+                            'id="_home_node__general_search" '.
+                            'value="" />'.
+                    '</div>'.
+                    '<div>'.
+                        '<input type="hidden" '.
+                            'name="post_token" '.
+                            'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
+                        '<input class="FloatLeft Margin5Px" type="submit" value="Найти" />'.
+                        '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
+                        '<div class="ClearBoth"></div>'.
+                    '</div>'.
+                '</form>'.
                 '<h2 class="TextAlignCenter">Последние добавленные данные</h2>'.
                 '<div class="GroupFrame">'.
                     $this->_home_node__item_list_widget->get_widget().
