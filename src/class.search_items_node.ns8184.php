@@ -81,19 +81,35 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected function _search_items_node__get_where_sql() {
         $and_part_sqls = array();
         
-        $and_part_general_search_sqls = array();
-        foreach($this->_search_items_node__general_search as $general_search_word) {
-            $or_part_general_search_sqls = array();
+        if($this->_search_items_node__general_search) {
+            // критерий Обобщённый Поиск ('general_search')
             
-            $or_part_general_search_sqls []= sprintf('\'МаМа МыЛа РаМу\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
-            $or_part_general_search_sqls []= sprintf('\'РаМа МыЛа МаМу\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
-            $or_part_general_search_sqls []= sprintf('\'на ДВОРЕ трава\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
-            $or_part_general_search_sqls []= sprintf('\'на ТРАВЕ дрова\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
-            
-            $and_part_general_search_sqls []= join_sqls__ns8184(
-                    'OR', $or_part_general_search_sqls, array('bkt' => TRUE));
+            $and_part_general_search_sqls = array();
+            foreach($this->_search_items_node__general_search as $general_search_word) {
+                $or_part_general_search_sqls = array();
+                
+                $or_part_general_search_sqls []= sprintf('\'МаМа МыЛа РаМу\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+                $or_part_general_search_sqls []= sprintf('\'РаМа МыЛа МаМу\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+                $or_part_general_search_sqls []= sprintf('\'на ДВОРЕ трава\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+                $or_part_general_search_sqls []= sprintf('\'на ТРАВЕ дрова\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+                
+                $and_part_general_search_sqls []= join_sqls__ns8184(
+                        'OR', $or_part_general_search_sqls, array('bkt' => TRUE));
+            }
+            $and_part_sqls []= join_sqls__ns8184('AND', $and_part_general_search_sqls);
         }
-        $and_part_sqls []= join_sqls__ns8184('AND', $and_part_general_search_sqls);
+        
+        if($this->_search_items_node__sex_search) {
+            // критерий Пол ('sex_search')
+            
+            if($this->_search_items_node__sex_search == 'Мужской') {
+                $and_part_sqls []= '`sex` = 1';
+            } elseif($this->_search_items_node__sex_search == 'Женский') {
+                $and_part_sqls []= '`sex` = 2';
+            }
+        }
+        
+        // TODO: другие критерии
         
         $where_sql = join_sqls__ns8184('AND', $and_part_sqls);
         
