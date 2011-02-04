@@ -24,6 +24,7 @@ require_once dirname(__FILE__).'/class.item_list_widget.ns28376.php';
 require_once dirname(__FILE__).'/class.page_links_widget.ns22493.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
+require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
 class search_items_node__ns8184 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;
