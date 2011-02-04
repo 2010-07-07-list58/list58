@@ -39,7 +39,7 @@ class item_list_widget__ns28376 {
     public function get_widget() {
         $html = '';
         
-        $html .= '<table class="ItemTable">';
+        $html .= '<table class="ItemTable Width100Per">';
         $html .= '<thead>';
         $html .= '<tr>';
         $html .= '<th>Id</th>';

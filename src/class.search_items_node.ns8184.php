@@ -43,9 +43,12 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected $_search_items_node__advanced_search_params = array();
     
     protected $_search_items_node__items_limit = 0;
+    protected $_search_items_node__items_real_limit = 20;
     protected $_search_items_node__items_offset = 0;
     protected $_search_items_node__items_count;
     protected $_search_items_node__items;
+    protected $_search_items_node__item_list_widget;
+    protected $_search_items_node__page_links_widget;
     
     protected function _base_node__on_add_check_perms() {
         parent::_base_node__on_add_check_perms();
@@ -56,6 +59,75 @@ class search_items_node__ns8184 extends node__ns21085 {
                 'search_items' => TRUE,
             )
         );
+    }
+    
+    protected function _search_items_node__init_items() {
+        if(array_key_exists('items_offset', $_GET)) {
+            $items_offset = intval($this->get_arg('items_offset'));
+            
+            if($items_offset > 0) {
+                $this->_search_items_node__items_offset = $items_offset;
+            }
+        }
+        
+        if(array_key_exists('items_limit', $_GET)) {
+            $items_limit = intval($this->get_arg('items_limit'));
+            
+            if($items_limit > 0 && $items_limit <= 200) {
+                $this->_search_items_node__items_limit = $items_limit;
+                $this->_search_items_node__items_real_limit = $items_limit;
+            }
+        }
+        
+        // BEGIN JUST FOR TEST ONLY [Fri 04 Feb 2011 17:32:17 MSK]
+        
+        $result = mysql_query_or_error(
+            'SELECT COUNT(*) FROM `items_base`',
+            $this->_base_node__db_link
+        );
+        list($this->_search_items_node__items_count) = mysql_fetch_array($result);
+        mysql_free_result($result);
+        
+        $result = mysql_query_or_error(
+            sprintf(
+                'SELECT * FROM `items_base` '.
+                    'ORDER BY ABS(%s - `item_modified`) '.
+                    'LIMIT %s OFFSET %s',
+                intval(get_time__ns29922()),
+                intval($this->_search_items_node__items_real_limit),
+                intval($this->_search_items_node__items_offset)
+            ),
+            $this->_base_node__db_link
+        );
+        
+        $this->_search_items_node__items = array();
+        for(;;) {
+            $row = mysql_fetch_assoc($result);
+            if($row) {
+                $this->_search_items_node__items []= $row;
+            }
+            else {
+                break;
+            }
+        }
+        mysql_free_result($result);
+        
+        // END JUST FOR TEST ONLY [Fri 04 Feb 2011 17:32:17 MSK]
+        
+        // TODO: ...
+        
+        $this->_search_items_node__item_list_widget =
+                new item_list_widget__ns28376($this->_search_items_node__items);
+        $this->_search_items_node__page_links_widget = 
+                new page_links_widget__ns22493(
+                    $this->_search_items_node__items_real_limit,
+                    $this->_search_items_node__items_offset,
+                    $this->_search_items_node__items_count,
+                    array($this, '_search_items_node__page_links_widget__get_link_html'),
+                    5
+                );
+        
+        $this->_search_items_node__show_form_results = TRUE;
     }
     
     protected function _base_node__on_init() {
@@ -120,6 +192,8 @@ class search_items_node__ns8184 extends node__ns21085 {
                 if(array_key_exists('advanced_search_params', $search_args)) {
                     $this->_search_items_node__advanced_search_params = $search_args['advanced_search_params'];
                 }
+                
+                $this->_search_items_node__init_items();
             }
         }
     }
@@ -167,32 +241,6 @@ class search_items_node__ns8184 extends node__ns21085 {
                 json_encode($advanced_search_ids_params)
             )
         );
-        
-        return $html;
-    }
-    
-    public function _search_items_node__page_links_widget__get_link_html($items_offset, $label) {
-        $query_node = $this->get_arg('node');
-        $query_msg_token = $this->get_arg('msg_token');
-        
-        $query_data = array();
-        if($query_node) {
-            $query_data['node'] = $query_node;
-        }
-        if($query_msg_token) {
-            $query_data['msg_token'] = $query_msg_token;
-        }
-        if($this->_search_items_node__items_limit) {
-            $query_data['items_limit'] = $this->_search_items_node__items_limit;
-        }
-        if($items_offset > 0) {
-            $query_data['items_offset'] = $items_offset;
-        }
-        
-        $html =
-                '<a href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
-                    htmlspecialchars($label).
-                '</a>';
         
         return $html;
     }
@@ -310,12 +358,95 @@ class search_items_node__ns8184 extends node__ns21085 {
         return $html;
     }
     
+    public function _search_items_node__page_links_widget__get_link_html($items_offset, $label) {
+        $query_node = $this->get_arg('node');
+        $query_msg_token = $this->get_arg('msg_token');
+        
+        $query_data = array();
+        if($query_node) {
+            $query_data['node'] = $query_node;
+        }
+        if($query_msg_token) {
+            $query_data['msg_token'] = $query_msg_token;
+        }
+        if($this->_search_items_node__items_limit) {
+            $query_data['items_limit'] = $this->_search_items_node__items_limit;
+        }
+        if($items_offset > 0) {
+            $query_data['items_offset'] = $items_offset;
+        }
+        
+        $html =
+                '<a href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                    htmlspecialchars($label).
+                '</a>';
+        
+        return $html;
+    }
+    
     protected function _search_items_node__get_result_widget() {
+        $query_node = $this->get_arg('node');
+        $query_msg_token = $this->get_arg('msg_token');
+        $short_page_links_html = '';
+        
+        if($this->_search_items_node__items_offset > 0) {
+            $query_items_offset = $this->_search_items_node__items_offset - $this->_search_items_node__items_real_limit;
+            
+            $query_data = array();
+            if($query_node) {
+                $query_data['node'] = $query_node;
+            }
+            if($query_msg_token) {
+                $query_data['msg_token'] = $query_msg_token;
+            }
+            if($this->_search_items_node__items_limit) {
+                $query_data['items_limit'] = $this->_search_items_node__items_limit;
+            }
+            if($query_items_offset > 0) {
+                $query_data['items_offset'] = $query_items_offset;
+            }
+            
+            $short_page_links_html .=
+                    '<a class="FloatLeft" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                        htmlspecialchars('<< Назад').
+                    '</a>';
+        }
+        
+        if(
+            $this->_search_items_node__items_offset + $this->_search_items_node__items_real_limit <
+            $this->_search_items_node__items_count
+        ) {
+            $query_items_offset = $this->_search_items_node__items_offset + $this->_search_items_node__items_real_limit;
+            
+            $query_data = array();
+            if($query_node) {
+                $query_data['node'] = $query_node;
+            }
+            if($query_msg_token) {
+                $query_data['msg_token'] = $query_msg_token;
+            }
+            if($this->_search_items_node__items_limit) {
+                $query_data['items_limit'] = $this->_search_items_node__items_limit;
+            }
+            if($query_items_offset > 0) {
+                $query_data['items_offset'] = $query_items_offset;
+            }
+            
+            $short_page_links_html .=
+                    '<a class="FloatRight" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                        htmlspecialchars('Ещё >>').
+                    '</a>';
+        }
+        
         $html =
                 '<div class="GroupFrame">'.
-                    '(форма ответа)'.
+                     $this->_search_items_node__item_list_widget->get_widget().
                 '</div>'.
-                '(а тут будут номера страниц)';
+                '<div class="Margin10Px TextAlignCenter">'.
+                    $short_page_links_html.
+                    'Стр.: '.$this->_search_items_node__page_links_widget->get_widget().
+                    '<div class="ClearBoth"></div>'.
+                '</div>';
         
         return $html;
     }

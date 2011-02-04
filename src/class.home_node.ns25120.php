@@ -90,7 +90,7 @@ class home_node__ns25120 extends node__ns21085 {
         for(;;) {
             $row = mysql_fetch_assoc($result);
             if($row) {
-                $this->_home_node__items[] = $row;
+                $this->_home_node__items []= $row;
             }
             else {
                 break;
@@ -192,9 +192,7 @@ class home_node__ns25120 extends node__ns21085 {
                     '</a>';
         }
         
-        $html = '';
-        
-        $html .=
+        $html =
                 '<div class="SmallFrame">'.
                     '<form action="'.htmlspecialchars('?node=search_items').'" method="post">'.
                         '<div class="Margin5Px"><label for="_home_node__general_search">Поиск:</label></div>'.
