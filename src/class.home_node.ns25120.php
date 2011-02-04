@@ -198,7 +198,7 @@ class home_node__ns25120 extends node__ns21085 {
                     '<form action="'.htmlspecialchars('?node=search_items').'" method="post">'.
                         '<div class="Margin5Px"><label for="_home_node__general_search">Поиск:</label></div>'.
                         '<div class="Margin5Px">'.
-                            '<input class="Width700Px" '.
+                            '<input class="MinWidth700Px Width100Per" '.
                                 'type="text" '.
                                 'name="general_search" '.
                                 'id="_home_node__general_search" '.

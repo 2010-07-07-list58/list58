@@ -116,6 +116,7 @@ td { /* cellpadding="0" */
 .Width600Px { width: 600px; }
 .Width700Px { width: 700px; }
 .Width800Px { width: 800px; }
+.MinWidth700Px { min-width: 700px; }
 .MaxWidth800Px { max-width: 800px; }
 
 .TextAlignCenter { text-align: center; }

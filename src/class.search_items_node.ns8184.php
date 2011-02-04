@@ -337,7 +337,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                             '<label for="_search_items_node__general_search">Введите одно или несколько ключевых слов:</label>'.
                         '</div>'.
                         '<div class="Margin5Px">'.
-                            '<input class="Width700Px" '.
+                            '<input class="MinWidth700Px Width100Per" '.
                                 'type="text" '.
                                 'name="general_search" '.
                                 'id="_search_items_node__general_search" '.
