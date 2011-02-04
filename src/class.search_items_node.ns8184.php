@@ -253,7 +253,9 @@ class search_items_node__ns8184 extends node__ns21085 {
         $html =
             '<div class="GroupFrame">'.
                 '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
-                    '<div class="Margin5Px"><label for="_search_items_node__general_search">Введите одно или несколько ключевых слов:</label></div>'.
+                    '<div class="Margin5Px">'.
+                        '<label for="_search_items_node__general_search">Введите одно или несколько ключевых слов:</label>'.
+                    '</div>'.
                     '<div class="Margin5Px">'.
                         '<input class="Width700Px" '.
                             'type="text" '.
