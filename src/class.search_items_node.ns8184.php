@@ -62,6 +62,12 @@ class search_items_node__ns8184 extends node__ns21085 {
         );
     }
     
+    protected function _search_items_node__get_where_sql() {
+        $where_sql = '1 = 1'; // TEST
+        
+        return $where_sql;
+    }
+    
     protected function _search_items_node__init_items() {
         if(array_key_exists('items_offset', $_GET)) {
             $items_offset = intval($this->get_arg('items_offset'));
@@ -80,7 +86,7 @@ class search_items_node__ns8184 extends node__ns21085 {
             }
         }
         
-        $where_sql = '1 = 1'; // TEST
+        $where_sql = $this->_search_items_node__get_where_sql();
         
         $result = mysql_query_or_error(
             sprintf(
