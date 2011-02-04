@@ -99,15 +99,15 @@ class home_node__ns25120 extends node__ns21085 {
         mysql_free_result($result);
         
         $this->_home_node__item_list_widget =
-            new item_list_widget__ns28376($this->_home_node__items);
+                new item_list_widget__ns28376($this->_home_node__items);
         $this->_home_node__page_links_widget = 
-            new page_links_widget__ns22493(
-                $this->_home_node__items_real_limit,
-                $this->_home_node__items_offset,
-                $this->_home_node__items_count,
-                array($this, '_home_node__page_links_widget__get_link_html'),
-                5
-            );
+                new page_links_widget__ns22493(
+                    $this->_home_node__items_real_limit,
+                    $this->_home_node__items_offset,
+                    $this->_home_node__items_count,
+                    array($this, '_home_node__page_links_widget__get_link_html'),
+                    5
+                );
     }
     
     protected function _node__get_head() {
@@ -116,9 +116,9 @@ class home_node__ns25120 extends node__ns21085 {
         $html = '';
         
         $html .=
-            $parent_head.
-            '<link rel="stylesheet" href="/media/home_node/css/style.css" />'.
-            '<script src="/media/home_node/js/autofocus.js"></script>';
+                $parent_head.
+                '<link rel="stylesheet" href="/media/home_node/css/style.css" />'.
+                '<script src="/media/home_node/js/autofocus.js"></script>';
         
         return $html;
     }
@@ -138,9 +138,9 @@ class home_node__ns25120 extends node__ns21085 {
         }
         
         $html =
-            '<a href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
-                htmlspecialchars($label).
-            '</a>';
+                '<a href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                    htmlspecialchars($label).
+                '</a>';
         
         return $html;
     }
@@ -164,9 +164,9 @@ class home_node__ns25120 extends node__ns21085 {
             }
             
             $short_page_links_html .=
-                '<a class="FloatLeft" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
-                    htmlspecialchars('<< Более новые').
-                '</a>';
+                    '<a class="FloatLeft" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                        htmlspecialchars('<< Более новые').
+                    '</a>';
         }
         
         if(
@@ -187,45 +187,45 @@ class home_node__ns25120 extends node__ns21085 {
             }
             
             $short_page_links_html .=
-                '<a class="FloatRight" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
-                    htmlspecialchars('Более старые >>').
-                '</a>';
+                    '<a class="FloatRight" href="'.htmlspecialchars('?'.http_build_query($query_data)).'">'.
+                        htmlspecialchars('Более старые >>').
+                    '</a>';
         }
         
         $html = '';
         
         $html .=
-            '<div class="SmallFrame">'.
-                '<form action="'.htmlspecialchars('?node=search_items').'" method="post">'.
-                    '<div class="Margin5Px"><label for="_home_node__general_search">Поиск:</label></div>'.
-                    '<div class="Margin5Px">'.
-                        '<input class="Width700Px" '.
-                            'type="text" '.
-                            'name="general_search" '.
-                            'id="_home_node__general_search" '.
-                            'value="" />'.
+                '<div class="SmallFrame">'.
+                    '<form action="'.htmlspecialchars('?node=search_items').'" method="post">'.
+                        '<div class="Margin5Px"><label for="_home_node__general_search">Поиск:</label></div>'.
+                        '<div class="Margin5Px">'.
+                            '<input class="Width700Px" '.
+                                'type="text" '.
+                                'name="general_search" '.
+                                'id="_home_node__general_search" '.
+                                'value="" />'.
+                        '</div>'.
+                        '<div>'.
+                            '<input type="hidden" '.
+                                'name="post_token" '.
+                                'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
+                            '<input class="FloatLeft Margin5Px" type="submit" value="Найти" />'.
+                            '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
+                            '<div class="ClearBoth"></div>'.
+                        '</div>'.
+                    '</form>'.
+                    '<h2 class="TextAlignCenter">Последние добавленные данные</h2>'.
+                    '<div class="GroupFrame">'.
+                        $this->_home_node__item_list_widget->get_widget().
                     '</div>'.
                     '<div>'.
-                        '<input type="hidden" '.
-                            'name="post_token" '.
-                            'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
-                        '<input class="FloatLeft Margin5Px" type="submit" value="Найти" />'.
-                        '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
+                        $short_page_links_html.
+                        '<div class="Margin10Px TextAlignCenter">'.
+                            'Стр.: '.$this->_home_node__page_links_widget->get_widget().
+                        '</div>'.
                         '<div class="ClearBoth"></div>'.
                     '</div>'.
-                '</form>'.
-                '<h2 class="TextAlignCenter">Последние добавленные данные</h2>'.
-                '<div class="GroupFrame">'.
-                    $this->_home_node__item_list_widget->get_widget().
-                '</div>'.
-                '<div>'.
-                    $short_page_links_html.
-                    '<div class="Margin10Px TextAlignCenter">'.
-                        'Стр.: '.$this->_home_node__page_links_widget->get_widget().
-                    '</div>'.
-                    '<div class="ClearBoth"></div>'.
-                '</div>'.
-            '</div>';
+                '</div>';
         
         return $html;
     }
