@@ -358,7 +358,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                                 'type="text" '.
                                 'name="general_search" '.
                                 'id="_search_items_node__general_search" '.
-                                'value="'.htmlspecialchars(implode(' ', $this->_search_items_node__general_search)).'" />'.
+                                'value="'.htmlspecialchars(join(' ', $this->_search_items_node__general_search)).'" />'.
                         '</div>'.
                         '<div>'.
                             '<select class="FloatRight Margin5Px Width150Px" '.
