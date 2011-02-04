@@ -230,7 +230,8 @@ class search_items_node__ns8184 extends node__ns21085 {
                     'name="'.htmlspecialchars('search_value__'.$name_postfix).'" '.
                     'id="'.htmlspecialchars('_search_items_node__advanced_search_element__search_value__'.$name_postfix).'" '.
                     'value="'.htmlspecialchars($search_value).'" />'.
-                    '<div class="FloatRight Margin5Px" id="'.htmlspecialchars('_search_items_node__advanced_search_element__remove_noscript__'.$name_postfix).'"></div>'.
+                    '<div class="FloatRight Margin5Px" id="'.htmlspecialchars(
+                            '_search_items_node__advanced_search_element__remove_noscript__'.$name_postfix).'"></div>'.
                 '<div class="ClearBoth"></div>'.
             '</div>';
         
