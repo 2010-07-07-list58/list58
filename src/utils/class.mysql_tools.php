@@ -45,4 +45,21 @@ function mysql_query_or_error($query, $link) {
     return $result;
 }
 
+function mysql_escape_in_like_expr($str) {
+    $escaped = 
+            str_replace('\\', '\\\\', $str).
+            str_replace('%', '\\%', $str).
+            str_replace('_', '\\_', $str);
+    
+    return $escaped;
+}
+
+function mysql_real_escape_like_expr_string($str, $link) {
+    $quoted = mysql_real_escape_string(
+        sprintf('%%%s%%', mysql_escape_in_like_expr($str)),
+        $link
+    );
+    
+    return $quoted;
+}
 
