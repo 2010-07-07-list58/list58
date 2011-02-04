@@ -68,75 +68,77 @@ class search_items_node__ns8184 extends node__ns21085 {
         return $where_sql;
     }
     
-    protected function _search_items_node__init_items() {
-        if(array_key_exists('items_offset', $_GET)) {
-            $items_offset = intval($this->get_arg('items_offset'));
-            
-            if($items_offset > 0) {
-                $this->_search_items_node__items_offset = $items_offset;
-            }
-        }
-        
-        if(array_key_exists('items_limit', $_GET)) {
-            $items_limit = intval($this->get_arg('items_limit'));
-            
-            if($items_limit > 0 && $items_limit <= 200) {
-                $this->_search_items_node__items_limit = $items_limit;
-                $this->_search_items_node__items_real_limit = $items_limit;
-            }
-        }
-        
+    protected function _search_items_node__init_form_results() {
         $where_sql = $this->_search_items_node__get_where_sql();
         
-        $result = mysql_query_or_error(
-            sprintf(
-                'SELECT COUNT(*) FROM `items_base` '.
-                'WHERE %s',
-                $where_sql
-            ),
-            $this->_base_node__db_link
-        );
-        list($this->_search_items_node__items_count) = mysql_fetch_array($result);
-        mysql_free_result($result);
-        
-        $result = mysql_query_or_error(
-            sprintf(
-                'SELECT * FROM `items_base` '.
-                    'WHERE %s '.
-                    'ORDER BY ABS(%s - `item_modified`) '.
-                    'LIMIT %s OFFSET %s',
-                $where_sql,
-                intval(get_time__ns29922()),
-                intval($this->_search_items_node__items_real_limit),
-                intval($this->_search_items_node__items_offset)
-            ),
-            $this->_base_node__db_link
-        );
-        
-        $this->_search_items_node__items = array();
-        for(;;) {
-            $row = mysql_fetch_assoc($result);
-            if($row) {
-                $this->_search_items_node__items []= $row;
+        if($where_sql) {
+            if(array_key_exists('items_offset', $_GET)) {
+                $items_offset = intval($this->get_arg('items_offset'));
+                
+                if($items_offset > 0) {
+                    $this->_search_items_node__items_offset = $items_offset;
+                }
             }
-            else {
-                break;
+            
+            if(array_key_exists('items_limit', $_GET)) {
+                $items_limit = intval($this->get_arg('items_limit'));
+                
+                if($items_limit > 0 && $items_limit <= 200) {
+                    $this->_search_items_node__items_limit = $items_limit;
+                    $this->_search_items_node__items_real_limit = $items_limit;
+                }
             }
+            
+            $result = mysql_query_or_error(
+                sprintf(
+                    'SELECT COUNT(*) FROM `items_base` '.
+                    'WHERE %s',
+                    $where_sql
+                ),
+                $this->_base_node__db_link
+            );
+            list($this->_search_items_node__items_count) = mysql_fetch_array($result);
+            mysql_free_result($result);
+            
+            $result = mysql_query_or_error(
+                sprintf(
+                    'SELECT * FROM `items_base` '.
+                        'WHERE %s '.
+                        'ORDER BY ABS(%s - `item_modified`) '.
+                        'LIMIT %s OFFSET %s',
+                    $where_sql,
+                    intval(get_time__ns29922()),
+                    intval($this->_search_items_node__items_real_limit),
+                    intval($this->_search_items_node__items_offset)
+                ),
+                $this->_base_node__db_link
+            );
+            
+            $this->_search_items_node__items = array();
+            for(;;) {
+                $row = mysql_fetch_assoc($result);
+                if($row) {
+                    $this->_search_items_node__items []= $row;
+                }
+                else {
+                    break;
+                }
+            }
+            mysql_free_result($result);
+            
+            $this->_search_items_node__item_list_widget =
+                    new item_list_widget__ns28376($this->_search_items_node__items);
+            $this->_search_items_node__page_links_widget = 
+                    new page_links_widget__ns22493(
+                        $this->_search_items_node__items_real_limit,
+                        $this->_search_items_node__items_offset,
+                        $this->_search_items_node__items_count,
+                        array($this, '_search_items_node__page_links_widget__get_link_html'),
+                        5
+                    );
+            
+            $this->_search_items_node__show_form_results = TRUE;
         }
-        mysql_free_result($result);
-        
-        $this->_search_items_node__item_list_widget =
-                new item_list_widget__ns28376($this->_search_items_node__items);
-        $this->_search_items_node__page_links_widget = 
-                new page_links_widget__ns22493(
-                    $this->_search_items_node__items_real_limit,
-                    $this->_search_items_node__items_offset,
-                    $this->_search_items_node__items_count,
-                    array($this, '_search_items_node__page_links_widget__get_link_html'),
-                    5
-                );
-        
-        $this->_search_items_node__show_form_results = TRUE;
     }
     
     protected function _base_node__on_init() {
@@ -202,7 +204,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                     $this->_search_items_node__advanced_search_params = $search_args['advanced_search_params'];
                 }
                 
-                $this->_search_items_node__init_items();
+                $this->_search_items_node__init_form_results();
             }
         }
     }
