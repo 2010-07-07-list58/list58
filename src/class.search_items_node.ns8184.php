@@ -153,7 +153,7 @@ class search_items_node__ns8184 extends node__ns21085 {
         }
     }
     
-    protected function _search_items_node__split_general_to_word($general) {
+    protected function _search_items_node__split_general_to_words($general) {
         $words = array();
         
         foreach(explode(' ', $general) as $raw_word) {
@@ -174,7 +174,7 @@ class search_items_node__ns8184 extends node__ns21085 {
             $search_args = array();
             $raw_general_search = $this->post_arg('general_search');
             if($raw_general_search) {
-                $general_search = $this->_search_items_node__split_general_to_word($raw_general_search);
+                $general_search = $this->_search_items_node__split_general_to_words($raw_general_search);
                 
                 $search_args['general_search'] = $general_search;
                     
