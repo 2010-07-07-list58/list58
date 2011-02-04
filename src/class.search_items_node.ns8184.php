@@ -80,10 +80,14 @@ class search_items_node__ns8184 extends node__ns21085 {
             }
         }
         
-        // BEGIN JUST FOR TEST ONLY [Fri 04 Feb 2011 17:32:17 MSK]
+        $where_sql = '1 = 1'; // TEST
         
         $result = mysql_query_or_error(
-            'SELECT COUNT(*) FROM `items_base`',
+            sprintf(
+                'SELECT COUNT(*) FROM `items_base` '.
+                'WHERE %s',
+                $where_sql
+            ),
             $this->_base_node__db_link
         );
         list($this->_search_items_node__items_count) = mysql_fetch_array($result);
@@ -92,8 +96,10 @@ class search_items_node__ns8184 extends node__ns21085 {
         $result = mysql_query_or_error(
             sprintf(
                 'SELECT * FROM `items_base` '.
+                    'WHERE %s '.
                     'ORDER BY ABS(%s - `item_modified`) '.
                     'LIMIT %s OFFSET %s',
+                $where_sql,
                 intval(get_time__ns29922()),
                 intval($this->_search_items_node__items_real_limit),
                 intval($this->_search_items_node__items_offset)
@@ -112,10 +118,6 @@ class search_items_node__ns8184 extends node__ns21085 {
             }
         }
         mysql_free_result($result);
-        
-        // END JUST FOR TEST ONLY [Fri 04 Feb 2011 17:32:17 MSK]
-        
-        // TODO: ...
         
         $this->_search_items_node__item_list_widget =
                 new item_list_widget__ns28376($this->_search_items_node__items);
