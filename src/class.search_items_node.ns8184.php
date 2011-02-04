@@ -153,14 +153,31 @@ class search_items_node__ns8184 extends node__ns21085 {
         }
     }
     
+    protected function _search_items_node__split_general_to_word($general) {
+        $words = array();
+        
+        foreach(explode(' ', $general) as $raw_word) {
+            $word = trim($raw_word);
+            
+            if($word) {
+                $words []= $word;
+            }
+        }
+        
+        return $words;
+    }
+    
     protected function _base_node__on_init() {
         parent::_base_node__on_init();
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $search_args = array();
-            $general_search = $this->post_arg('general_search');
-            if($general_search) {
+            $raw_general_search = $this->post_arg('general_search');
+            if($raw_general_search) {
+                $general_search = $this->_search_items_node__split_general_to_word($raw_general_search);
+                
                 $search_args['general_search'] = $general_search;
+                    
             }
             $sex_search = $this->post_arg('sex_search');
             if($sex_search) {
@@ -341,7 +358,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                                 'type="text" '.
                                 'name="general_search" '.
                                 'id="_search_items_node__general_search" '.
-                                'value="'.htmlspecialchars($this->_search_items_node__general_search).'" />'.
+                                'value="'.htmlspecialchars(implode(' ', $this->_search_items_node__general_search)).'" />'.
                         '</div>'.
                         '<div>'.
                             '<select class="FloatRight Margin5Px Width150Px" '.
