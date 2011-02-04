@@ -29,6 +29,19 @@ require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 class form_error__ns8184
         extends Exception {}
 
+function join_sqls__ns8184($op, $sqls, $kwargs=NULL) {
+    $bkt = ($kwargs && array_key_exists('bkt', $kwargs))?
+        $kwargs['bkt']:FALSE;
+    
+    $sql = join(sprintf(' %s ', $op), $sqls);
+    
+    if($bkt && $sql) {
+        $sql = sprintf('(%s)', $sql);
+    }
+    
+    return $sql;
+}
+
 class search_items_node__ns8184 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
@@ -42,7 +55,7 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected $_search_items_node__show_form_results = FALSE;
     protected $_search_items_node__message_html = '';
     
-    protected $_search_items_node__general_search = '';
+    protected $_search_items_node__general_search = array();
     protected $_search_items_node__sex_search = '';
     protected $_search_items_node__advanced_search_params = array();
     
@@ -66,7 +79,28 @@ class search_items_node__ns8184 extends node__ns21085 {
     }
     
     protected function _search_items_node__get_where_sql() {
-        $where_sql = '1 = 1'; // TEST
+        $and_part_sqls = array();
+        
+        $and_part_general_search_sqls = array();
+        foreach($this->_search_items_node__general_search as $general_search_word) {
+            $or_part_general_search_sqls = array();
+            
+            $or_part_general_search_sqls []= sprintf('\'МаМа МыЛа РаМу\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+            $or_part_general_search_sqls []= sprintf('\'РаМа МыЛа МаМу\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+            $or_part_general_search_sqls []= sprintf('\'на ДВОРЕ трава\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+            $or_part_general_search_sqls []= sprintf('\'на ТРАВЕ дрова\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+            
+            $and_part_general_search_sqls []= join_sqls__ns8184(
+                    'OR', $or_part_general_search_sqls, array('bkt' => TRUE));
+        }
+        $and_part_sqls []= join_sqls__ns8184('AND', $and_part_general_search_sqls);
+        
+        $where_sql = join_sqls__ns8184('AND', $and_part_sqls);
+        
+        $this->_search_items_node__message_html .=                   // this is TEST
+                '<p class="TextAlignCenter">'.                       // this is TEST
+                    'DEBUG: +++'.htmlspecialchars($where_sql).'---'. // this is TEST
+                '</p>';                                              // this is TEST
         
         return $where_sql;
     }

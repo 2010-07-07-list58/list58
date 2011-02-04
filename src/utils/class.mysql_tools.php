@@ -46,18 +46,30 @@ function mysql_query_or_error($query, $link) {
 }
 
 function mysql_escape_in_like_expr($str) {
-    $escaped = 
-            str_replace('\\', '\\\\', $str).
-            str_replace('%', '\\%', $str).
-            str_replace('_', '\\_', $str);
+    $escaped =
+            str_replace('_', '\\_', 
+                str_replace('%', '\\%', 
+                    str_replace('\\', '\\\\', $str)));
     
     return $escaped;
 }
 
 function mysql_real_escape_like_expr_string($str, $link) {
-    $quoted = mysql_real_escape_string(
+    $escaped = mysql_real_escape_string(
         sprintf('%%%s%%', mysql_escape_in_like_expr($str)),
         $link
+    );
+    
+    return $escaped;
+}
+
+function mysql_quote_like_expr_string($str, $link) {
+    $quoted = sprintf(
+        '\'%s\'',
+        mysql_real_escape_like_expr_string(
+            $str,
+            $link
+        )
     );
     
     return $quoted;
