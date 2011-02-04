@@ -29,6 +29,7 @@ class home_node__ns25120 extends node__ns21085 {
     protected $_base_node__need_check_auth = TRUE;
     
     protected $_home_node__items_limit = 0;
+    protected $_home_node__items_real_limit = 20;
     protected $_home_node__items_offset = 0;
     protected $_home_node__items_count;
     protected $_home_node__items;
@@ -62,12 +63,9 @@ class home_node__ns25120 extends node__ns21085 {
             
             if($items_limit > 0 && $items_limit <= 200) {
                 $this->_home_node__items_limit = $items_limit;
+                $this->_home_node__items_real_limit = $items_limit;
             }
         }
-        
-        $this->_home_node__items_real_limit = 
-            $this->_home_node__items_limit?
-            $this->_home_node__items_limit:20;
         
         $result = mysql_query_or_error(
             'SELECT COUNT(*) FROM `items_base`',
