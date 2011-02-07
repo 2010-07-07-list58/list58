@@ -88,10 +88,60 @@ class search_items_node__ns8184 extends node__ns21085 {
             foreach($this->_search_items_node__general_search as $general_search_word) {
                 $or_part_general_search_sqls = array();
                 
-                $or_part_general_search_sqls []= sprintf('\'МаМа МыЛа РаМу\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
-                $or_part_general_search_sqls []= sprintf('\'РаМа МыЛа МаМу\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
-                $or_part_general_search_sqls []= sprintf('\'на ДВОРЕ трава\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
-                $or_part_general_search_sqls []= sprintf('\'на ТРАВЕ дрова\' LIKE %s', mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)); // this is TEST
+                $or_part_general_search_sqls []= sprintf(
+                    '`given_name` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`family_name` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`patronymic_name` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`passport_ser` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`passport_no` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`residence_city` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`residence` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`phone` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`phone2` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`about` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    '`comments` LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
                 
                 $and_part_general_search_sqls []= join_sqls__ns8184(
                         'OR', $or_part_general_search_sqls, array('bkt' => TRUE));
@@ -118,7 +168,7 @@ class search_items_node__ns8184 extends node__ns21085 {
         $where_sql = join_sqls__ns8184('AND', $and_part_sqls);
         
         $this->_search_items_node__message_html .=                   // this is TEST
-                '<p class="TextAlignCenter">'.                       // this is TEST
+                '<p class="TextAlignCenter Width700Px">'.                       // this is TEST
                     'DEBUG: +++'.htmlspecialchars($where_sql).'---'. // this is TEST
                 '</p>';                                              // this is TEST
         
