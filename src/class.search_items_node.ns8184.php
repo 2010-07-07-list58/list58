@@ -53,6 +53,7 @@ class search_items_node__ns8184 extends node__ns21085 {
     );
     protected $_search_items_node__show_form = TRUE;
     protected $_search_items_node__show_form_results = FALSE;
+    protected $_search_items_node__mysql_microtime = NULL;
     protected $_search_items_node__message_html = '';
     
     protected $_search_items_node__general_search = array();
@@ -168,7 +169,7 @@ class search_items_node__ns8184 extends node__ns21085 {
         $where_sql = join_sqls__ns8184('AND', $and_part_sqls);
         
         $this->_search_items_node__message_html .=                   // this is TEST
-                '<p class="TextAlignCenter Width700Px">'.                       // this is TEST
+                '<p class="TextAlignCenter Width700Px">'.            // this is TEST
                     'DEBUG: +++'.htmlspecialchars($where_sql).'---'. // this is TEST
                 '</p>';                                              // this is TEST
         
@@ -196,6 +197,8 @@ class search_items_node__ns8184 extends node__ns21085 {
                         $this->_search_items_node__items_real_limit = $items_limit;
                     }
                 }
+                
+                $mysql_microtime = microtime(TRUE);
                 
                 $result = mysql_query_or_error(
                     sprintf(
@@ -234,6 +237,8 @@ class search_items_node__ns8184 extends node__ns21085 {
                 }
                 mysql_free_result($result);
                 
+                $mysql_microtime = abs(microtime(TRUE) - $mysql_microtime);
+                
                 $this->_search_items_node__item_list_widget =
                         new item_list_widget__ns28376($this->_search_items_node__items);
                 $this->_search_items_node__page_links_widget = 
@@ -246,6 +251,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                         );
                 
                 $this->_search_items_node__show_form_results = TRUE;
+                $this->_search_items_node__mysql_microtime = $mysql_microtime;
             }
         } catch(MysqlError $e) {
             throw new form_error__ns8184(
@@ -603,6 +609,16 @@ class search_items_node__ns8184 extends node__ns21085 {
                     'Стр.: '.$this->_search_items_node__page_links_widget->get_widget().
                     '<div class="ClearBoth"></div>'.
                 '</div>';
+        
+        if($this->_search_items_node__mysql_microtime) {
+            $mysql_time = ceil($this->_search_items_node__mysql_microtime * 1000.0) / 1000.0;
+            
+            $html .=
+                '<div class="Margin10Px FloatRight FontSize07Em">'.
+                    'Время поиска (секунд): '.$mysql_time.
+                '</div>'.
+                '<div class="ClearBoth"></div>';
+        }
         
         return $html;
     }
