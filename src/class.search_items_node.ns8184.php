@@ -105,12 +105,37 @@ class search_items_node__ns8184 extends node__ns21085 {
                 );
                 
                 $or_part_general_search_sqls []= sprintf(
-                    '`passport_ser` LIKE %s',
+                    'CONCAT(`birth_year`, \'-\', `birth_month`, \'-\', `birth_day`) LIKE %s',
                     mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
                 );
                 
                 $or_part_general_search_sqls []= sprintf(
-                    '`passport_no` LIKE %s',
+                    'CONCAT(`birth_year`, \'-0\', `birth_month`, \'-\', `birth_day`) LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    'CONCAT(`birth_year`, \'-\', `birth_month`, \'-0\', `birth_day`) LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    'CONCAT(`birth_year`, \'-0\', `birth_month`, \'-0\', `birth_day`) LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    'CONCAT(`birth_day`, \'.\', `birth_month`, \'.\', `birth_year`) LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    'CONCAT(`birth_day`, \'.0\', `birth_month`, \'.\', `birth_year`) LIKE %s',
+                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
+                    'CONCAT(`passport_ser`, `passport_no`) LIKE %s',
                     mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
                 );
                 
