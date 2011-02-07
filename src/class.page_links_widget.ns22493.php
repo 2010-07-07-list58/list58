@@ -137,7 +137,11 @@ class page_links_widget__ns22493 {
         
         // вывод результатов:
         
-        $html = join(' ', $html_elems);
+        if($html_elems) {
+            $html = join(' ', $html_elems);
+        } else {
+            $html = '(Нет)';
+        }
         
         return $html;
     }
