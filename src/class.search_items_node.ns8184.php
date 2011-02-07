@@ -103,8 +103,12 @@ class search_items_node__ns8184 extends node__ns21085 {
             // критерий Пол ('sex_search')
             
             if($this->_search_items_node__sex_search == 'Мужской') {
-                $and_part_sqls []= '`sex` = 1';
+                $and_part_sqls []= '`sex` <> 2';
             } elseif($this->_search_items_node__sex_search == 'Женский') {
+                $and_part_sqls []= '`sex` <> 1';
+            } elseif($this->_search_items_node__sex_search == 'Мужской (строгий режим)') {
+                $and_part_sqls []= '`sex` = 1';
+            } elseif($this->_search_items_node__sex_search == 'Женский (строгий режим)') {
                 $and_part_sqls []= '`sex` = 2';
             }
         }
@@ -411,7 +415,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                                 'value="'.htmlspecialchars(join(' ', $this->_search_items_node__general_search)).'" />'.
                         '</div>'.
                         '<div>'.
-                            '<select class="FloatRight Margin5Px Width150Px" '.
+                            '<select class="FloatRight Margin5Px Width300Px" '.
                                     'name="sex_search" '.
                                     'id="_search_items_node__sex_search">'.
                                 ($this->_search_items_node__sex_search?
@@ -427,6 +431,9 @@ class search_items_node__ns8184 extends node__ns21085 {
                                 '<option></option>'.
                                 '<option value="Мужской">Мужской</option>'.
                                 '<option value="Женский">Женский</option>'.
+                                '<option value="">----------</option>'.
+                                '<option value="Мужской (строгий режим)">Мужской (строгий режим)</option>'.
+                                '<option value="Женский (строгий режим)">Женский (строгий режим)</option>'.
                             '</select> '.
                             '<label class="FloatRight Margin5Px" '.
                                     'for="_search_items_node__sex_search" >'.
