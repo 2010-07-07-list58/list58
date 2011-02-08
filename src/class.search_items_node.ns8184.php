@@ -294,7 +294,7 @@ class search_items_node__ns8184 extends node__ns21085 {
         foreach(explode(' ', $general) as $raw_word) {
             $word = trim($raw_word);
             
-            if($word) {
+            if($word && mb_strlen($word, 'utf-8') >= 3) {
                 $words []= $word;
             }
         }
