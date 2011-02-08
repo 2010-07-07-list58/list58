@@ -151,6 +151,22 @@ class search_items_node__ns8184 extends node__ns21085 {
                     mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
                 );
                 
+                try {
+                    $general_search_word_phone = normalize_phone__ns31025($general_search_word);
+                } catch(parse_error__ns31025 $e) {
+                    $general_search_word_phone = NULL;
+                }
+                if($general_search_word_phone) {
+                    $or_part_general_search_sqls []= sprintf(
+                        '`phone` = \'%s\'',
+                        mysql_real_escape_string($general_search_word_phone, $this->_base_node__db_link)
+                    );
+                    $or_part_general_search_sqls []= sprintf(
+                        '`phone2` = \'%s\'',
+                        mysql_real_escape_string($general_search_word_phone, $this->_base_node__db_link)
+                    );
+                }
+                
                 $or_part_general_search_sqls []= sprintf(
                     '`about` LIKE %s',
                     mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
