@@ -63,7 +63,6 @@ class search_items_node__ns8184 extends node__ns21085 {
         'Дополнительное описание',
         'Примечание',
         'Id',
-        // TODO: ...
     );
     protected $_search_items_node__show_form = TRUE;
     protected $_search_items_node__show_form_results = FALSE;
