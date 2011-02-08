@@ -606,6 +606,9 @@ class search_items_node__ns8184 extends node__ns21085 {
                             $this->_search_items_node__advanced_search_element('noscript_3', '', '').
                             $this->_search_items_node__advanced_search_element('noscript_4', '', '').
                         '</div>'.
+                        '<input class="FloatLeft Margin5Px" type="submit" value="Найти" />'.
+                        '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
+                        '<div class="ClearBoth"></div>'.
                     '</form>'.
                 '</div>';
         
