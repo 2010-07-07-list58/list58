@@ -62,6 +62,27 @@ function join_sqls__ns8184($op, $sqls, $kwargs=NULL) {
     return $sql;
 }
 
+function str_to_like_sql__ns8184($sql_field, $str, $kwargs=NULL) {
+    $min_len = ($kwargs && array_key_exists('min_len', $kwargs))?
+        $kwargs['min_len']:0;
+    $bkt = ($kwargs && array_key_exists('bkt', $kwargs))?
+        $kwargs['bkt']:FALSE;
+    
+    $sqls = array();
+    
+    foreach(split_str_to_words__ns8184($sqls, array('min_len' => $min_len)) as $word) {
+       $sqls []= sprintf(
+            '`%s` LIKE %s',
+            $sql_field,
+            mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
+        );
+    }
+    
+    $sql = join_sqls__ns8184('OR', $sqls, array('bkt' => $bkt));
+    
+    return $sql;
+}
+
 class search_items_node__ns8184 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
