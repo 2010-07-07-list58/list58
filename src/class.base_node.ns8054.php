@@ -284,11 +284,23 @@ class base_node__ns8054 {
     }
     
     public function get_arg($arg_name, $def_value=NULL) {
-        return get_get__ns2886($arg_name, $def_value);
+        $value = get_get__ns2886($arg_name, $def_value);
+        
+        if($value !== NULL) {
+            return $value;
+        } else {
+            return $def_value;
+        }
     }
     
     public function post_arg($arg_name, $def_value=NULL) {
-        return get_post__ns2886($arg_name, $def_value);
+        $value = get_post__ns2886($arg_name, $def_value);
+        
+        if($value !== NULL) {
+            return $value;
+        } else {
+            return $def_value;
+        }
     }
     
     public function html_from_txt($txt) {
