@@ -90,6 +90,11 @@ class search_items_node__ns8184 extends node__ns21085 {
                 $or_part_general_search_sqls = array();
                 
                 $or_part_general_search_sqls []= sprintf(
+                    '`id` = \'%s\'',
+                    mysql_real_escape_string($general_search_word, $this->_base_node__db_link)
+                );
+                
+                $or_part_general_search_sqls []= sprintf(
                     '`given_name` LIKE %s',
                     mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
                 );
