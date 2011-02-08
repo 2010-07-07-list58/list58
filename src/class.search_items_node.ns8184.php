@@ -30,6 +30,25 @@ require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 class form_error__ns8184
         extends Exception {}
 
+function split_str_to_words__ns8184($str, $kwargs=NULL) {
+    $min_len = ($kwargs && array_key_exists('min_len', $kwargs))?
+        $kwargs['min_len']:0;
+    
+    $words = array();
+    
+    if($str) {
+        foreach(explode(' ', $str) as $raw_word) {
+            $word = trim($raw_word);
+            
+            if($word && (!$min_len || mb_strlen($word, 'utf-8') >= $min_len)) {
+                $words []= $word;
+            }
+        }
+    }
+    
+    return $words;
+}
+
 function join_sqls__ns8184($op, $sqls, $kwargs=NULL) {
     $bkt = ($kwargs && array_key_exists('bkt', $kwargs))?
         $kwargs['bkt']:FALSE;
@@ -394,20 +413,6 @@ class search_items_node__ns8184 extends node__ns21085 {
         }
     }
     
-    protected function _search_items_node__split_general_to_words($general) {
-        $words = array();
-        
-        foreach(explode(' ', $general) as $raw_word) {
-            $word = trim($raw_word);
-            
-            if($word && mb_strlen($word, 'utf-8') >= 3) {
-                $words []= $word;
-            }
-        }
-        
-        return $words;
-    }
-    
     protected function _base_node__on_init() {
         parent::_base_node__on_init();
         
@@ -415,7 +420,7 @@ class search_items_node__ns8184 extends node__ns21085 {
             $search_args = array();
             $raw_general_search = $this->post_arg('general_search');
             if($raw_general_search) {
-                $general_search = $this->_search_items_node__split_general_to_words($raw_general_search);
+                $general_search = split_str_to_words__ns8184($raw_general_search, array('min_len' => 3));
                 
                 $search_args['general_search'] = $general_search;
                     
