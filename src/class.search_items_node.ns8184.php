@@ -73,10 +73,9 @@ class search_items_node__ns8184 extends node__ns21085 {
         'Дата рождения',
         'Возраст от',
         'Возраст до',
-        'Серия и номер паспорта',
+        'Паспорт (серия, номер и кем выдан)',
         'Серия паспорта (строгий режим)',
         'Номер паспорта (строгий режим)',
-        'Кем выдан паспорт',
         'Город',
         'Адрес',
         'Дополнительное описание',
@@ -116,13 +115,21 @@ class search_items_node__ns8184 extends node__ns21085 {
             $kwargs['min_len']:0;
         $bkt = ($kwargs && array_key_exists('bkt', $kwargs))?
             $kwargs['bkt']:FALSE;
+        $field_expr = ($kwargs && array_key_exists('field_expr', $kwargs))?
+            $kwargs['field_expr']:FALSE;
         
         $sqls = array();
         
+        if($field_expr) {
+            $sql_field_sql = $sql_field;
+        } else {
+            $sql_field_sql = sprintf('`%s`', $sql_field);
+        }
+        
         foreach(split_str_to_words__ns8184($str, array('min_len' => $min_len)) as $word) {
            $sqls []= sprintf(
-                '`%s` LIKE %s',
-                $sql_field,
+                '%s LIKE %s',
+                $sql_field_sql,
                 mysql_quote_like_expr_string($word, $this->_base_node__db_link)
             );
         }
@@ -131,7 +138,7 @@ class search_items_node__ns8184 extends node__ns21085 {
         
         return $sql;
     }
-        
+    
     protected function _search_items_node__get_where_sql() {
         $and_part_sqls = array();
         
@@ -295,13 +302,12 @@ class search_items_node__ns8184 extends node__ns21085 {
             //    // TODO: ...
             //} elseif($search_type == 'Возраст до') {
             //    // TODO: ...
-            } elseif($search_type == 'Серия и номер паспорта') {
+            } elseif($search_type == 'Паспорт (серия, номер и кем выдан)') {
                 $search_value_ser_no = str_replace(' ', '', $search_value);
                 
-                $and_part_sqls []= sprintf(
-                    'CONCAT(`passport_ser`, `passport_no`) LIKE %s',
-                    mysql_quote_like_expr_string($search_value_ser_no, $this->_base_node__db_link)
-                );
+                $and_part_sqls []= $this->_search_items_node__get_like_sql(
+                        'CONCAT(`passport_ser`, \' \', `passport_no`, \' \', `passport_dep`, \' \', `passport_day`)',
+                        $search_value, array('field_expr' => TRUE, 'bkt' => TRUE));
             } elseif($search_type == 'Серия паспорта (строгий режим)') {
                 $and_part_sqls []= sprintf(
                     '`passport_ser` = \'%s\'',
