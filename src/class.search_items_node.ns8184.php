@@ -273,6 +273,11 @@ class search_items_node__ns8184 extends node__ns21085 {
                     '`passport_no` = \'%s\'',
                     mysql_real_escape_string($search_value, $this->_base_node__db_link)
                 );
+            } elseif($search_type == 'Город') {
+                $and_part_sqls []= sprintf(
+                    '`residence_city` = \'%s\'',
+                    mysql_real_escape_string($search_value, $this->_base_node__db_link)
+                );
             }
             // TODO: другие дополнительные критерии
             elseif($search_type == 'Id') {
