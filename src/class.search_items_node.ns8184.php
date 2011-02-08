@@ -48,8 +48,12 @@ class search_items_node__ns8184 extends node__ns21085 {
     protected $_base_node__need_check_auth = TRUE;
     
     protected $_search_items_node__advanced_search_types = array(
+        'Имя',
+        'Фамилия',
+        'Отчество',
         'Возраст от',
         'Возраст до',
+        'Id',
         // TODO: ...
     );
     protected $_search_items_node__show_form = TRUE;
@@ -197,7 +201,26 @@ class search_items_node__ns8184 extends node__ns21085 {
             }
         }
         
-        // TODO: другие критерии
+        foreach($this->_search_items_node__advanced_search_params as $advanced_search_param) {
+            // критерии Дополнительных Параметров ('advanced_search_params')
+            
+            $search_type = $advanced_search_param['search_type'];
+            $search_value = $advanced_search_param['search_value'];
+            
+            if($search_type == 'Имя') {
+                $and_part_sqls []= sprintf(
+                    '`given_name` LIKE %s',
+                    mysql_quote_like_expr_string($search_value, $this->_base_node__db_link)
+                );
+            }
+            // TODO: другие дополнительные критерии
+            elseif($search_type == 'Id') {
+                $and_part_sqls []= sprintf(
+                    '`id` = \'%s\'',
+                    mysql_real_escape_string($search_value, $this->_base_node__db_link)
+                );
+            }
+        }
         
         $where_sql = join_sqls__ns8184('AND', $and_part_sqls);
         
