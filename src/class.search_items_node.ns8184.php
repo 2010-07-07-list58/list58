@@ -54,6 +54,9 @@ class search_items_node__ns8184 extends node__ns21085 {
         'Дата рождения',
         'Возраст от',
         'Возраст до',
+        'Серия и номер паспорта',
+        'Серия паспорта (строгий режим)',
+        'Номер паспорта (строгий режим)',
         'Id',
         // TODO: ...
     );
@@ -237,17 +240,34 @@ class search_items_node__ns8184 extends node__ns21085 {
                         mysql_real_escape_string($search_value_day[2], $this->_base_node__db_link)
                     );
                 } else {
-                    $message = '\'Дата рождения\' указана неверно (поле игнорировано)';
+                    $message = '\'Дата рождения\' указана неверно (параметр был игнорирован)';
                     
                     $this->_search_items_node__message_html .=
                             '<p class="ErrorColor TextAlignCenter">'.
                                 htmlspecialchars($message).
                             '</p>';
                 }
-            } elseif($search_type == 'Возраст от') {
-                // TODO: ...
-            } elseif($search_type == 'Возраст до') {
-                // TODO: ...
+            //} elseif($search_type == 'Возраст от') {
+            //    // TODO: ...
+            //} elseif($search_type == 'Возраст до') {
+            //    // TODO: ...
+            } elseif($search_type == 'Серия и номер паспорта') {
+                $search_value_ser_no = str_replace(' ', '', $search_value);
+                
+                $and_part_sqls []= sprintf(
+                    'CONCAT(`passport_ser`, `passport_no`) LIKE %s',
+                    mysql_quote_like_expr_string($search_value_ser_no, $this->_base_node__db_link)
+                );
+            } elseif($search_type == 'Серия паспорта (строгий режим)') {
+                $and_part_sqls []= sprintf(
+                    '`passport_ser` = \'%s\'',
+                    mysql_real_escape_string($search_value, $this->_base_node__db_link)
+                );
+            } elseif($search_type == 'Номер паспорта (строгий режим)') {
+                $and_part_sqls []= sprintf(
+                    '`passport_no` = \'%s\'',
+                    mysql_real_escape_string($search_value, $this->_base_node__db_link)
+                );
             }
             // TODO: другие дополнительные критерии
             elseif($search_type == 'Id') {
@@ -255,6 +275,16 @@ class search_items_node__ns8184 extends node__ns21085 {
                     '`id` = \'%s\'',
                     mysql_real_escape_string($search_value, $this->_base_node__db_link)
                 );
+            } else {
+                $message = sprintf(
+                    'Параметр \'%s\' был игнорирован',
+                    addslashes($search_type)
+                );
+                
+                $this->_search_items_node__message_html .=
+                        '<p class="ErrorColor TextAlignCenter">'.
+                            htmlspecialchars($message).
+                        '</p>';
             }
         }
         
