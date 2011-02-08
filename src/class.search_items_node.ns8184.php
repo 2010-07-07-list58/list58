@@ -51,6 +51,7 @@ class search_items_node__ns8184 extends node__ns21085 {
         'Имя',
         'Фамилия',
         'Отчество',
+        'Дата рождения',
         'Возраст от',
         'Возраст до',
         'Id',
@@ -212,6 +213,41 @@ class search_items_node__ns8184 extends node__ns21085 {
                     '`given_name` LIKE %s',
                     mysql_quote_like_expr_string($search_value, $this->_base_node__db_link)
                 );
+            } elseif($search_type == 'Фамилия') {
+                $and_part_sqls []= sprintf(
+                    '`family_name` LIKE %s',
+                    mysql_quote_like_expr_string($search_value, $this->_base_node__db_link)
+                );
+            } elseif($search_type == 'Отчество') {
+                $and_part_sqls []= sprintf(
+                    '`patronymic_name` LIKE %s',
+                    mysql_quote_like_expr_string($search_value, $this->_base_node__db_link)
+                );
+            } elseif($search_type == 'Дата рождения') {
+                try {
+                    $search_value_day = parse_day__ns31025($search_value);
+                } catch(parse_error__ns31025 $e) {
+                    $search_value_day = NULL;
+                }
+                if($search_value_day) {
+                    $and_part_sqls []= sprintf(
+                        '`birth_year` = \'%s\' AND `birth_month` = \'%s\' AND `birth_day` = \'%s\'',
+                        mysql_real_escape_string($search_value_day[0], $this->_base_node__db_link),
+                        mysql_real_escape_string($search_value_day[1], $this->_base_node__db_link),
+                        mysql_real_escape_string($search_value_day[2], $this->_base_node__db_link)
+                    );
+                } else {
+                    $message = '\'Дата рождения\' указана неверно (поле игнорировано)';
+                    
+                    $this->_search_items_node__message_html .=
+                            '<p class="ErrorColor TextAlignCenter">'.
+                                htmlspecialchars($message).
+                            '</p>';
+                }
+            } elseif($search_type == 'Возраст от') {
+                // TODO: ...
+            } elseif($search_type == 'Возраст до') {
+                // TODO: ...
             }
             // TODO: другие дополнительные критерии
             elseif($search_type == 'Id') {
