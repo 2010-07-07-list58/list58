@@ -321,8 +321,18 @@ class search_items_node__ns8184 extends node__ns21085 {
                 $and_part_sqls []= $this->_search_items_node__get_like_sql(
                         'residence', $search_value, array('bkt' => TRUE));
             }
-            // TODO: другие дополнительные критерии
-            elseif($search_type == 'Id') {
+             elseif($search_type == 'Адрес') {
+                $and_part_sqls []= $this->_search_items_node__get_like_sql(
+                        'residence', $search_value, array('bkt' => TRUE));
+            }
+             elseif($search_type == 'Дополнительное описание') {
+                $and_part_sqls []= $this->_search_items_node__get_like_sql(
+                        'about', $search_value, array('bkt' => TRUE));
+            }
+             elseif($search_type == 'Примечание') {
+                $and_part_sqls []= $this->_search_items_node__get_like_sql(
+                        'comments', $search_value, array('bkt' => TRUE));
+            } elseif($search_type == 'Id') {
                 $and_part_sqls []= sprintf(
                     '`id` = \'%s\'',
                     mysql_real_escape_string($search_value, $this->_base_node__db_link)
