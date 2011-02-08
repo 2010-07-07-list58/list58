@@ -23,6 +23,7 @@ require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/class.item_list_widget.ns28376.php';
 require_once dirname(__FILE__).'/class.page_links_widget.ns22493.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
+require_once dirname(__FILE__).'/utils/class.parse_form.ns31025.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
@@ -111,35 +112,19 @@ class search_items_node__ns8184 extends node__ns21085 {
                     mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
                 );
                 
-                $or_part_general_search_sqls []= sprintf(
-                    'CONCAT(`birth_year`, \'-\', `birth_month`, \'-\', `birth_day`) LIKE %s',
-                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
-                );
-                
-                $or_part_general_search_sqls []= sprintf(
-                    'CONCAT(`birth_year`, \'-0\', `birth_month`, \'-\', `birth_day`) LIKE %s',
-                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
-                );
-                
-                $or_part_general_search_sqls []= sprintf(
-                    'CONCAT(`birth_year`, \'-\', `birth_month`, \'-0\', `birth_day`) LIKE %s',
-                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
-                );
-                
-                $or_part_general_search_sqls []= sprintf(
-                    'CONCAT(`birth_year`, \'-0\', `birth_month`, \'-0\', `birth_day`) LIKE %s',
-                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
-                );
-                
-                $or_part_general_search_sqls []= sprintf(
-                    'CONCAT(`birth_day`, \'.\', `birth_month`, \'.\', `birth_year`) LIKE %s',
-                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
-                );
-                
-                $or_part_general_search_sqls []= sprintf(
-                    'CONCAT(`birth_day`, \'.0\', `birth_month`, \'.\', `birth_year`) LIKE %s',
-                    mysql_quote_like_expr_string($general_search_word, $this->_base_node__db_link)
-                );
+                try {
+                    $general_search_word_day = parse_day__ns31025($general_search_word);
+                } catch(parse_error__ns31025 $e) {
+                    $general_search_word_day = NULL;
+                }
+                if($general_search_word_day) {
+                    $or_part_general_search_sqls []= sprintf(
+                        '`birth_year` = \'%s\' AND `birth_month` = \'%s\' AND `birth_day` = \'%s\'',
+                        mysql_real_escape_string($general_search_word_day[0], $this->_base_node__db_link),
+                        mysql_real_escape_string($general_search_word_day[1], $this->_base_node__db_link),
+                        mysql_real_escape_string($general_search_word_day[2], $this->_base_node__db_link)
+                    );
+                }
                 
                 $or_part_general_search_sqls []= sprintf(
                     'CONCAT(`passport_ser`, `passport_no`) LIKE %s',
