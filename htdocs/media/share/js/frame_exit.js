@@ -19,13 +19,29 @@
 (function() {
     'use strict'
     
+    var top_window_marker =
+            '/2010/07/07/List58/node/frame_exit/top_window_marker'
+    
     function main(event) {
-        if(window.parent != window) {
-            try{
+        // помечаем что это окно является "первым" ("top"), относительно этой системы
+        window[top_window_marker] = true
+        
+        try {
+            if(window.parent != window &&
+                    window.parent[top_window_marker]) {
+                // если вдруг оказывается что мы находимся внутри другого родительского окна
+                // и что это другое окно тоже является таким же "первым" (относительно этой системы)...
+                //
+                // ...то обновляем его адрес на наш адрес
+                
                 window.parent.location = location
+                
+                // таким образом мы избавились от лишнего frame
             }
-            catch(e) {}
-        }
+        } catch(e) {}
+        
+        // суть в том, что нет смысла просто-так избавляться от frame,
+        // в случае если мы ничего не знаем о том кто является родительским окном
     }
     
     addEventListener('load', main, false)
