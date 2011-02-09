@@ -34,13 +34,17 @@ class node__ns21085 extends base_node__ns8054 {
                 'menu_link' => '?',
             );
             
-            if($this->_base_node__is_permitted('search_items')) {
-                // меню для тех кому разрешено искать Элементы Данных
+            if($this->_base_node__is_permitted('view_items')) {
+                // группа кнопок меню, связанных с Просмотром и Редактированием Данных
                 
-                $menu[] = array(
-                    'menu_name' => 'Поиск',
-                    'menu_link' => '?node=search_items',
-                );
+                if($this->_base_node__is_permitted('search_items')) {
+                    // меню для тех кому разрешено искать Элементы Данных
+                    
+                    $menu[] = array(
+                        'menu_name' => 'Поиск',
+                        'menu_link' => '?node=search_items',
+                    );
+                }
                 
                 if($this->_base_node__is_permitted('new_items')) {
                     // меню для тех кому дополнительно разрешено и

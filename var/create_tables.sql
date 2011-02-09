@@ -4,7 +4,6 @@
 --     charset utf8
 --
 
-
 -- базовый список пользователей:
 CREATE TABLE IF NOT EXISTS `users_base` (
     `login` VARCHAR(100),
@@ -24,7 +23,6 @@ CREATE TABLE IF NOT EXISTS `users_base` (
     KEY `users_base(org)` (`org`),
     KEY `users_base(comments)` (`comments`(1000))
 );
-
 
 -- список активных сессий:
 CREATE TABLE IF NOT EXISTS `user_sessions` (
@@ -46,24 +44,34 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
 );
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+--
+-- пояснение к группам полномочий
+--
+--   группа 'view_items':
+--          'view_items': доступ к функции просмотра людей
+--
+--   группа 'search_items':
+--          'view_items'+'search_items':
+--              доступ к функции поиска людей
+--
+--   группа 'new_items':
+--          'view_items'+'new_items':
+--                  доступ к возможности добавления новых людей
+--
+--   группа 'mod_items':
+--          'view_items'+'mod_items':
+--              возможность редактировать данные о людях
+--              (как минимум данные, вдалец которых)
+--
+--  группа 'mod_other_items':
+--          'view_items'+'mod_items'+'mod_other_items':
+--              возможность редактировать чужие данные о людях
+--
+--  группа 'adm':
+--          административные полномочия.
+--          редактирование участников системы
+--
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
---                                                          --
--- пояснение к группам полномочий                           --
---                                                          --
---   группа "search_items": доступ к функции поиска людей   --
---                                                          --
---   группа "new_items": доступ к возможности добавления людей
---                                                          --
---   группа "mod_items": возможность редактировать          --
---                        чужие данные                      --
---                                                          --
---   группа "adm": административные полномочия:             --
---                   редактирование участников системы      --
---                   и прочие полномочия                    --
---                                                          --
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
 
 -- список ограничений по ip:
 CREATE TABLE IF NOT EXISTS `user_ips` (
@@ -73,7 +81,6 @@ CREATE TABLE IF NOT EXISTS `user_ips` (
     KEY `user_groups(login)` (`login`),
     KEY `user_groups(ip)` (`ip`)
 );
-
 
 -- база данных людей
 CREATE TABLE IF NOT EXISTS `items_base` (
@@ -120,5 +127,4 @@ CREATE TABLE IF NOT EXISTS `items_base` (
     KEY `users_base(about)` (`about`(1000)),
     KEY `users_base(comments)` (`comments`(1000))
 );
-
 
