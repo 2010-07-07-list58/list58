@@ -35,8 +35,8 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
         
         $this->_base_node__add_check_perms(
             array(
-                // требуется разрешение на поиск Элементов Данных:
-                'search_items' => TRUE,
+                // требуется разрешение на просмотр Элементов Данных:
+                'view_items' => TRUE,
             )
         );
     }
