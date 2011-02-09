@@ -385,14 +385,21 @@ class search_items_node__ns8184 extends node__ns21085 {
             }
         }
         
-        $where_sql = join_sqls__ns8184('AND', $and_part_sqls);
-        
-        #$this->_search_items_node__message_html .=                   // this is for DEBUG ONLY
-        #        '<p class="TextAlignCenter Width700Px">'.            // this is for DEBUG ONLY
-        #            'DEBUG: +++'.htmlspecialchars($where_sql).'---'. // this is for DEBUG ONLY
-        #        '</p>';                                              // this is for DEBUG ONLY
-        
-        return $where_sql;
+        if($and_part_sqls) {
+            // если искать действительно что-то будем,
+            // то тогда -- только то что не удалено
+            
+            $and_part_sqls []= 'NOT IFNULL(`item_deleted`, FALSE)';
+            
+            $where_sql = join_sqls__ns8184('AND', $and_part_sqls);
+            
+            //$this->_search_items_node__message_html .=                   // this is for DEBUG ONLY
+            //        '<p class="TextAlignCenter Width700Px">'.            // this is for DEBUG ONLY
+            //            'DEBUG: +++'.htmlspecialchars($where_sql).'---'. // this is for DEBUG ONLY
+            //        '</p>';                                              // this is for DEBUG ONLY
+            
+            return $where_sql;
+        }
     }
     
     protected function _search_items_node__init_form_results() {
