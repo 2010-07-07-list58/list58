@@ -301,7 +301,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                 $time_day = @date('j', $time);
                 
                 $and_part_sqls []= sprintf(
-                    '(\'%s\' - `birth_year` > \'%s\' OR \'%s\' - `birth_year` = \'%s\' AND ('.
+                    '`birth_year` AND (\'%s\' - `birth_year` > \'%s\' OR \'%s\' - `birth_year` = \'%s\' AND ('.
                         '\'%s\' - `birth_month` > 0 OR '.
                         '\'%s\' - `birth_month` = 0 AND \'%s\' - `birth_day` >= 0'.
                     '))',
@@ -320,7 +320,7 @@ class search_items_node__ns8184 extends node__ns21085 {
                 $time_day = @date('j', $time);
                 
                 $and_part_sqls []= sprintf(
-                    '(\'%s\' - `birth_year` < \'%s\' OR \'%s\' - `birth_year` = \'%s\' AND ('.
+                    '`birth_year` AND (\'%s\' - `birth_year` < \'%s\' OR \'%s\' - `birth_year` = \'%s\' AND ('.
                         '\'%s\' - `birth_month` < 0 OR '.
                         '\'%s\' - `birth_month` = 0 AND \'%s\' - `birth_day` < 0'.
                     '))',
