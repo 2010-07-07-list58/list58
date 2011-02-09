@@ -69,7 +69,7 @@ class home_node__ns25120 extends node__ns21085 {
         }
         
         $result = mysql_query_or_error(
-            'SELECT COUNT(*) FROM `items_base`',
+            'SELECT COUNT(*) FROM `items_base` WHERE NOT IFNULL(`item_deleted`, FALSE)',
             $this->_base_node__db_link
         );
         list($this->_home_node__items_count) = mysql_fetch_array($result);
@@ -77,7 +77,7 @@ class home_node__ns25120 extends node__ns21085 {
         
         $result = mysql_query_or_error(
             sprintf(
-                'SELECT * FROM `items_base` '.
+                'SELECT * FROM `items_base` WHERE NOT IFNULL(`item_deleted`, FALSE) '.
                     'ORDER BY ABS(%s - `item_modified`) '.
                     'LIMIT %s OFFSET %s',
                 intval(get_time__ns29922()),
