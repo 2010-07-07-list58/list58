@@ -27,7 +27,9 @@ class base_site_error__ns14329
     }
     
     public function _public__base_site_error__set_options($options) {
-        $this->_base_site_error__options = $options;
+        if($options) {
+            $this->_base_site_error__options = $options;
+        }
     }
 }
 
@@ -45,7 +47,7 @@ function set_error_options__ns14329($e, $options) {
     $e->_public__base_site_error__set_options($options);
 }
 
-function throw_site_error__ns14329($message, $options=array()) {
+function throw_site_error__ns14329($message, $options=NULL) {
     // конструктор для PHP-класса 'Exception' -- различается в PHP-5.2 и PHP-5.3.
     //  поэтому данная функция предоставляет совместимость
     
@@ -56,7 +58,7 @@ function throw_site_error__ns14329($message, $options=array()) {
     throw $e;
 }
 
-function throw_site_frame_error__ns14329($message, $options=array()) {
+function throw_site_frame_error__ns14329($message, $options=NULL) {
     // конструктор для PHP-класса 'Exception' -- различается в PHP-5.2 и PHP-5.3.
     //  поэтому данная функция предоставляет совместимость
     

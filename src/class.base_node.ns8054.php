@@ -104,9 +104,17 @@ class base_node__ns8054 {
         $this->_base_node__db_link = NULL;
     }
     
+    protected function _base_node__throw_site_error($message, $options=NULL) {
+        if($this instanceof frame__ns26442) {
+            throw_site_frame_error__ns14329($message, $options);
+        } else {
+            throw_site_error__ns14329($message, $options);
+        }
+    }
+    
     protected function _base_node__check_post_token_for($post_token) {
         if(!$post_token || $post_token != $_SESSION['post_token']) {
-            throw_site_error__ns14329(
+            $this->_base_node__throw_site_error(
                 'Ошибка системы безопасности: '."\n".
                 'Неавторизованный модифицирующий запрос ('.
                 'внезапная потеря сессии или, '.
@@ -222,7 +230,7 @@ class base_node__ns8054 {
                 $is_permitted = $this->_base_node__is_permitted($perm);
                 
                 if(!$is_permitted) {
-                    throw_site_error__ns14329(
+                    $this->_base_node__throw_site_error(
                         sprintf(
                             'Доступ запрещен (требуемое разрешение: %s)',
                             $perm
