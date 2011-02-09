@@ -37,7 +37,7 @@ class base_node__ns8054 {
     protected $_base_node__need_check_perms = array();
     
     protected $_base_node__db_link = NULL;
-    protected $_base_node__perms_cache = array();
+    protected $_base_node__perms_cache = NULL;
     
     protected function _base_node__init_db() {
         $mysql_conf_php = get_var__ns1609().'/class.mysql_conf.ns14040.php';
@@ -170,49 +170,49 @@ class base_node__ns8054 {
     
     protected function _base_node__on_add_check_perms() {}
     
-    protected function _base_node__is_permitted_nocache($perm) {
-        $success = FALSE;
+    protected function _base_node__init_perms_cache() {
+        $this->_base_node__perms_cache = array();
         
         $login = $_SESSION['reg_data']['login'];
         
         $result = mysql_query_or_error(
             sprintf(
-                'SELECT `login`, `group` FROM `user_groups` WHERE '.
-                    '`login` = \'%s\' AND `group` = \'%s\'',
-                mysql_real_escape_string($login, $this->_base_node__db_link),
-                mysql_real_escape_string($perm, $this->_base_node__db_link)
+                'SELECT `group` FROM `user_groups` '.
+                        'WHERE `login` = \'%s\'',
+                mysql_real_escape_string($login, $this->_base_node__db_link)
             ),
             $this->_base_node__db_link
         );
         
         if($result) {
-            $row = mysql_fetch_row($result);
-            if($row) {
-                list($stored_login, $stored_group) = $row;
+            for(;;) {
+                $row = mysql_fetch_row($result);
+                if(!$row) {
+                    break;
+                }
                 
-                if($stored_login == $login &&
-                        $stored_group == $perm) {
-                    $success = TRUE;
+                if($row) {
+                    list($stored_group) = $row;
+                    
+                    $this->_base_node__perms_cache []= $stored_group;
                 }
             }
             
             mysql_free_result($result);
         }
-        
-        return $success;
     }
     
     protected function _base_node__is_permitted($perm, $options=array()) {
         // кэшируемая проверка разрешений
         
-        if(array_key_exists($perm, $this->_base_node__perms_cache)) {
-            return $this->_base_node__perms_cache[$perm];
-        } else {
-            $is_permitted = $this->_base_node__is_permitted_nocache($perm);
+        if($_SESSION['authorized']) {
+            if($this->_base_node__perms_cache === NULL) {
+                $this->_base_node__init_perms_cache();
+            }
             
-            $this->_base_node__perms_cache[$perm] = $is_permitted;
-            
-            return $is_permitted;
+            if(in_array($perm, $this->_base_node__perms_cache)) {
+                return TRUE;
+            }
         }
     }
     
