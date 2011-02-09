@@ -105,11 +105,11 @@ class base_node__ns8054 {
     }
     
     protected function _base_node__throw_site_error($message, $options=NULL) {
-        if($this instanceof frame__ns26442) {
-            throw_site_frame_error__ns14329($message, $options);
-        } else {
-            throw_site_error__ns14329($message, $options);
-        }
+        // эта функция виртуально перегружена в классе 'frame__ns26442'
+        //
+        // а здесь -- её поведение поумолчанию
+        
+        throw_site_error__ns14329($message, $options);
     }
     
     protected function _base_node__check_post_token_for($post_token) {

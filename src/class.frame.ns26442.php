@@ -18,9 +18,14 @@
 
 */
 
+require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 
 class frame__ns26442 extends base_node__ns8054 {
+    protected function _base_node__throw_site_error($message, $options=NULL) {
+        throw_site_frame_error__ns14329($message, $options);
+    }
+    
     protected function _frame__get_head() {
         $html = '';
         

@@ -18,7 +18,6 @@
 
 */
 
-require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.frame.ns26442.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
@@ -47,7 +46,7 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
         if(array_key_exists('item_id', $_GET)) {
             $this->_item_detail_frame__item_id = intval($this->get_arg('item_id'));
         } else {
-            throw_site_frame_error__ns14329('Недостаточно аргументов');
+            $this->_base_node__throw_site_error('Недостаточно аргументов');
         }
         
         $result = mysql_query_or_error(
@@ -65,7 +64,7 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
         mysql_free_result($result);
         
         if(!$this->_item_detail_frame__item) {
-            throw_site_frame_error__ns14329('Данные отсутствуют');
+            $this->_base_node__throw_site_error('Данные отсутствуют');
         }
     }
     
