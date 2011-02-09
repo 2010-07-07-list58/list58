@@ -294,8 +294,25 @@ class search_items_node__ns8184 extends node__ns21085 {
                                 htmlspecialchars($message).
                             '</p>';
                 }
-            //} elseif($search_type == 'Возраст от') {
-            //    // TODO: ...
+            } elseif($search_type == 'Возраст от') {
+                $time = get_time__ns29922();
+                $time_year = @date('Y', $time);
+                $time_month = @date('n', $time);
+                $time_day = @date('j', $time);
+                
+                $and_part_sqls []= sprintf(
+                    '\'%s\' - `birth_year` > \'%s\' OR \'%s\' - `birth_year` = \'%s\' AND ('.
+                        '\'%s\' - `birth_month` > 0 OR '.
+                        '\'%s\' - `birth_month` = 0 AND \'%s\' - `birth_day` >= 0'.
+                    ')',
+                    mysql_real_escape_string($time_year, $this->_base_node__db_link),
+                    mysql_real_escape_string($search_value, $this->_base_node__db_link),
+                    mysql_real_escape_string($time_year, $this->_base_node__db_link),
+                    mysql_real_escape_string($search_value, $this->_base_node__db_link),
+                    mysql_real_escape_string($time_month, $this->_base_node__db_link),
+                    mysql_real_escape_string($time_month, $this->_base_node__db_link),
+                    mysql_real_escape_string($time_day, $this->_base_node__db_link)
+                );
             //} elseif($search_type == 'Возраст до') {
             //    // TODO: ...
             } elseif($search_type == 'Паспорт (серия, номер и кем выдан)') {
