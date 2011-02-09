@@ -59,8 +59,8 @@ class new_items_node__ns16127 extends node__ns21085 {
         
         $this->_base_node__add_check_perms(
             array(
-                // требуется разрешение на поиск Элементов Данных:
-                'search_items' => TRUE,
+                // требуется разрешение на просмотр Элементов Данных:
+                'view_items' => TRUE,
                 // требуется разрешение на создание Элементов Данных:
                 'new_items' => TRUE,
             )

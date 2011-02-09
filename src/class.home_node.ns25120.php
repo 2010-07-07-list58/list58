@@ -42,8 +42,8 @@ class home_node__ns25120 extends node__ns21085 {
         
         $this->_base_node__add_check_perms(
             array(
-                // требуется разрешение на поиск Элементов Данных:
-                'search_items' => TRUE,
+                // требуется разрешение на просмотр Элементов Данных:
+                'view_items' => TRUE,
             )
         );
     }
@@ -147,6 +147,30 @@ class home_node__ns25120 extends node__ns21085 {
     }
     
     protected function _node__get_aside() {
+        $quick_search_html = '';
+        
+        if($this->_base_node__is_permitted('search_items')) {
+            $quick_search_html =
+                    '<form action="'.htmlspecialchars('?node=search_items').'" method="post">'.
+                        '<div class="Margin5Px"><label for="_home_node__general_search">Поиск:</label></div>'.
+                        '<div class="Margin5Px">'.
+                            '<input class="MinWidth700Px Width100Per" '.
+                                'type="text" '.
+                                'name="general_search" '.
+                                'id="_home_node__general_search" '.
+                                'value="" />'.
+                        '</div>'.
+                        '<div>'.
+                            '<input type="hidden" '.
+                                'name="post_token" '.
+                                'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
+                            '<input class="FloatLeft Margin5Px" type="submit" value="Найти" />'.
+                            '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
+                            '<div class="ClearBoth"></div>'.
+                        '</div>'.
+                    '</form>';
+        }
+        
         $query_node = $this->get_arg('node');
         $short_page_links_html = '';
         
@@ -195,24 +219,7 @@ class home_node__ns25120 extends node__ns21085 {
         
         $html =
                 '<div class="SmallFrame">'.
-                    '<form action="'.htmlspecialchars('?node=search_items').'" method="post">'.
-                        '<div class="Margin5Px"><label for="_home_node__general_search">Поиск:</label></div>'.
-                        '<div class="Margin5Px">'.
-                            '<input class="MinWidth700Px Width100Per" '.
-                                'type="text" '.
-                                'name="general_search" '.
-                                'id="_home_node__general_search" '.
-                                'value="" />'.
-                        '</div>'.
-                        '<div>'.
-                            '<input type="hidden" '.
-                                'name="post_token" '.
-                                'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
-                            '<input class="FloatLeft Margin5Px" type="submit" value="Найти" />'.
-                            '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                    '</form>'.
+                    $quick_search_html.
                     '<h2 class="TextAlignCenter">Последние добавленные данные</h2>'.
                     '<div class="GroupFrame">'.
                         $this->_home_node__item_list_widget->get_widget().

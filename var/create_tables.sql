@@ -51,10 +51,11 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
 --          'view_items': доступ к функции просмотра людей
 --
 --   группа 'search_items':
---          'view_items'+'search_items': доступ к функции поиска людей
+--          'view_items'+'search_items':
+--              доступ к функции поиска людей
 --
 --   группа 'new_items':
---          'new_items':
+--          'view_items'+'new_items':
 --                  доступ к возможности добавления новых людей
 --
 --   группа 'mod_items':
