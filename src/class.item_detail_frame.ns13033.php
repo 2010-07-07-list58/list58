@@ -52,7 +52,7 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
         
         $result = mysql_query_or_error(
             sprintf(
-                'SELECT * FROM `items_base` WHERE `id` = \'%s\' AND NOT `item_deleted`',
+                'SELECT * FROM `items_base` WHERE NOT IFNULL(`item_deleted`, FALSE) AND `id` = \'%s\'',
                 mysql_real_escape_string($this->_item_detail_frame__item_id)
             ),
             $this->_base_node__db_link
