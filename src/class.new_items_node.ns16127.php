@@ -34,6 +34,7 @@ class new_items_node__ns16127 extends node__ns21085 {
     protected $_new_items_node__show_form = TRUE;
     protected $_new_items_node__message_html = '';
     
+    protected $_new_items_node__item_deleted = 0;
     protected $_new_items_node__given_name;
     protected $_new_items_node__family_name;
     protected $_new_items_node__patronymic_name;
@@ -184,6 +185,7 @@ class new_items_node__ns16127 extends node__ns21085 {
                         '`item_owner`, '.
                         '`item_created`, '.
                         '`item_modified`, '.
+                        '`item_deleted`, '.
                         '`given_name`, '.
                         '`family_name`, '.
                         '`patronymic_name`, '.
@@ -203,37 +205,21 @@ class new_items_node__ns16127 extends node__ns21085 {
                         '`comments`'.
                     ') '.
                     'VALUES ('.
-                        '\'%s\', '.
-                        '%s, '.
-                        '%s, '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '%s, '.
-                        '%s, '.
-                        '%s, '.
-                        '%s, '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '\'%s\', '.
-                        '\'%s\', '.
+                        '\'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', '.
+                        '\'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', '.
                         '\'%s\''.
                     ')',
                     mysql_real_escape_string($item_owner, $this->_base_node__db_link),
-                    intval($item_created),
-                    intval($item_created),
+                    mysql_real_escape_string($item_created, $this->_base_node__db_link),
+                    mysql_real_escape_string($item_created, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__item_deleted, $this->_base_node__db_link),
                     mysql_real_escape_string($this->_new_items_node__given_name, $this->_base_node__db_link),
                     mysql_real_escape_string($this->_new_items_node__family_name, $this->_base_node__db_link),
                     mysql_real_escape_string($this->_new_items_node__patronymic_name, $this->_base_node__db_link),
-                    intval($this->_new_items_node__birth_year),
-                    intval($this->_new_items_node__birth_month),
-                    intval($this->_new_items_node__birth_day),
-                    intval($this->_new_items_node__sex_enum),
+                    mysql_real_escape_string($this->_new_items_node__birth_year, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__birth_month, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__birth_day, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_new_items_node__sex_enum, $this->_base_node__db_link),
                     mysql_real_escape_string($this->_new_items_node__passport_ser, $this->_base_node__db_link),
                     mysql_real_escape_string($this->_new_items_node__passport_no, $this->_base_node__db_link),
                     mysql_real_escape_string($this->_new_items_node__passport_dep, $this->_base_node__db_link),
