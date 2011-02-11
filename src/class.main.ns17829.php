@@ -116,6 +116,13 @@ class main__ns17829 {
                     
                     break;
                 
+                case 'mod_item':
+                    require_once dirname(__FILE__).'/class.mod_item_node.ns16127.php';
+                    
+                    $node = new mod_item_node__ns16127($environ);
+                    
+                    break;
+                
                 case 'item_detail_frame':
                     require_once dirname(__FILE__).'/class.item_detail_frame.ns13033.php';
                     
@@ -141,13 +148,6 @@ class main__ns17829 {
                     require_once dirname(__FILE__).'/class.auth_node.ns2464.php';
                     
                     $node = new auth_node__ns2464($environ);
-                    
-                    break;
-                
-                case 'new_items':
-                    require_once dirname(__FILE__).'/class.new_items_node.ns16127.php';
-                    
-                    $node = new new_items_node__ns16127($environ);
                     
                     break;
                 

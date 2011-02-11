@@ -52,7 +52,7 @@ class node__ns21085 extends base_node__ns8054 {
                     
                     $menu[] = array(
                         'menu_name' => 'Новые Данные',
-                        'menu_link' => '?node=new_items',
+                        'menu_link' => '?node=mod_item',
                     );
                 }
             }
