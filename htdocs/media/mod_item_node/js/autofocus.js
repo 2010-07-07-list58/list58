@@ -19,7 +19,7 @@
 (function() {
     'use strict'
     
-    var for_focus_id = '_new_items_node__family_name'
+    var for_focus_id = '_mod_item_node__family_name'
     
     function main(event) {
         var element = document.getElementById(for_focus_id)
