@@ -35,26 +35,26 @@ class mod_item_node__ns16127 extends node__ns21085 {
     protected $_mod_item_node__message_html = '';
     
     protected $_mod_item_node__item_id = 0;
-    protected $_mod_item_node__item_deleted;
-    protected $_mod_item_node__given_name;
-    protected $_mod_item_node__family_name;
-    protected $_mod_item_node__patronymic_name;
-    protected $_mod_item_node__birthday;
-    protected $_mod_item_node__birth_year;
-    protected $_mod_item_node__birth_month;
-    protected $_mod_item_node__birth_day;
-    protected $_mod_item_node__sex;
-    protected $_mod_item_node__sex_enum;
-    protected $_mod_item_node__passport_ser;
-    protected $_mod_item_node__passport_no;
-    protected $_mod_item_node__passport_dep;
-    protected $_mod_item_node__passport_day;
-    protected $_mod_item_node__residence_city;
-    protected $_mod_item_node__residence;
-    protected $_mod_item_node__phone;
-    protected $_mod_item_node__phone2;
-    protected $_mod_item_node__about;
-    protected $_mod_item_node__comments;
+    protected $_mod_item_node__item_deleted = 0;
+    protected $_mod_item_node__given_name = '';
+    protected $_mod_item_node__family_name = '';
+    protected $_mod_item_node__patronymic_name = '';
+    protected $_mod_item_node__birthday = '';
+    protected $_mod_item_node__birth_year = '';
+    protected $_mod_item_node__birth_month = '';
+    protected $_mod_item_node__birth_day = '';
+    protected $_mod_item_node__sex = '';
+    protected $_mod_item_node__sex_enum = 0;
+    protected $_mod_item_node__passport_ser = '';
+    protected $_mod_item_node__passport_no = '';
+    protected $_mod_item_node__passport_dep = '';
+    protected $_mod_item_node__passport_day = '';
+    protected $_mod_item_node__residence_city = 'Пенза';
+    protected $_mod_item_node__residence = '';
+    protected $_mod_item_node__phone = '';
+    protected $_mod_item_node__phone2 = '';
+    protected $_mod_item_node__about = '';
+    protected $_mod_item_node__comments = '';
     
     protected function _base_node__on_add_check_perms() {
         parent::_base_node__on_add_check_perms();
@@ -124,8 +124,6 @@ class mod_item_node__ns16127 extends node__ns21085 {
                     '\'Пол\' указан неверно'
                 );
             }
-        } else {
-            $this->_mod_item_node__sex_enum = 0;
         }
         
         if($this->_mod_item_node__passport_ser) {
@@ -259,31 +257,62 @@ class mod_item_node__ns16127 extends node__ns21085 {
     }
     
     protected function _base_node__on_init() {
-        $item_id = $this->get_arg('item_id');
-        if($item_id) {
-            $this->_mod_item_node__item_id = intval($item_id);
+        if(array_key_exists('item_id', $_POST)) {
+            $this->_mod_item_node__item_id = intval($this->get_arg('item_id'));
         }
         
         parent::_base_node__on_init();
         
-        $this->_mod_item_node__item_deleted = $this->post_arg('item_deleted')?1:0;
-        $this->_mod_item_node__given_name = trim($this->post_arg('given_name'));
-        $this->_mod_item_node__family_name = trim($this->post_arg('family_name'));
-        $this->_mod_item_node__patronymic_name = trim($this->post_arg('patronymic_name'));
-        $this->_mod_item_node__birthday = trim($this->post_arg('birthday'));
-        $this->_mod_item_node__sex = trim($this->post_arg('sex'));
-        $this->_mod_item_node__passport_ser = trim($this->post_arg('passport_ser'));
-        $this->_mod_item_node__passport_no = trim($this->post_arg('passport_no'));
-        $this->_mod_item_node__passport_dep = trim($this->post_arg('passport_dep'));
-        $this->_mod_item_node__passport_day = trim($this->post_arg('passport_day'));
-        $this->_mod_item_node__residence_city = trim($this->post_arg('residence_city', 'Пенза'));
-        $this->_mod_item_node__residence = trim($this->post_arg('residence'));
-        $this->_mod_item_node__phone = trim($this->post_arg('phone'));
-        $this->_mod_item_node__phone2 = trim($this->post_arg('phone2'));
-        $this->_mod_item_node__about = trim($this->post_arg('about'));
-        $this->_mod_item_node__comments = trim($this->post_arg('comments'));
-        
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if($this->post_arg('item_deleted')) {
+                $this->_mod_item_node__item_deleted = 1;
+            }
+            if(array_key_exists('given_name', $_POST)) {
+                $this->_mod_item_node__given_name = trim($this->post_arg('given_name'));
+            }
+            if(array_key_exists('family_name', $_POST)) {
+                $this->_mod_item_node__family_name = trim($this->post_arg('family_name'));
+            }
+            if(array_key_exists('patronymic_name', $_POST)) {
+                $this->_mod_item_node__patronymic_name = trim($this->post_arg('patronymic_name'));
+            }
+            if(array_key_exists('birthday', $_POST)) {
+                $this->_mod_item_node__birthday = trim($this->post_arg('birthday'));
+            }
+            if(array_key_exists('sex', $_POST)) {
+                $this->_mod_item_node__sex = trim($this->post_arg('sex'));
+            }
+            if(array_key_exists('passport_ser', $_POST)) {
+                $this->_mod_item_node__passport_ser = trim($this->post_arg('passport_ser'));
+            }
+            if(array_key_exists('passport_no', $_POST)) {
+                $this->_mod_item_node__passport_no = trim($this->post_arg('passport_no'));
+            }
+            if(array_key_exists('passport_dep', $_POST)) {
+                $this->_mod_item_node__passport_dep = trim($this->post_arg('passport_dep'));
+            }
+            if(array_key_exists('passport_day', $_POST)) {
+                $this->_mod_item_node__passport_day = trim($this->post_arg('passport_day'));
+            }
+            if(array_key_exists('residence_city', $_POST)) {
+                $this->_mod_item_node__residence_city = trim($this->post_arg('residence_city'));
+            }
+            if(array_key_exists('residence', $_POST)) {
+                $this->_mod_item_node__residence = trim($this->post_arg('residence'));
+            }
+            if(array_key_exists('phone', $_POST)) {
+                $this->_mod_item_node__phone = trim($this->post_arg('phone'));
+            }
+            if(array_key_exists('phone2', $_POST)) {
+                $this->_mod_item_node__phone2 = trim($this->post_arg('phone2'));
+            }
+            if(array_key_exists('about', $_POST)) {
+                $this->_mod_item_node__about = trim($this->post_arg('about'));
+            }
+            if(array_key_exists('comments', $_POST)) {
+                $this->_mod_item_node__comments = trim($this->post_arg('comments'));
+            }
+            
             try{
                 // обработать форму:
                 $this->_mod_item_node__parse_form();
