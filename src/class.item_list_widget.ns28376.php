@@ -32,7 +32,7 @@ class item_list_widget__ns28376 {
     }
     
     protected function _item_list_widget__get_detail_href($item_id) {
-        $msg_token = send_msg__ns1438('mod_item_node__ns16127::args', array(
+        $msg_token = send_msg__ns1438('item_detail_frame__ns13033::args', array(
             'next' => '?'.(array_key_exists('QUERY_STRING', $_SERVER)?$_SERVER['QUERY_STRING']:''),
         ));
         
@@ -60,7 +60,7 @@ class item_list_widget__ns28376 {
     }
     
     protected function _item_list_widget__get_del_href($item_id) {
-        $msg_token = send_msg__ns1438('mod_item_node__ns16127::args', array(
+        $msg_token = send_msg__ns1438('del_item_node__ns179::args', array(
             'next' => '?'.(array_key_exists('QUERY_STRING', $_SERVER)?$_SERVER['QUERY_STRING']:''),
         ));
         

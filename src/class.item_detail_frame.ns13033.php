@@ -20,13 +20,13 @@
 
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.frame.ns26442.php';
-require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
+require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
 class item_detail_frame__ns13033 extends frame__ns26442 {
     protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
-    protected $_item_detail_frame__item_id;
+    protected $_item_detail_frame__item_id = 0;
     protected $_item_detail_frame__item = NULL;
     
     protected $_item_detail_frame__next = NULL;
@@ -75,12 +75,11 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
         );
         
         $row = mysql_fetch_assoc($result);
-        if($row) {
-            $this->_item_detail_frame__item = $row;
-        }
         mysql_free_result($result);
         
-        if(!$this->_item_detail_frame__item) {
+        if($row) {
+            $this->_item_detail_frame__item = $row;
+        } else {
             $this->_base_node__throw_site_error('Данные отсутствуют');
         }
     }
