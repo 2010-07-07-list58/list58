@@ -29,6 +29,10 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
     protected $_item_detail_frame__item_id;
     protected $_item_detail_frame__item = NULL;
     
+    protected $_item_detail_frame__next = NULL;
+    protected $_item_detail_frame__next_message = NULL;
+    protected $_item_detail_frame__next_message_html = NULL;
+    
     protected function _base_node__on_add_check_perms() {
         parent::_base_node__on_add_check_perms();
         
@@ -47,6 +51,19 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
             $this->_item_detail_frame__item_id = intval($this->get_arg('item_id'));
         } else {
             $this->_base_node__throw_site_error('Недостаточно аргументов');
+        }
+        
+        $msg_token = $this->get_arg('msg_token');
+        $args = recv_msg__ns1438($msg_token, 'item_detail_frame__ns13033::args');
+        
+        if($args && array_key_exists('next', $args)) {
+            $this->_item_detail_frame__next = $args['next'];
+        }
+        if($args && array_key_exists('next_message', $args)) {
+            $this->_item_detail_frame__next_message = $args['next_message'];
+        }
+        if($args && array_key_exists('next_message_html', $args)) {
+            $this->_item_detail_frame__next_message_html = $args['next_message_html'];
         }
         
         $result = mysql_query_or_error(
