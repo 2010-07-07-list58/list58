@@ -526,247 +526,247 @@ class mod_item_node__ns16127 extends node__ns21085 {
     protected function _node__get_aside() {
         if($this->_mod_item_node__show_form) {
             $form_html =
-                '<form action="" method="post">'.
-                    '<h2 class="TextAlignCenter">'.
-                        ($this->_mod_item_node__item_id?'Изменение Данных':'Новые Данные').
-                    '</h2>'.
-                    '<div class="GroupFrame">'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__family_name" >'.
-                                'Фамилия: '.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="family_name" '.
-                                'id="_mod_item_node__family_name" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__family_name).'" />'.
-                            '<div class="ClearBoth"></div>'.
+                    '<form action="" method="post">'.
+                        '<h2 class="TextAlignCenter">'.
+                            ($this->_mod_item_node__item_id?'Изменение Данных':'Новые Данные').
+                        '</h2>'.
+                        '<div class="GroupFrame">'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__family_name" >'.
+                                    'Фамилия: '.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="family_name" '.
+                                    'id="_mod_item_node__family_name" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__family_name).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__given_name" >'.
+                                    'Имя: '.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="given_name" '.
+                                    'id="_mod_item_node__given_name" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__given_name).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__patronymic_name" >'.
+                                    'Отчество: '.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="patronymic_name" '.
+                                    'id="_mod_item_node__patronymic_name" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__patronymic_name).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                        '</div>'.
+                        '<div class="GroupFrame">'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__birthday" >'.
+                                    'Дата рождения: <br />'.
+                                    '<span class="FontSize07Em">'.
+                                        '(Например: 27.09.1983) '.
+                                    '</span>'.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="birthday" '.
+                                    'id="_mod_item_node__birthday" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__birthday).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__sex" >'.
+                                    'Пол: '.
+                                '</label>'.
+                                '<select class="FloatRight Margin5Px Width300Px" '.
+                                        'name="sex" '.
+                                        'id="_mod_item_node__sex">'.
+                                    ($this->_mod_item_node__sex?
+                                        '<option value="'.
+                                                htmlspecialchars($this->_mod_item_node__sex).
+                                        '">'.
+                                            htmlspecialchars(
+                                                sprintf('(Выбрано: %s)', $this->_mod_item_node__sex)
+                                            ).
+                                        '</option>':
+                                        ''
+                                    ).
+                                    '<option></option>'.
+                                    '<option value="Мужской">Мужской</option>'.
+                                    '<option value="Женский">Женский</option>'.
+                                '</select>'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                        '</div>'.
+                        '<div class="GroupFrame">'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__passport_ser" >'.
+                                    'Серия паспорта: '.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="passport_ser" '.
+                                    'id="_mod_item_node__passport_ser" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__passport_ser).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__passport_no" >'.
+                                    'Номер паспорта: '.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="passport_no" '.
+                                    'id="_mod_item_node__passport_no" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__passport_no).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__passport_dep" >'.
+                                    'Кем выдан паспорт: '.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="passport_dep" '.
+                                    'id="_mod_item_node__passport_dep" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__passport_dep).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__passport_day" >'.
+                                    'Дата выдачи паспорта: <br />'.
+                                    '<span class="FontSize07Em">'.
+                                        '(Например: 27.09.2003) '.
+                                    '</span>'.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="passport_day" '.
+                                    'id="_mod_item_node__passport_day" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__passport_day).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__residence_city" >'.
+                                    'Город: '.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="residence_city" '.
+                                    'id="_mod_item_node__residence_city" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__residence_city).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px"'.
+                                        ' for="_mod_item_node__residence" >'.
+                                    'Адрес: <br />'.
+                                    '<span class="FontSize07Em">'.
+                                        '(Например: Королева 181б-354) '.
+                                    '</span>'.
+                                '</label>'.
+                                '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                        'rows="4" '.
+                                        'name="residence" '.
+                                        'id="_mod_item_node__residence">'.
+                                    htmlspecialchars($this->_mod_item_node__residence).
+                                '</textarea>'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                        '</div>'.
+                        '<div class="GroupFrame">'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__phone" >'.
+                                    'Телефон: <br />'.
+                                    '<span class="FontSize07Em">'.
+                                        '(Например: <br />'.
+                                        '+78412123456, или 88412123456, или 123456) '.
+                                    '</span>'.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="phone" '.
+                                    'id="_mod_item_node__phone" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__phone).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__phone2" >'.
+                                    'Дополнительный Телефон: <br />'.
+                                    '<span class="FontSize07Em">'.
+                                        '(Например: <br />'.
+                                        '+78412123456, или 88412123456, или 123456) '.
+                                    '</span>'.
+                                '</label>'.
+                                '<input class="FloatRight Margin5Px Width300Px" '.
+                                    'type="text" '.
+                                    'name="phone2" '.
+                                    'id="_mod_item_node__phone2" '.
+                                    'value="'.htmlspecialchars($this->_mod_item_node__phone2).'" />'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px"'.
+                                        ' for="_mod_item_node__about" >'.
+                                    'Дополнительное описание: <br />'.
+                                    '<span class="FontSize07Em">'.
+                                        '(Произвольная информация) '.
+                                    '</span>'.
+                                '</label>'.
+                                '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                        'rows="6" '.
+                                        'name="about" '.
+                                        'id="_mod_item_node__about">'.
+                                    htmlspecialchars($this->_mod_item_node__about).
+                                '</textarea>'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                            '<div>'.
+                                '<label class="FloatLeft Margin5Px"'.
+                                        ' for="_mod_item_node__comments" >'.
+                                    'Примечание: <br />'.
+                                    '<span class="FontSize07Em">'.
+                                        '(Произвольная информация. <br />'.
+                                        'Например, причина попадания в список) '.
+                                    '</span>'.
+                                '</label>'.
+                                '<textarea class="FloatRight Margin5Px Width300Px"'.
+                                        'rows="10" '.
+                                        'name="comments" '.
+                                        'id="_mod_item_node__comments">'.
+                                    htmlspecialchars($this->_mod_item_node__comments).
+                                '</textarea>'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
                         '</div>'.
                         '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__given_name" >'.
-                                'Имя: '.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="given_name" '.
-                                'id="_mod_item_node__given_name" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__given_name).'" />'.
+                            '<input type="hidden" '.
+                                'name="post_token" '.
+                                'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
+                            '<input class="FloatLeft Margin5Px" type="submit"
+                                    value="'.htmlspecialchars($this->_mod_item_node__item_id?'Изменить':'Создать').'" />'.
+                            '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
                             '<div class="ClearBoth"></div>'.
                         '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__patronymic_name" >'.
-                                'Отчество: '.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="patronymic_name" '.
-                                'id="_mod_item_node__patronymic_name" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__patronymic_name).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                    '</div>'.
-                    '<div class="GroupFrame">'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__birthday" >'.
-                                'Дата рождения: <br />'.
-                                '<span class="FontSize07Em">'.
-                                    '(Например: 27.09.1983) '.
-                                '</span>'.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="birthday" '.
-                                'id="_mod_item_node__birthday" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__birthday).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__sex" >'.
-                                'Пол: '.
-                            '</label>'.
-                            '<select class="FloatRight Margin5Px Width300Px" '.
-                                    'name="sex" '.
-                                    'id="_mod_item_node__sex">'.
-                                ($this->_mod_item_node__sex?
-                                    '<option value="'.
-                                            htmlspecialchars($this->_mod_item_node__sex).
-                                    '">'.
-                                        htmlspecialchars(
-                                            sprintf('(Выбрано: %s)', $this->_mod_item_node__sex)
-                                        ).
-                                    '</option>':
-                                    ''
-                                ).
-                                '<option></option>'.
-                                '<option value="Мужской">Мужской</option>'.
-                                '<option value="Женский">Женский</option>'.
-                            '</select>'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                    '</div>'.
-                    '<div class="GroupFrame">'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__passport_ser" >'.
-                                'Серия паспорта: '.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="passport_ser" '.
-                                'id="_mod_item_node__passport_ser" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__passport_ser).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__passport_no" >'.
-                                'Номер паспорта: '.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="passport_no" '.
-                                'id="_mod_item_node__passport_no" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__passport_no).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__passport_dep" >'.
-                                'Кем выдан паспорт: '.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="passport_dep" '.
-                                'id="_mod_item_node__passport_dep" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__passport_dep).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__passport_day" >'.
-                                'Дата выдачи паспорта: <br />'.
-                                '<span class="FontSize07Em">'.
-                                    '(Например: 27.09.2003) '.
-                                '</span>'.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="passport_day" '.
-                                'id="_mod_item_node__passport_day" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__passport_day).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__residence_city" >'.
-                                'Город: '.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="residence_city" '.
-                                'id="_mod_item_node__residence_city" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__residence_city).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px"'.
-                                    ' for="_mod_item_node__residence" >'.
-                                'Адрес: <br />'.
-                                '<span class="FontSize07Em">'.
-                                    '(Например: Королева 181б-354) '.
-                                '</span>'.
-                            '</label>'.
-                            '<textarea class="FloatRight Margin5Px Width300Px"'.
-                                    'rows="4" '.
-                                    'name="residence" '.
-                                    'id="_mod_item_node__residence">'.
-                                htmlspecialchars($this->_mod_item_node__residence).
-                            '</textarea>'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                    '</div>'.
-                    '<div class="GroupFrame">'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__phone" >'.
-                                'Телефон: <br />'.
-                                '<span class="FontSize07Em">'.
-                                    '(Например: <br />'.
-                                    '+78412123456, или 88412123456, или 123456) '.
-                                '</span>'.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="phone" '.
-                                'id="_mod_item_node__phone" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__phone).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px" '.
-                                    'for="_mod_item_node__phone2" >'.
-                                'Дополнительный Телефон: <br />'.
-                                '<span class="FontSize07Em">'.
-                                    '(Например: <br />'.
-                                    '+78412123456, или 88412123456, или 123456) '.
-                                '</span>'.
-                            '</label>'.
-                            '<input class="FloatRight Margin5Px Width300Px" '.
-                                'type="text" '.
-                                'name="phone2" '.
-                                'id="_mod_item_node__phone2" '.
-                                'value="'.htmlspecialchars($this->_mod_item_node__phone2).'" />'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px"'.
-                                    ' for="_mod_item_node__about" >'.
-                                'Дополнительное описание: <br />'.
-                                '<span class="FontSize07Em">'.
-                                    '(Произвольная информация) '.
-                                '</span>'.
-                            '</label>'.
-                            '<textarea class="FloatRight Margin5Px Width300Px"'.
-                                    'rows="6" '.
-                                    'name="about" '.
-                                    'id="_mod_item_node__about">'.
-                                htmlspecialchars($this->_mod_item_node__about).
-                            '</textarea>'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                        '<div>'.
-                            '<label class="FloatLeft Margin5Px"'.
-                                    ' for="_mod_item_node__comments" >'.
-                                'Примечание: <br />'.
-                                '<span class="FontSize07Em">'.
-                                    '(Произвольная информация. <br />'.
-                                    'Например, причина попадания в список) '.
-                                '</span>'.
-                            '</label>'.
-                            '<textarea class="FloatRight Margin5Px Width300Px"'.
-                                    'rows="10" '.
-                                    'name="comments" '.
-                                    'id="_mod_item_node__comments">'.
-                                htmlspecialchars($this->_mod_item_node__comments).
-                            '</textarea>'.
-                            '<div class="ClearBoth"></div>'.
-                        '</div>'.
-                    '</div>'.
-                    '<div>'.
-                        '<input type="hidden" '.
-                            'name="post_token" '.
-                            'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
-                        '<input class="FloatLeft Margin5Px" type="submit"
-                                value="'.htmlspecialchars($this->_mod_item_node__item_id?'Изменить':'Создать').'" />'.
-                        '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
-                        '<div class="ClearBoth"></div>'.
-                    '</div>'.
-                '</form>';
+                    '</form>';
             
             if($this->_mod_item_node__next) {
                 $form_html .= sprintf(
