@@ -525,6 +525,25 @@ class mod_item_node__ns16127 extends node__ns21085 {
     
     protected function _node__get_aside() {
         if($this->_mod_item_node__show_form) {
+            if($this->_mod_item_node__item_id) {
+                $mod_special_html =
+                        '<div class="GroupFrame">'.
+                            '<div>'.
+                                '<input class="FloatLeft Margin5Px" '.
+                                        'type="checkbox" '.
+                                        'id="_mod_item_node__item_deleted" '.
+                                        'name="item_deleted"'.
+                                        ($this->_mod_item_node__item_deleted?' checked="checked" ':'').'" />'.
+                                '<label class="FloatLeft Margin5Px" '.
+                                        'for="_mod_item_node__item_deleted" >'.
+                                    'Удалить'.
+                                '</label>'.
+                                '<div class="ClearBoth"></div>'.
+                            '</div>'.
+                        '</div>';
+            } else {
+                $mod_special_html = '';
+            }
             $form_html =
                     '<form action="" method="post">'.
                         '<h2 class="TextAlignCenter">'.
@@ -757,6 +776,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
                                 '<div class="ClearBoth"></div>'.
                             '</div>'.
                         '</div>'.
+                        $mod_special_html.
                         '<div>'.
                             '<input type="hidden" '.
                                 'name="post_token" '.
