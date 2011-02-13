@@ -260,6 +260,21 @@ class mod_item_node__ns16127 extends node__ns21085 {
         }
     }
     
+    protected function _mod_item_node__update_db() {
+        $item_modified = get_time__ns29922();
+        
+        try {
+            // TODO: ...
+        } catch(MysqlError $e) {
+            throw new form_error__ns16127(
+                sprintf(
+                    'Ошибка при обновлении данных внутри Базы Данных (%s)',
+                    $e->mysql_error
+                )
+            );
+        }
+    }
+    
     protected function _base_node__on_init() {
         if(array_key_exists('item_id', $_GET)) {
             $this->_mod_item_node__item_id = intval($this->get_arg('item_id'));
@@ -278,6 +293,14 @@ class mod_item_node__ns16127 extends node__ns21085 {
         }
         if($args && array_key_exists('next_message_html', $args)) {
             $this->_mod_item_node__next_message_html = $args['next_message_html'];
+        }
+        
+        if($this->_mod_item_node__item_id) {
+            // TODO: проверить что запись существует
+            
+            // TODO: дополнительная проверка удовлетворения привелегий
+            
+            // TODO: инициализация переменных из базы данных
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -333,19 +356,33 @@ class mod_item_node__ns16127 extends node__ns21085 {
             try{
                 // обработать форму:
                 $this->_mod_item_node__parse_form();
-                // поместить значения в Базу Данных:
-                $this->_mod_item_node__into_db();
+                if($this->_mod_item_node__item_id) {
+                     // обновить значения Базы Данных:
+                    $this->_mod_item_node__update_db();
+                    
+                    // успех!!
+                    $this->_mod_item_node__message_html .=
+                        '<p class="SuccessColor TextAlignCenter">'.
+                            'Запись успешно обновлена...'.
+                        '</p>';
+                } else {
+                    // поместить значения в Базу Данных:
+                    $this->_mod_item_node__into_db();
+                    
+                    // успех!!
+                    $this->_mod_item_node__message_html .=
+                        '<p class="SuccessColor TextAlignCenter">'.
+                            'Запись успешно создана...'.
+                        '</p>';
+                }
                 
-                // успех!!
-                $this->_mod_item_node__message_html .=
-                    '<p class="SuccessColor TextAlignCenter">'.
-                        'Запись успешно добавлена...'.
-                    '</p>'.
-                    '<p class="SuccessColor TextAlignCenter">'.
-                        'Новая запись!'.
-                    '</p>';
+                if($this->_mod_item_node__next) {
+                    $next = $this->_mod_item_node__next;
+                } else {
+                    $next = '?'.http_build_query(array('node', $this->get_arg('node')));
+                }
                 
-                @header('Refresh: 1;url=?node='.urlencode($this->get_arg('node')));
+                @header('Refresh: 1;url='.$next);
                 $this->_mod_item_node__show_form = FALSE;
             } catch(form_error__ns16127 $e) {
                 $message = $e->getMessage();
@@ -381,7 +418,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
     protected function _node__get_aside() {
         if($this->_mod_item_node__show_form) {
             $form_html =
-                '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
+                '<form action="" method="post">'.
                     '<h2 class="TextAlignCenter">'.
                         ($this->_mod_item_node__item_id?'Изменение Данных':'Новые Данные').
                     '</h2>'.
@@ -621,27 +658,24 @@ class mod_item_node__ns16127 extends node__ns21085 {
                         '<div class="ClearBoth"></div>'.
                     '</div>'.
                 '</form>';
+            
+            if($this->_mod_item_node__next) {
+                $form_html .= sprintf(
+                    '<p><a href="%s">%s</a></a></p>',
+                    htmlspecialchars($this->_mod_item_node__next),
+                    $this->_mod_item_node__next_message_html?
+                            $this->_mod_item_node__next_message_html:
+                            htmlspecialchars($this->_mod_item_node__next_message)
+                );
+            }
         } else {
             $form_html = '';
-        }
-        
-        if($this->_mod_item_node__next) {
-            $next_html = sprintf(
-                '<p><a href="%s">%s</a></a></p>',
-                htmlspecialchars($this->_mod_item_node__next),
-                $this->_mod_item_node__next_message_html?
-                        $this->_mod_item_node__next_message_html:
-                        htmlspecialchars($this->_mod_item_node__next_message)
-            );
-        } else {
-            $next_html = '';
         }
         
         $html =
             '<div class="SmallFrame">'.
                 $this->_mod_item_node__message_html.
                 $form_html.
-                $next_html.
             '</div>';
         
         return $html;
