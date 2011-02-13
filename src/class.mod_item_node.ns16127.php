@@ -315,7 +315,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
         if($this->_mod_item_node__item_id) {
             $result = mysql_query_or_error(
                 sprintf(
-                    'SELECT `item_owner` FROM `items_base` WHERE NOT IFNULL(`item_deleted`, FALSE) AND `id` = \'%s\'',
+                    'SELECT * FROM `items_base` WHERE NOT IFNULL(`item_deleted`, FALSE) AND `id` = \'%s\'',
                     mysql_real_escape_string($this->_mod_item_node__item_id)
                 ),
                 $this->_base_node__db_link
@@ -324,22 +324,46 @@ class mod_item_node__ns16127 extends node__ns21085 {
             $row = mysql_fetch_assoc($result);
             mysql_free_result($result);
             
-            if(!$row) {
+            if($row) {
+                if($_SESSION['reg_data']['login'] != $row['item_owner'] &&
+                        !$this->_base_node__is_permitted('mod_other_items')) {
+                    $this->_base_node__throw_site_error(
+                        'Вы не можете изменить эту запись данных',
+                        array('return_back' => TRUE)
+                    );
+                }
+                
+                $this->_mod_item_node__item_deleted = $row['item_deleted'];
+                $this->_mod_item_node__given_name = $row['given_name'];
+                $this->_mod_item_node__family_name = $row['family_name'];
+                $this->_mod_item_node__patronymic_name = $row['patronymic_name'];
+                if($row['birth_year']) {
+                    $this->_mod_item_node__birthday =
+                            sprintf('%02s.%02s.%s', $row['birth_day'], $row['birth_month'], $row['birth_year']);
+                }
+                if($row['sex']) {
+                    if($row['sex'] == 1) {
+                        $this->_mod_item_node__sex = 'Мужской';
+                    } elseif($row['sex'] == 2) {
+                        $this->_mod_item_node__sex = 'Женский';
+                    }
+                }
+                $this->_mod_item_node__passport_ser = $row['passport_ser'];
+                $this->_mod_item_node__passport_no = $row['passport_no'];
+                $this->_mod_item_node__passport_dep = $row['passport_dep'];
+                $this->_mod_item_node__passport_day = $row['passport_day'];
+                $this->_mod_item_node__residence_city = $row['residence_city'];
+                $this->_mod_item_node__residence = $row['residence'];
+                $this->_mod_item_node__phone = $row['phone'];
+                $this->_mod_item_node__phone2 = $row['phone2'];
+                $this->_mod_item_node__about = $row['about'];
+                $this->_mod_item_node__comments = $row['comments'];
+            } else {
                 $this->_base_node__throw_site_error(
                     'Данные отсутствуют',
                     array('return_back' => TRUE)
                 );
             }
-            
-            if($_SESSION['reg_data']['login'] != $row['item_owner'] &&
-                    !$this->_base_node__is_permitted('mod_other_items')) {
-                $this->_base_node__throw_site_error(
-                    'Вы не можете изменить эту запись данных',
-                    array('return_back' => TRUE)
-                );
-            }
-            
-            // TODO: инициализация переменных из базы данных
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
