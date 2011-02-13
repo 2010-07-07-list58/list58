@@ -60,6 +60,8 @@ class mod_item_node__ns16127 extends node__ns21085 {
     protected $_mod_item_node__about = '';
     protected $_mod_item_node__comments = '';
     
+    protected $_mod_item_node__take_ownership = FALSE;
+    
     protected function _base_node__on_add_check_perms() {
         parent::_base_node__on_add_check_perms();
         
@@ -212,6 +214,21 @@ class mod_item_node__ns16127 extends node__ns21085 {
         $item_modified = get_time__ns29922();
         
         try {
+            if($this->_mod_item_node__take_ownership) {
+                $item_owner = $_SESSION['reg_data']['login'];
+                
+                $result = mysql_query_or_error(
+                    sprintf(
+                        'UPDATE `items_base` SET '.
+                                '`item_owner` = \'%s\''.
+                                'WHERE `id` = \'%s\'',
+                        mysql_real_escape_string($item_owner, $this->_base_node__db_link),
+                        mysql_real_escape_string($this->_mod_item_node__item_id, $this->_base_node__db_link)
+                    ),
+                    $this->_base_node__db_link
+                );
+            }
+            
             $result = mysql_query_or_error(
                 sprintf(
                     'UPDATE `items_base` SET '.
@@ -461,6 +478,10 @@ class mod_item_node__ns16127 extends node__ns21085 {
                 $this->_mod_item_node__comments = trim($this->post_arg('comments'));
             }
             
+            if($this->post_arg('take_ownership')) {
+                $this->_mod_item_node__take_ownership = TRUE;
+            }
+            
             try{
                 // обработать форму:
                 $this->_mod_item_node__parse_form();
@@ -529,6 +550,22 @@ class mod_item_node__ns16127 extends node__ns21085 {
                 $mod_special_html =
                         '<div class="GroupFrame">'.
                             '<h3>Дополнительные действия</h3>'.
+                            (
+                                $this->_base_node__is_permitted('mod_other_items')?
+                                '<div>'.
+                                    '<input class="FloatLeft Margin5Px" '.
+                                            'type="checkbox" '.
+                                            'id="_mod_item_node__take_ownership" '.
+                                            'name="take_ownership"'.
+                                            ($this->_mod_item_node__take_ownership?' checked="checked" ':'').'" />'.
+                                    '<label class="FloatLeft Margin5Px" '.
+                                            'for="_mod_item_node__take_ownership" >'.
+                                        'Взать данные под свой контроль'.
+                                    '</label>'.
+                                    '<div class="ClearBoth"></div>'.
+                                '</div>':
+                                ''
+                            ).
                             '<div>'.
                                 '<input class="FloatLeft Margin5Px" '.
                                         'type="checkbox" '.
@@ -537,7 +574,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
                                         ($this->_mod_item_node__item_deleted?' checked="checked" ':'').'" />'.
                                 '<label class="FloatLeft Margin5Px" '.
                                         'for="_mod_item_node__item_deleted" >'.
-                                    'Удалить эти данные'.
+                                    'Удалить данные'.
                                 '</label>'.
                                 '<div class="ClearBoth"></div>'.
                             '</div>'.
