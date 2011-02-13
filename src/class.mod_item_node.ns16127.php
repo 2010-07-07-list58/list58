@@ -212,7 +212,52 @@ class mod_item_node__ns16127 extends node__ns21085 {
         $item_modified = get_time__ns29922();
         
         try {
-            // TODO: ...
+            $result = mysql_query_or_error(
+                sprintf(
+                    'UPDATE `items_base` SET '.
+                            '`item_modified` = \'%s\', '.
+                            '`item_deleted` = \'%s\', '.
+                            '`given_name` = \'%s\', '.
+                            '`family_name` = \'%s\', '.
+                            '`patronymic_name` = \'%s\', '.
+                            '`birth_year` = \'%s\', '.
+                            '`birth_month` = \'%s\', '.
+                            '`birth_day` = \'%s\', '.
+                            '`sex` = \'%s\', '.
+                            '`passport_ser` = \'%s\', '.
+                            '`passport_no` = \'%s\', '.
+                            '`passport_dep` = \'%s\', '.
+                            '`passport_day` = \'%s\', '.
+                            '`residence_city` = \'%s\', '.
+                            '`residence` = \'%s\', '.
+                            '`phone` = \'%s\', '.
+                            '`phone2` = \'%s\', '.
+                            '`about` = \'%s\', '.
+                            '`comments` = \'%s\''.
+                            'WHERE `id` = \'%s\'',
+                    mysql_real_escape_string($item_modified, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__item_deleted, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__given_name, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__family_name, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__patronymic_name, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__birth_year, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__birth_month, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__birth_day, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__sex_enum, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__passport_ser, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__passport_no, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__passport_dep, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__passport_day, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__residence_city, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__residence, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__phone, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__phone2, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__about, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__comments, $this->_base_node__db_link),
+                    mysql_real_escape_string($this->_mod_item_node__item_id, $this->_base_node__db_link)
+                ),
+                $this->_base_node__db_link
+            );
         } catch(MysqlError $e) {
             throw new form_error__ns16127(
                 sprintf(
