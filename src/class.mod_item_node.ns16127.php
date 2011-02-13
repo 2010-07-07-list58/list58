@@ -528,6 +528,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
             if($this->_mod_item_node__item_id) {
                 $mod_special_html =
                         '<div class="GroupFrame">'.
+                            '<h3>Дополнительные действия</h3>'.
                             '<div>'.
                                 '<input class="FloatLeft Margin5Px" '.
                                         'type="checkbox" '.
@@ -536,7 +537,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
                                         ($this->_mod_item_node__item_deleted?' checked="checked" ':'').'" />'.
                                 '<label class="FloatLeft Margin5Px" '.
                                         'for="_mod_item_node__item_deleted" >'.
-                                    'Удалить'.
+                                    'Удалить эти данные'.
                                 '</label>'.
                                 '<div class="ClearBoth"></div>'.
                             '</div>'.
