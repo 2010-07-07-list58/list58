@@ -313,9 +313,31 @@ class mod_item_node__ns16127 extends node__ns21085 {
         }
         
         if($this->_mod_item_node__item_id) {
-            // TODO: проверить что запись существует
+            $result = mysql_query_or_error(
+                sprintf(
+                    'SELECT `item_owner` FROM `items_base` WHERE NOT IFNULL(`item_deleted`, FALSE) AND `id` = \'%s\'',
+                    mysql_real_escape_string($this->_mod_item_node__item_id)
+                ),
+                $this->_base_node__db_link
+            );
             
-            // TODO: дополнительная проверка удовлетворения привелегий
+            $row = mysql_fetch_assoc($result);
+            mysql_free_result($result);
+            
+            if(!$row) {
+                $this->_base_node__throw_site_error(
+                    'Данные отсутствуют',
+                    array('return_back' => TRUE)
+                );
+            }
+            
+            if($_SESSION['reg_data']['login'] != $row['item_owner'] &&
+                    !$this->_base_node__is_permitted('mod_other_items')) {
+                $this->_base_node__throw_site_error(
+                    'Вы не можете изменить эту запись данных',
+                    array('return_back' => TRUE)
+                );
+            }
             
             // TODO: инициализация переменных из базы данных
         }
