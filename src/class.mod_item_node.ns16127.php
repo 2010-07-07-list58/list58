@@ -783,7 +783,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
                                 'name="post_token" '.
                                 'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
                             '<input class="FloatLeft Margin5Px" type="submit"
-                                    value="'.htmlspecialchars($this->_mod_item_node__item_id?'Изменить':'Создать').'" />'.
+                                    value="'.htmlspecialchars($this->_mod_item_node__item_id?'Внести изменения':'Создать').'" />'.
                             '<input class="FloatLeft Margin5Px" type="reset" value="Сброс" />'.
                             '<div class="ClearBoth"></div>'.
                         '</div>'.
