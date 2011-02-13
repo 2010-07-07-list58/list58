@@ -257,7 +257,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
     }
     
     protected function _base_node__on_init() {
-        if(array_key_exists('item_id', $_POST)) {
+        if(array_key_exists('item_id', $_GET)) {
             $this->_mod_item_node__item_id = intval($this->get_arg('item_id'));
         }
         

@@ -20,18 +20,69 @@
 
 class item_list_widget__ns28376 {
     protected $_items;
+    protected $_mod_perm = FALSE;
     
-    public function __construct($items) {
+    public function __construct($items, $kwargs=NULL) {
+        if($kwargs && array_key_exists('mod_perm', $kwargs)) {
+            $this->_mod_perm = $kwargs['mod_perm'];
+        }
         $this->_items = $items;
     }
     
-    protected function _item_list_widget__get_detail_link($item_id, $label) {
-        $link = '?'.http_build_query(array(
+    protected function _item_list_widget__get_detail_href($item_id) {
+        $href = '?'.http_build_query(array(
             'node' => 'item_detail_frame',
             'item_id' => $item_id,
         ));
         
-        $html = sprintf('<a href="%s" rel="big_frame_fancybox">%s</a>', htmlspecialchars($link), htmlspecialchars($label));
+        return $href;
+    }
+    
+    protected function _item_list_widget__get_mod_href($item_id) {
+        $href = '?'.http_build_query(array(
+            'node' => 'mod_item',
+            'item_id' => $item_id,
+        ));
+        
+        return $href;
+    }
+    
+    protected function _item_list_widget__get_del_href($item_id) {
+        $href = '?'.http_build_query(array(
+            'node' => 'del_item',
+            'item_id' => $item_id,
+        ));
+        
+        return $href;
+    }
+    
+    protected function _item_list_widget__get_detail_link($item_id, $label) {
+        $href = $this->_item_list_widget__get_detail_href($item_id);
+        
+        $html = sprintf('<a href="%s" rel="big_frame_fancybox">%s</a>', htmlspecialchars($href), htmlspecialchars($label));
+        
+        return $html;
+    }
+    
+    protected function _item_list_widget__get_actions_html($item_id) {
+        $htmls = array(
+            '<a rel="big_frame_fancybox" href="'.htmlspecialchars($this->_item_list_widget__get_detail_href($item_id)).'">'.
+                '<img class="Ico" src="/media/share/img/item_detail_ico.png" alt="Просмотреть" title="Просмотреть" />'.
+            '</a>',
+        );
+        
+        if($this->_mod_perm) {
+            $htmls []=
+                    '<a href="'.htmlspecialchars($this->_item_list_widget__get_mod_href($item_id)).'">'.
+                        '<img class="Ico" src="/media/share/img/item_edit_ico.png" alt="Изменить" title="Изменить" />'.
+                    '</a>';
+            $htmls []=
+                    '<a href="'.htmlspecialchars($this->_item_list_widget__get_del_href($item_id)).'">'.
+                        '<img class="Ico" src="/media/share/img/item_del_ico.png" alt="Удалить" title="Удалить" />'.
+                    '</a>';
+        }
+        
+        $html = join(' | ', $htmls);
         
         return $html;
     }
@@ -83,7 +134,10 @@ class item_list_widget__ns28376 {
                         mb_strlen($item['about'], 'utf-8') < 100?$item['about']:mb_substr($item['about'], 0, 100, 'utf-8').'...'
                     )
                 ));
-                $html .= '<td><!-- в разработке /--></td>';
+                $html .=
+                        '<td class="TextAlignCenter">'.
+                            $this->_item_list_widget__get_actions_html($item_id).
+                        '</td>';
                 $html .= '</tr>';
             }
             

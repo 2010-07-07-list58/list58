@@ -468,7 +468,9 @@ class search_items_node__ns8184 extends node__ns21085 {
                 $mysql_microtime = abs(microtime(TRUE) - $mysql_microtime);
                 
                 $this->_search_items_node__item_list_widget =
-                        new item_list_widget__ns28376($this->_search_items_node__items);
+                        new item_list_widget__ns28376($this->_search_items_node__items, array(
+                            'mod_perm' => $this->_base_node__is_permitted('mod_items'),
+                        ));
                 $this->_search_items_node__page_links_widget = 
                         new page_links_widget__ns22493(
                             $this->_search_items_node__items_real_limit,

@@ -28,6 +28,10 @@ a:hover {
 	text-decoration: none;
 }
 
+img {
+    border: 0;
+}
+
 table { /* cellspacing="0" */
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -51,6 +55,11 @@ td { /* cellpadding="0" */
 
 .MarginColor, .MarginColor a {
 	color: rgb(255,255,255);
+}
+
+.Ico {
+    vertical-align: middle;
+    border: 0;
 }
 
 .SmallFrame {
