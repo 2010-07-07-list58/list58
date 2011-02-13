@@ -208,6 +208,21 @@ class mod_item_node__ns16127 extends node__ns21085 {
         }
     }
     
+    protected function _mod_item_node__update_db() {
+        $item_modified = get_time__ns29922();
+        
+        try {
+            // TODO: ...
+        } catch(MysqlError $e) {
+            throw new form_error__ns16127(
+                sprintf(
+                    'Ошибка при обновлении данных внутри Базы Данных (%s)',
+                    $e->mysql_error
+                )
+            );
+        }
+    }
+    
     protected function _mod_item_node__into_db() {
         $item_owner = $_SESSION['reg_data']['login'];
         $item_created = get_time__ns29922();
@@ -271,21 +286,6 @@ class mod_item_node__ns16127 extends node__ns21085 {
             throw new form_error__ns16127(
                 sprintf(
                     'Ошибка при сохранении данных внутри Базы Данных (%s)',
-                    $e->mysql_error
-                )
-            );
-        }
-    }
-    
-    protected function _mod_item_node__update_db() {
-        $item_modified = get_time__ns29922();
-        
-        try {
-            // TODO: ...
-        } catch(MysqlError $e) {
-            throw new form_error__ns16127(
-                sprintf(
-                    'Ошибка при обновлении данных внутри Базы Данных (%s)',
                     $e->mysql_error
                 )
             );
