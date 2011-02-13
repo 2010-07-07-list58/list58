@@ -18,6 +18,8 @@
 
 */
 
+require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
+
 class item_list_widget__ns28376 {
     protected $_items;
     protected $_mod_perm = FALSE;
@@ -39,18 +41,28 @@ class item_list_widget__ns28376 {
     }
     
     protected function _item_list_widget__get_mod_href($item_id) {
+        $msg_token = send_msg__ns1438('mod_item_node__ns16127::args', array(
+            'next' => '?'.(array_key_exists('QUERY_STRING', $_SERVER)?$_SERVER['QUERY_STRING']:''),
+        ));
+        
         $href = '?'.http_build_query(array(
             'node' => 'mod_item',
             'item_id' => $item_id,
+            'msg_token' => $msg_token,
         ));
         
         return $href;
     }
     
     protected function _item_list_widget__get_del_href($item_id) {
+        $msg_token = send_msg__ns1438('mod_item_node__ns16127::args', array(
+            'next' => '?'.(array_key_exists('QUERY_STRING', $_SERVER)?$_SERVER['QUERY_STRING']:''),
+        ));
+        
         $href = '?'.http_build_query(array(
             'node' => 'del_item',
             'item_id' => $item_id,
+            'msg_token' => $msg_token,
         ));
         
         return $href;

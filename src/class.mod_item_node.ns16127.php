@@ -31,6 +31,10 @@ class mod_item_node__ns16127 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
+    protected $_mod_item_node__next = NULL;
+    protected $_mod_item_node__next_message = 'Закрыть без изменений';
+    protected $_mod_item_node__next_message_html = NULL;
+    
     protected $_mod_item_node__show_form = TRUE;
     protected $_mod_item_node__message_html = '';
     
@@ -263,6 +267,19 @@ class mod_item_node__ns16127 extends node__ns21085 {
         
         parent::_base_node__on_init();
         
+        $msg_token = $this->get_arg('msg_token');
+        $args = recv_msg__ns1438($msg_token, 'mod_item_node__ns16127::args');
+        
+        if($args && array_key_exists('next', $args)) {
+            $this->_mod_item_node__next = $args['next'];
+        }
+        if($args && array_key_exists('next_message', $args)) {
+            $this->_mod_item_node__next_message = $args['next_message'];
+        }
+        if($args && array_key_exists('next_message_html', $args)) {
+            $this->_mod_item_node__next_message_html = $args['next_message_html'];
+        }
+        
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             if($this->post_arg('item_deleted')) {
                 $this->_mod_item_node__item_deleted = 1;
@@ -362,8 +379,6 @@ class mod_item_node__ns16127 extends node__ns21085 {
     }
     
     protected function _node__get_aside() {
-        $form_html = '';
-        
         if($this->_mod_item_node__show_form) {
             $form_html =
                 '<form action="'.htmlspecialchars('?node='.urlencode($this->get_arg('node'))).'" method="post">'.
@@ -606,14 +621,27 @@ class mod_item_node__ns16127 extends node__ns21085 {
                         '<div class="ClearBoth"></div>'.
                     '</div>'.
                 '</form>';
+        } else {
+            $form_html = '';
         }
         
-        $html = '';
+        if($this->_mod_item_node__next) {
+            $next_html = sprintf(
+                '<p><a href="%s">%s</a></a></p>',
+                htmlspecialchars($this->_mod_item_node__next),
+                $this->_mod_item_node__next_message_html?
+                        $this->_mod_item_node__next_message_html:
+                        htmlspecialchars($this->_mod_item_node__next_message)
+            );
+        } else {
+            $next_html = '';
+        }
         
-        $html .=
+        $html =
             '<div class="SmallFrame">'.
                 $this->_mod_item_node__message_html.
                 $form_html.
+                $next_html.
             '</div>';
         
         return $html;
