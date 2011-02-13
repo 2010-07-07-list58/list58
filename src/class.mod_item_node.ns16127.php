@@ -487,7 +487,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
                 if($this->_mod_item_node__next) {
                     $next = $this->_mod_item_node__next;
                 } else {
-                    $next = '?'.http_build_query(array('node', $this->get_arg('node')));
+                    $next = '?'.http_build_query(array('node' => $this->get_arg('node')));
                 }
                 
                 @header('Refresh: 1;url='.$next);
