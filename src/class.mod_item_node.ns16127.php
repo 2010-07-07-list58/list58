@@ -87,6 +87,23 @@ class mod_item_node__ns16127 extends node__ns21085 {
         }
     }
     
+    protected function _base_node__throw_site_error($message, $options=NULL) {
+        if($options &&
+                !array_key_exists('next', $options) &&
+                array_key_exists('return_back', $options) && $options['return_back'] &&
+                $this->_mod_item_node__next) {
+            $options = array_merge(
+                $options,
+                array(
+                    'next' => $this->_mod_item_node__next,
+                )
+            );
+            unset($options['return_back']);
+        }
+        
+        node__ns21085::_base_node__throw_site_error($message, $options);
+    }
+    
     protected function _mod_item_node__parse_form() {
         if(
             !$this->_mod_item_node__given_name &&

@@ -193,10 +193,9 @@ class main__ns17829 {
                 
                 $error_options = get_error_options__ns14329($e);
                 if(array_key_exists('return_back', $error_options) &&
-                        $error_options['return_back']) {
-                    if(array_key_exists('HTTP_REFERER', $_SERVER)) {
-                        $msg['next'] = $_SERVER['HTTP_REFERER'];
-                    }
+                        $error_options['return_back'] &&
+                        array_key_exists('HTTP_REFERER', $_SERVER)) {
+                    $msg['next'] = $_SERVER['HTTP_REFERER'];
                 }
                 if(array_key_exists('next', $error_options)) {
                     $msg['next'] = $error_options['next'];
