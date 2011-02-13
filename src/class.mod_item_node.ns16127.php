@@ -32,7 +32,7 @@ class mod_item_node__ns16127 extends node__ns21085 {
     protected $_base_node__need_check_auth = TRUE;
     
     protected $_mod_item_node__next = NULL;
-    protected $_mod_item_node__next_message = 'Закрыть без изменений';
+    protected $_mod_item_node__next_message = NULL;
     protected $_mod_item_node__next_message_html = NULL;
     
     protected $_mod_item_node__show_form = TRUE;
@@ -728,7 +728,11 @@ class mod_item_node__ns16127 extends node__ns21085 {
                     htmlspecialchars($this->_mod_item_node__next),
                     $this->_mod_item_node__next_message_html?
                             $this->_mod_item_node__next_message_html:
-                            htmlspecialchars($this->_mod_item_node__next_message)
+                            htmlspecialchars(
+                                $this->_mod_item_node__next_message?
+                                $this->_mod_item_node__next_message:
+                                'Закрыть без изменений'
+                            )
                 );
             }
         } else {
