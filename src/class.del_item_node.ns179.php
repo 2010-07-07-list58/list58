@@ -54,11 +54,11 @@ class del_item_node__ns179 extends node__ns21085 {
         if($options &&
                 !array_key_exists('next', $options) &&
                 array_key_exists('return_back', $options) && $options['return_back'] &&
-                $this->_mod_item_node__next) {
+                $this->_del_item_node__next) {
             $options = array_merge(
                 $options,
                 array(
-                    'next' => $this->_mod_item_node__next,
+                    'next' => $this->_del_item_node__next,
                 )
             );
             unset($options['return_back']);
@@ -118,11 +118,15 @@ class del_item_node__ns179 extends node__ns21085 {
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             try{
+                $item_modified = get_time__ns29922();
+                
                 $result = mysql_query_or_error(
                     sprintf(
                         'UPDATE `items_base` SET '.
+                                '`item_modified` = \'%s\', '.
                                 '`item_deleted` = 1 '.
                                 'WHERE `id` = \'%s\'',
+                        mysql_real_escape_string($item_modified, $this->_base_node__db_link),
                         mysql_real_escape_string($this->_del_item_node__item_id, $this->_base_node__db_link)
                     ),
                     $this->_base_node__db_link
