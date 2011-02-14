@@ -160,6 +160,8 @@ class del_item_node__ns179 extends node__ns21085 {
     protected function _del_item_node__get_short_detail_html() {
         $htmls = array();
         
+        $htmls [] = sprintf('Id: %s', $this->_del_item_node__item_id);
+        
         $name_htmls = array();
         if($this->_del_item_node__item['family_name']) {
             $name_htmls []= $this->_del_item_node__item['family_name'];
