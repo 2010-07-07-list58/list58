@@ -123,6 +123,13 @@ class main__ns17829 {
                     
                     break;
                 
+                case 'del_item':
+                    require_once dirname(__FILE__).'/class.del_item_node.ns179.php';
+                    
+                    $node = new del_item_node__ns179($environ);
+                    
+                    break;
+                
                 case 'item_detail_frame':
                     require_once dirname(__FILE__).'/class.item_detail_frame.ns13033.php';
                     

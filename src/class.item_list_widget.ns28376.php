@@ -138,7 +138,7 @@ class item_list_widget__ns28376 {
                 ));
                 $html .= sprintf('<td>%s</td>', $this->_item_list_widget__get_detail_link(
                     $item_id,
-                    ($item['birth_year'] || $item['birth_month'] || $item['birth_day'])?
+                    $item['birth_year']?
                     sprintf('%02s.%02s.%s', $item['birth_day'], $item['birth_month'], $item['birth_year']):''
                 ));
                 $html .= sprintf('<td>%s</td>', $this->_item_list_widget__get_detail_link(

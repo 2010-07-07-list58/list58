@@ -30,6 +30,9 @@ class del_item_node__ns179 extends node__ns21085 {
     protected $_del_item_node__item_id = 0;
     protected $_del_item_node__item = NULL;
     
+    protected $_del_item_node__show_form = TRUE;
+    protected $_del_item_node__message_html = '';
+    
     protected $_del_item_node__next = NULL;
     protected $_del_item_node__next_message = NULL;
     protected $_del_item_node__next_message_html = NULL;
@@ -108,16 +111,126 @@ class del_item_node__ns179 extends node__ns21085 {
         if($_SESSION['reg_data']['login'] != $this->_del_item_node__item['item_owner'] &&
                 !$this->_base_node__is_permitted('mod_other_items')) {
             $this->_base_node__throw_site_error(
-                'Вы не можете изменить эту запись данных',
+                'Вы не можете удалить эту запись данных',
                 array('return_back' => TRUE)
             );
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // TODO: ...
+            try{
+                $result = mysql_query_or_error(
+                    sprintf(
+                        'UPDATE `items_base` SET '.
+                                '`item_deleted` = 1 '.
+                                'WHERE `id` = \'%s\'',
+                        mysql_real_escape_string($this->_del_item_node__item_id, $this->_base_node__db_link)
+                    ),
+                    $this->_base_node__db_link
+                );
+                
+                $this->_del_item_node__message_html .=
+                        '<p class="SuccessColor TextAlignCenter">'.
+                            'Запись успешно удалена...'.
+                        '</p>';
+                
+                if($this->_del_item_node__next) {
+                    $next = $this->_del_item_node__next;
+                } else {
+                    $next = '?';
+                }
+                
+                @header('Refresh: 1;url='.$next);
+                $this->_del_item_node__show_form = FALSE;
+            } catch(MysqlError $e) {
+                $this->_del_item_node__message_html .=
+                    '<p class="ErrorColor TextAlignCenter">'.
+                        htmlspecialchars(sprintf(
+                            'Ошибка при обновлении данных внутри Базы Данных (%s)',
+                            $e->mysql_error
+                        )).
+                    '</p>';
+            }
         }
     }
     
-    // TODO: ...
+    protected function _del_item_node__get_short_detail_html() {
+        $htmls = array();
+        
+        $name_htmls = array();
+        if($this->_del_item_node__item['family_name']) {
+            $name_htmls []= $this->_del_item_node__item['family_name'];
+        }
+        if($this->_del_item_node__item['given_name']) {
+            $name_htmls []= $this->_del_item_node__item['given_name'];
+        }
+        if($this->_del_item_node__item['patronymic_name']) {
+            $name_htmls []= $this->_del_item_node__item['patronymic_name'];
+        }
+        
+        if($name_htmls) {
+            $htmls [] = join(' ', $name_htmls);
+        }
+        
+        if($this->_del_item_node__item['birth_year']) {
+            $htmls [] = sprintf(
+                '%02s.%02s.%s',
+                        $this->_del_item_node__item['birth_day'],
+                        $this->_del_item_node__item['birth_month'],
+                        $this->_del_item_node__item['birth_year']);
+        }
+        
+        $htmls [] = '...';
+        
+        $html = join(', ', $htmls);
+        
+        return $html;
+    }
+    
+    protected function _node__get_aside() {
+        if($this->_del_item_node__show_form) {
+            $short_detail_html = $this->_del_item_node__get_short_detail_html();
+            
+            $form_html =
+                    '<form action="" method="post">'.
+                        '<h2 class="TextAlignCenter">Удаление Данных</h2>'.
+                        '<div>'.
+                            '<p>Вы действительно ходите удалить следующую запись данных?</p>'.
+                            '<p class="MarginLeft20Px">'.$short_detail_html.'</p>'.
+                        '</div>'.
+                        '<div>'.
+                            '<input type="hidden" '.
+                                'name="post_token" '.
+                                'value="'.htmlspecialchars($_SESSION['post_token']).'" />'.
+                            '<input class="FloatLeft Margin5Px" type="submit"
+                                    value="Подтвердить удаление" />'.
+                            '<div class="ClearBoth"></div>'.
+                        '</div>'.
+                    '</form>';
+            
+            if($this->_del_item_node__next) {
+                $form_html .= sprintf(
+                    '<p><a href="%s">%s</a></a></p>',
+                    htmlspecialchars($this->_del_item_node__next),
+                    $this->_del_item_node__next_message_html?
+                            $this->_del_item_node__next_message_html:
+                            htmlspecialchars(
+                                $this->_del_item_node__next_message?
+                                $this->_del_item_node__next_message:
+                                'Закрыть без изменений'
+                            )
+                );
+            }
+        } else {
+            $form_html = '';
+        }
+        
+        $html =
+            '<div class="SmallFrame">'.
+                $this->_del_item_node__message_html.
+                $form_html.
+            '</div>';
+        
+        return $html;
+    }
 }
 
