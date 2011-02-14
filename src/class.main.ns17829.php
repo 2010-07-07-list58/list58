@@ -78,6 +78,10 @@ class main__ns17829 {
         
         // инициализируем изначальные значения сессии:
         
+        if(!array_key_exists('session_token', $_SESSION)) {
+            $_SESSION['session_token'] = new_token__ns29922();
+        }
+        
         if(!array_key_exists('post_token', $_SESSION)) {
             $_SESSION['post_token'] = new_token__ns29922();
         }

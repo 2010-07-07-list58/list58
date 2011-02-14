@@ -149,9 +149,41 @@ class base_node__ns8054 {
                 throw new not_authorized_error__ns3300();
             }
             
-            // TODO: эта часть функции долна быть расширена для более глубокой проверки!
+            $login = $_SESSION['reg_data']['login'];
+            
+            $result = mysql_query_or_error(
+                sprintf(
+                    'SELECT `session` FROM `user_sessions` WHERE `login` = \'%s\'',
+                    mysql_real_escape_string($login, $this->_base_node__db_link)
+                ),
+                $this->_base_node__db_link
+            );
+            for(;;) {
+                $row = mysql_fetch_row($result);
+                
+                if($row) {
+                    list($stored_session) = $row;
+                    
+                    if($stored_session == $_SESSION['session_token']) {
+                        $session_pass = TRUE;
+                        
+                        break;
+                    }
+                } else {
+                    $session_pass = FALSE;
+                    
+                    break;
+                }
+            }
+            mysql_free_result($result);
+            
+            if(!$session_pass) {
+                throw new not_authorized_error__ns3300(
+                        'Требуется повторная авторизация, так как сессия была закрыта');
+            }
+            
+            // TODO: эта часть функции должна быть расширена для более глубокой проверки!
             //      (
-            //          проверка по идентификаторам сессий (в базе данных),
             //          проверка по IP-адресам,
             //          ...
             //      )
@@ -192,22 +224,19 @@ class base_node__ns8054 {
             $this->_base_node__db_link
         );
         
-        if($result) {
-            for(;;) {
-                $row = mysql_fetch_row($result);
-                if(!$row) {
-                    break;
-                }
-                
-                if($row) {
-                    list($stored_group) = $row;
-                    
-                    $this->_base_node__perms_cache []= $stored_group;
-                }
-            }
+        for(;;) {
+            $row = mysql_fetch_row($result);
             
-            mysql_free_result($result);
+            if($row) {
+                list($stored_group) = $row;
+                
+                $this->_base_node__perms_cache []= $stored_group;
+            } else {
+                break;
+            }
         }
+        
+        mysql_free_result($result);
     }
     
     protected function _base_node__is_permitted($perm, $options=array()) {
