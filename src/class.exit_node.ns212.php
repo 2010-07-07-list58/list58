@@ -38,7 +38,7 @@ class exit_node__ns212 extends node__ns21085 {
         $this->_base_node__clean_auth();
         
         if($this->_exit_node__clean_all) {
-            $result = mysql_query_or_error(
+            mysql_query_or_error(
                 sprintf(
                     'DELETE FROM `user_sessions` WHERE `login` = \'%s\'',
                     mysql_real_escape_string($this->_exit_node__login, $this->_base_node__db_link)

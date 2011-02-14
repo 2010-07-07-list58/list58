@@ -82,6 +82,25 @@ class auth_node__ns2464 extends node__ns21085 {
                     );
                     $_SESSION['authorized'] = TRUE;
                     
+                    if(!$this->_base_node__is_permitted('multisession')) {
+                        mysql_query_or_error(
+                            sprintf(
+                                'DELETE FROM `user_sessions` WHERE `login` = \'%s\'',
+                                mysql_real_escape_string($login, $this->_base_node__db_link)
+                            ),
+                            $this->_base_node__db_link
+                        );
+                    }
+                    
+                    mysql_query_or_error(
+                        sprintf(
+                            'INSERT INTO `user_sessions` (`login`, `session`) VALUES (\'%s\', \'%s\')',
+                            mysql_real_escape_string($login, $this->_base_node__db_link),
+                            mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
+                        ),
+                        $this->_base_node__db_link
+                    );
+                    
                     $this->_auth_node__message_html .=
                         '<p class="SuccessColor TextAlignCenter">'.
                             'Авторизация успешно пройдена...'.
