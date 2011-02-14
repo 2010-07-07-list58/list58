@@ -232,7 +232,7 @@ class main__ns17829 {
             echo $html."\n";
         } catch(low_level_error__ns28655 $e) {
             $error = $e->getMessage();
-            $message = sprintf('Низкоуровневая Ошибка: %s', $error);
+            $message = sprintf('Низкоуровневая Ошибка [%s]: %s', get_class($e), $error);
             
             @header('Content-Type: text/plain;charset=utf-8');
             if(array_key_exists('HTTP_REFERER', $_SERVER)) {
