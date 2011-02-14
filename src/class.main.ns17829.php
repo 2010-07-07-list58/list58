@@ -241,7 +241,7 @@ class main__ns17829 {
             echo $message."\n";
         } catch(Exception $e) {
             $error = $e->getMessage();
-            $message = sprintf('Неожидаемая Ошибка: %s', $error);
+            $message = sprintf('Неожидаемая Ошибка [%s]: %s', get_class($e), $error);
             
             @header('Content-Type: text/plain;charset=utf-8');
             echo $message."\n";
