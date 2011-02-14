@@ -57,6 +57,17 @@ class node__ns21085 extends base_node__ns8054 {
                 }
             }
             
+            if($this->_base_node__is_permitted('multisession')) {
+                $menu[] = array(
+                    'menu_name' => 'Закрыть все сессии ['.$_SESSION['reg_data']['login'].']',
+                    'menu_link' => sprintf(
+                        '?node=exit&clean_all=1&post_token=%s',
+                        urlencode($_SESSION['post_token'])
+                    ),
+                    'is_right' => TRUE,
+                );
+            }
+            
             $menu[] = array(
                 'menu_name' => 'Выход ['.$_SESSION['reg_data']['login'].']',
                 'menu_link' => sprintf(
