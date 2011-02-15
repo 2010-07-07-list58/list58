@@ -18,7 +18,6 @@
 
 */
 
-
 $time_cache__ns29922 = NULL;
 
 function get_time__ns29922() {
@@ -46,5 +45,4 @@ function new_token__ns29922() {
     
     return $token;
 }
-
 
