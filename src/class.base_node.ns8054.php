@@ -153,30 +153,23 @@ class base_node__ns8054 {
                 throw new not_authorized_error__ns3300();
             }
             
-            $login = $_SESSION['reg_data']['login'];
-            
+            $session_pass = FALSE;
             $result = mysql_query_or_error(
                 sprintf(
-                    'SELECT `session` FROM `user_sessions` WHERE `login` = \'%s\'',
-                    mysql_real_escape_string($login, $this->_base_node__db_link)
+                    'SELECT `login`, `session` FROM `user_sessions` '.
+                            'WHERE `login` = \'%s\' AND `session` = \'%s\'',
+                    mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link),
+                    mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
                 ),
                 $this->_base_node__db_link
             );
-            for(;;) {
-                $row = mysql_fetch_row($result);
+            $row = mysql_fetch_row($result);
+            if($row) {
+                list($stored_login, $stored_session) = $row;
                 
-                if($row) {
-                    list($stored_session) = $row;
-                    
-                    if($stored_session == $_SESSION['session_token']) {
-                        $session_pass = TRUE;
-                        
-                        break;
-                    }
-                } else {
-                    $session_pass = FALSE;
-                    
-                    break;
+                if($stored_login == $_SESSION['reg_data']['login'] &&
+                        $stored_session == $_SESSION['session_token']) {
+                    $session_pass = TRUE;
                 }
             }
             mysql_free_result($result);
@@ -220,13 +213,11 @@ class base_node__ns8054 {
     protected function _base_node__init_perms_cache() {
         $this->_base_node__perms_cache = array();
         
-        $login = $_SESSION['reg_data']['login'];
-        
         $result = mysql_query_or_error(
             sprintf(
                 'SELECT `group` FROM `user_groups` '.
                         'WHERE `login` = \'%s\'',
-                mysql_real_escape_string($login, $this->_base_node__db_link)
+                mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link)
             ),
             $this->_base_node__db_link
         );
@@ -280,7 +271,28 @@ class base_node__ns8054 {
     
     protected function _base_node__track_session() {
         if($this->_base_node__authorized) {
-            // TODO: ...
+            $time = get_time__ns29922();
+            $ip = get_real_ip__ns5513();
+            $browser = array_key_exists('HTTP_USER_AGENT', $_SERVER)?$_SERVER['HTTP_USER_AGENT']:NULL;
+            $query = array_key_exists('QUERY_STRING', $_SERVER)?$_SERVER['QUERY_STRING']:NULL;
+            
+            mysql_query_or_error(
+                sprintf(
+                    'UPDATE `user_sessions` SET '.
+                            '`last_time` = \'%s\', '.
+                            '`last_ip` = \'%s\', '.
+                            '`last_browser` = \'%s\', '.
+                            '`last_query` = \'%s\''.
+                            'WHERE `login` = \'%s\' AND `session` = \'%s\'',
+                    mysql_real_escape_string($time, $this->_base_node__db_link),
+                    mysql_real_escape_string($ip, $this->_base_node__db_link),
+                    mysql_real_escape_string($browser, $this->_base_node__db_link),
+                    mysql_real_escape_string($query, $this->_base_node__db_link),
+                    mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link),
+                    mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
+                ),
+                $this->_base_node__db_link
+            );
         }
     }
     protected function _base_node__on_init() {
