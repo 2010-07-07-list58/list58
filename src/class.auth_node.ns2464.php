@@ -147,7 +147,7 @@ class auth_node__ns2464 extends node__ns21085 {
                         '<p class="SuccessColor TextAlignCenter">'.
                             'Добро пожаловать!'.
                         '</p>';
-                        
+                    
                     @header('Refresh: 1;url=?');
                     $this->_auth_node__show_form = FALSE;
                 } else {
