@@ -22,13 +22,45 @@ require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
+require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
 class auth_node__ns2464 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;    
     
+    protected $_auth_node__login;
+    protected $_auth_node__password;
+    protected $_auth_node__perms;
+    
     protected $_auth_node__show_form = TRUE;
     protected $_auth_node__captcha_html = '';
     protected $_auth_node__message_html = '';
+    
+    protected function _auth_node__init_perms() {
+        $this->_auth_node__perms = array();
+        
+        $result = mysql_query_or_error(
+            sprintf(
+                'SELECT `group` FROM `user_groups` '.
+                        'WHERE `login` = \'%s\'',
+                mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link)
+            ),
+            $this->_base_node__db_link
+        );
+        
+        for(;;) {
+            $row = mysql_fetch_row($result);
+            
+            if($row) {
+                list($stored_group) = $row;
+                
+                $this->_auth_node__perms []= $stored_group;
+            } else {
+                break;
+            }
+        }
+        
+        mysql_free_result($result);
+    }
     
     protected function _base_node__on_init() {
         parent::_base_node__on_init();
@@ -49,44 +81,37 @@ class auth_node__ns2464 extends node__ns21085 {
             if(captcha_check_answer__ns8574($_POST)) {
                 $login_success = FALSE;
                 
-                $login = $this->post_arg('login');
-                $password = $this->post_arg('password');
+                $this->_auth_node__login = $this->post_arg('login');
+                $this->_auth_node__password = $this->post_arg('password');
                 
-                $result = mysql_query(
+                $result = mysql_query_or_error(
                     sprintf(
                         'SELECT `login`, `password` FROM `users_base` WHERE '.
                             '`login` = \'%s\' AND `password` = \'%s\'',
-                        mysql_real_escape_string($login, $this->_base_node__db_link),
-                        mysql_real_escape_string($password, $this->_base_node__db_link)
+                        mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
+                        mysql_real_escape_string($this->_auth_node__password, $this->_base_node__db_link)
                     ),
                     $this->_base_node__db_link
                 );
-                
-                if($result) {
-                    $row = mysql_fetch_row($result);
-                    if($row) {
-                        list($stored_login, $stored_password) = $row;
-                        
-                        if($stored_login == $login &&
-                                $stored_password == $password) {
-                            $login_success = TRUE;
-                        }
-                    }
+                $row = mysql_fetch_row($result);
+                if($row) {
+                    list($stored_login, $stored_password) = $row;
                     
-                    mysql_free_result($result);
+                    if($stored_login == $this->_auth_node__login &&
+                            $stored_password == $this->_auth_node__password) {
+                        $login_success = TRUE;
+                    }
                 }
+                mysql_free_result($result);
                 
                 if($login_success) {
-                    $_SESSION['reg_data'] = array(
-                        'login' => $login,
-                    );
-                    $_SESSION['authorized'] = TRUE;
+                    $this->_auth_node__init_perms();
                     
-                    if($this->_base_node__is_permitted('multisession')) {
+                    if(in_array('multisession', $this->_auth_node__perms)) {
                         mysql_query_or_error(
                             sprintf(
                                 'DELETE FROM `user_sessions` WHERE `login` = \'%s\' AND `session` = \'%s\'',
-                                mysql_real_escape_string($login, $this->_base_node__db_link),
+                                mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
                                 mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
                             ),
                             $this->_base_node__db_link
@@ -95,7 +120,7 @@ class auth_node__ns2464 extends node__ns21085 {
                         mysql_query_or_error(
                             sprintf(
                                 'DELETE FROM `user_sessions` WHERE `login` = \'%s\'',
-                                mysql_real_escape_string($login, $this->_base_node__db_link)
+                                mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link)
                             ),
                             $this->_base_node__db_link
                         );
@@ -104,11 +129,16 @@ class auth_node__ns2464 extends node__ns21085 {
                     mysql_query_or_error(
                         sprintf(
                             'INSERT INTO `user_sessions` (`login`, `session`) VALUES (\'%s\', \'%s\')',
-                            mysql_real_escape_string($login, $this->_base_node__db_link),
+                            mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
                             mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
                         ),
                         $this->_base_node__db_link
                     );
+                    
+                    $_SESSION['reg_data'] = array(
+                        'login' => $this->_auth_node__login,
+                    );
+                    $_SESSION['authorized'] = TRUE;
                     
                     $this->_auth_node__message_html .=
                         '<p class="SuccessColor TextAlignCenter">'.

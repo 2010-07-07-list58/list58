@@ -21,6 +21,8 @@
 require_once dirname(__FILE__).'/class.paths.ns1609.php';
 require_once dirname(__FILE__).'/class.site_error.ns14329.php';
 require_once dirname(__FILE__).'/class.not_authorized_error.ns3300.php';
+require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
+require_once dirname(__FILE__).'/utils/class.real_ip.ns5513.php';
 require_once dirname(__FILE__).'/utils/class.gpc.ns2886.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
@@ -36,6 +38,7 @@ class base_node__ns8054 {
     protected $_base_node__need_check_auth = FALSE;
     protected $_base_node__need_check_perms = array();
     
+    protected $_base_node__authorized = FALSE;
     protected $_base_node__db_link = NULL;
     protected $_base_node__perms_cache = NULL;
     
@@ -139,6 +142,7 @@ class base_node__ns8054 {
     }
     
     protected function _base_node__clean_auth() {
+        $this->_base_node__authorized = FALSE;
         $_SESSION['authorized'] = FALSE;
         unset($_SESSION['reg_data']);
     }
@@ -187,6 +191,9 @@ class base_node__ns8054 {
             //          проверка по IP-адресам,
             //          ...
             //      )
+            
+            // устанавливаем флаг, свидетельствующий о том что авторизация проверена
+            $this->_base_node__authorized = TRUE;
         } catch(not_authorized_error__ns3300 $e) {
             $message = $e->getMessage();
             
@@ -242,7 +249,7 @@ class base_node__ns8054 {
     protected function _base_node__is_permitted($perm, $options=array()) {
         // кэшируемая проверка разрешений
         
-        if($_SESSION['authorized']) {
+        if($this->_base_node__authorized) {
             if($this->_base_node__perms_cache === NULL) {
                 $this->_base_node__init_perms_cache();
             }
@@ -271,6 +278,11 @@ class base_node__ns8054 {
         }
     }
     
+    protected function _base_node__track_session() {
+        if($this->_base_node__authorized) {
+            // TODO: ...
+        }
+    }
     protected function _base_node__on_init() {
         // проверка авторизации:
         if($this->_base_node__need_check_auth) {
@@ -295,6 +307,9 @@ class base_node__ns8054 {
             
             $this->_base_node__check_post_token_for_get();
         }
+        
+        // отслеживаем активность сессии:
+        $this->_base_node__track_session();
     }
     
     public function __construct($environ) {

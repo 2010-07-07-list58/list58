@@ -47,7 +47,7 @@ class exit_node__ns212 extends node__ns21085 {
             );
         }
         
-        @header('Refresh: 1;url=?');
+        @header('Refresh: 1;url=?node=auth');
     }
     
     protected function _node__get_title() {
