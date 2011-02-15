@@ -163,19 +163,12 @@ class base_node__ns8054 {
                 $this->_base_node__db_link
             );
             $row = mysql_fetch_row($result);
-            if($row) {
-                list($stored_login, $stored_session) = $row;
-                
-                if($stored_login == $_SESSION['reg_data']['login'] &&
-                        $stored_session == $_SESSION['session_token']) {
-                    $session_pass = TRUE;
-                }
-            }
             mysql_free_result($result);
-            
-            if(!$session_pass) {
-                throw new not_authorized_error__ns3300(
-                        'Требуется повторная авторизация, так как сессия была закрыта');
+            if(!$row) {
+                if(!$session_pass) {
+                    throw new not_authorized_error__ns3300(
+                            'Требуется повторная авторизация, так как сессия была закрыта');
+                }
             }
             
             // TODO: эта часть функции может быть расширена для более глубокой проверки!:
