@@ -20,6 +20,8 @@
 
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 require_once dirname(__FILE__).'/class.node.ns21085.php';
+require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
+require_once dirname(__FILE__).'/utils/class.real_ip.ns5513.php';
 require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
@@ -126,11 +128,20 @@ class auth_node__ns2464 extends node__ns21085 {
                         );
                     }
                     
+                    $time = get_time__ns29922();
+                    $ip = get_real_ip__ns5513();
+                    $browser = array_key_exists('HTTP_USER_AGENT', $_SERVER)?$_SERVER['HTTP_USER_AGENT']:NULL;
+                    
                     mysql_query_or_error(
                         sprintf(
-                            'INSERT INTO `user_sessions` (`login`, `session`) VALUES (\'%s\', \'%s\')',
+                            'INSERT INTO `user_sessions` '.
+                                    '(`login`, `session`, `login_time`, `login_ip`, `login_browser`) '.
+                                    'VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')',
                             mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
-                            mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
+                            mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link),
+                            mysql_real_escape_string($time, $this->_base_node__db_link),
+                            mysql_real_escape_string($ip, $this->_base_node__db_link),
+                            mysql_real_escape_string($browser, $this->_base_node__db_link)
                         ),
                         $this->_base_node__db_link
                     );
