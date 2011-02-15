@@ -47,6 +47,18 @@ CREATE TABLE IF NOT EXISTS `user_sessions` (
     KEY `user_sessions(last_query)` (`last_query`(1000))
 );
 
+-- список ограничений по ip:
+CREATE TABLE IF NOT EXISTS `user_ips` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `login` VARCHAR(100),
+    `ip` VARCHAR(100),
+    `time` BIGINT,
+    PRIMARY KEY (`id`),
+    KEY `user_ips(login)` (`login`),
+    KEY `user_ips(ip)` (`ip`),
+    KEY `user_ips(time)` (`time`)
+);
+
 -- список групп (полномочий) пользователей:
 CREATE TABLE IF NOT EXISTS `user_groups` (
     `login` VARCHAR(100),
@@ -87,16 +99,14 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
 --  группа 'multisession':
 --          'multisession': разрешает использовать одновременно несколько сессий
 --
+--  группа 'ip_limit':
+--          'ip_limit': запрещает доступ к системе от посторонних ip-адресов
+--
+--  группа 'auto_ip_limit':
+--          'ip_limit'+'auto_ip_limit': автоматически корректирует ip-адрес
+--              из которого разрешается использовать систему
+--
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
--- список ограничений по ip:
-CREATE TABLE IF NOT EXISTS `user_ips` (
-    `login` VARCHAR(100),
-    `ip` VARCHAR(100),
-    PRIMARY KEY (`login`, `ip`),
-    KEY `user_groups(login)` (`login`),
-    KEY `user_groups(ip)` (`ip`)
-);
 
 -- база данных людей
 CREATE TABLE IF NOT EXISTS `items_base` (
