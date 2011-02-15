@@ -28,11 +28,24 @@ CREATE TABLE IF NOT EXISTS `users_base` (
 CREATE TABLE IF NOT EXISTS `user_sessions` (
     `login` VARCHAR(100),
     `session` VARCHAR(100),
+    `login_time` BIGINT,
+    `login_ip` VARCHAR(100),
+    `login_browser` TEXT,
+    `last_time` BIGINT,
+    `last_ip` VARCHAR(100),
+    `last_browser` TEXT,
+    `last_query` TEXT,
     PRIMARY KEY(`login`, `session`),
     KEY `user_sessions(login)` (`login`),
-    KEY `user_sessions(session)` (`session`)
+    KEY `user_sessions(session)` (`session`),
+    KEY `user_sessions(login_time)` (`login_time`),
+    KEY `user_sessions(login_ip)` (`login_ip`),
+    KEY `user_sessions(login_browser)` (`login_browser`(1000)),
+    KEY `user_sessions(last_time)` (`last_time`),
+    KEY `user_sessions(last_ip)` (`last_ip`),
+    KEY `user_sessions(last_browser)` (`last_browser`(1000)),
+    KEY `user_sessions(last_query)` (`last_query`(1000))
 );
-
 
 -- список групп (полномочий) пользователей:
 CREATE TABLE IF NOT EXISTS `user_groups` (
