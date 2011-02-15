@@ -29,11 +29,25 @@ class exit_node__ns212 extends node__ns21085 {
     protected $_exit_node__login;
     protected $_exit_node__clean_all;
     
+    protected function _base_node__on_add_check_perms() {
+        parent::_base_node__on_add_check_perms();
+        
+        if($this->_exit_node__clean_all) {
+            $this->_base_node__add_check_perms(
+                array(
+                    // требуется разрешение на мультисессию:
+                    'multisession' => TRUE,
+                )
+            );
+        }
+    }
+    
     protected function _base_node__on_init() {
+        $this->_exit_node__clean_all = $this->get_arg('clean_all')?TRUE:FALSE;
+        
         parent::_base_node__on_init();
         
         $this->_exit_node__login = $_SESSION['reg_data']['login'];
-        $this->_exit_node__clean_all = $this->get_arg('clean_all')?TRUE:FALSE;
         
         $this->_base_node__clean_auth();
         

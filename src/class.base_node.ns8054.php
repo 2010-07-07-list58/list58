@@ -299,8 +299,8 @@ class base_node__ns8054 {
         $this->_base_node__init_perms();
         
         // проверка разрешений:
+        $this->_base_node__on_add_check_perms();
         if($this->_base_node__need_check_perms) {
-            $this->_base_node__on_add_check_perms();
             $this->_base_node__check_perms(
                 $this->_base_node__need_check_perms
             );

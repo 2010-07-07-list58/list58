@@ -68,15 +68,41 @@ class auth_node__ns2464 extends node__ns21085 {
     }
     
     protected function _auth_node__check_capture() {
-        // проверить что захват сессии возможен, или не требуется
+        // эта функция проверяет, что захват сессии возможен, или не требуется
         
         if(!in_array('multisession', $this->_auth_node__perms)) {
-            // можно будет захватить сессию (после окончания активностей) через 2 часа:
-            $capture_session_timeout = 60 * 60 * 2;
+            // захват требуется!
             
+            // можно будет захватить сессию (после окончания активностей) через 1.5 часа:
+            $capture_session_timeout = 60 * 60 * 1.5;
             
+            $time = get_time__ns29922();
             
-            // TODO: ...
+            $result = mysql_query_or_error(
+                sprintf(
+                    'SELECT `login`, `session` FROM `user_sessions` '.
+                            'WHERE `login` = \'%s\' AND `session` <> \'%s\' AND '.
+                            'ABS(\'%s\' - `last_time`) < \'%s\'',
+                    mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
+                    mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link),
+                    mysql_real_escape_string($time, $this->_base_node__db_link),
+                    mysql_real_escape_string($capture_session_timeout, $this->_base_node__db_link)
+                ),
+                $this->_base_node__db_link
+            );
+            $row = mysql_fetch_row($result);
+            mysql_free_result($result);
+            if($row) {
+                throw new auth_error__ns2464(
+                    'Ошибка авторизации:'."\n".
+                    'Авторизация не возможна пока кто-то другой уже использует Вашу учётную запись. '.
+                            '(Либо учётная запись уже (или недавно была) открыта в другом Вашем броузере).'."\n".
+                    'Чтобы захват сессии был возможен, необходимо подождать несколько минут, '.
+                            'в течении которых не должна наблюдаться активность той сессий, '.
+                            'которая использует Вашу учётную запись'
+                );
+            }
+            
         }
     }
     
@@ -103,17 +129,24 @@ class auth_node__ns2464 extends node__ns21085 {
         $time = get_time__ns29922();
         $ip = get_real_ip__ns5513();
         $browser = array_key_exists('HTTP_USER_AGENT', $_SERVER)?$_SERVER['HTTP_USER_AGENT']:NULL;
+        $query = array_key_exists('QUERY_STRING', $_SERVER)?$_SERVER['QUERY_STRING']:NULL;
         
         mysql_query_or_error(
             sprintf(
                 'INSERT INTO `user_sessions` '.
-                        '(`login`, `session`, `login_time`, `login_ip`, `login_browser`) '.
-                        'VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')',
+                        '(`login`, `session`, `login_time`, `login_ip`, `login_browser`, '.
+                        '`last_time`, `last_ip`, `last_browser`, `last_query`) '.
+                        'VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\', '.
+                        '\'%s\', \'%s\', \'%s\', \'%s\')',
                 mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
                 mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link),
                 mysql_real_escape_string($time, $this->_base_node__db_link),
                 mysql_real_escape_string($ip, $this->_base_node__db_link),
-                mysql_real_escape_string($browser, $this->_base_node__db_link)
+                mysql_real_escape_string($browser, $this->_base_node__db_link),
+                mysql_real_escape_string($time, $this->_base_node__db_link),
+                mysql_real_escape_string($ip, $this->_base_node__db_link),
+                mysql_real_escape_string($browser, $this->_base_node__db_link),
+                mysql_real_escape_string($query, $this->_base_node__db_link)
             ),
             $this->_base_node__db_link
         );
@@ -142,9 +175,9 @@ class auth_node__ns2464 extends node__ns21085 {
             $error_message = $args['error_message'];
             
             $this->_auth_node__message_html .=
-                '<p class="ErrorColor TextAlignCenter">'.
-                    htmlspecialchars($error_message).
-                '</p>';
+                '<div class="ErrorColor TextAlignCenter MaxWidth800Px">'.
+                    $this->html_from_txt($error_message).
+                '</div>';
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -156,32 +189,21 @@ class auth_node__ns2464 extends node__ns21085 {
                             'Ошибка Каптчи:'."\n".$captcha_last_error);
                 }
                 
-                $login_pass = FALSE;
-                
                 $this->_auth_node__login = $this->post_arg('login');
                 $this->_auth_node__password = $this->post_arg('password');
                 
                 $result = mysql_query_or_error(
                     sprintf(
-                        'SELECT `login`, `password` FROM `users_base` WHERE '.
-                            '`login` = \'%s\' AND `password` = \'%s\'',
+                        'SELECT `login`, `password` FROM `users_base` '.
+                                'WHERE `login` = \'%s\' AND `password` = \'%s\'',
                         mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
                         mysql_real_escape_string($this->_auth_node__password, $this->_base_node__db_link)
                     ),
                     $this->_base_node__db_link
                 );
                 $row = mysql_fetch_row($result);
-                if($row) {
-                    list($stored_login, $stored_password) = $row;
-                    
-                    if($stored_login == $this->_auth_node__login &&
-                            $stored_password == $this->_auth_node__password) {
-                        $login_pass = TRUE;
-                    }
-                }
                 mysql_free_result($result);
-                
-                if(!$login_pass) {
+                if(!$row) {
                     throw new auth_error__ns2464(
                             'Логин и/или Пароль -- неверны');
                 }
@@ -199,7 +221,7 @@ class auth_node__ns2464 extends node__ns21085 {
                 $message = $e->getMessage();
                 
                 $this->_auth_node__message_html .=
-                        '<div class="ErrorColor TextAlignCenter">'.
+                       '<div class="ErrorColor TextAlignCenter MaxWidth800Px">'.
                             $this->html_from_txt($message).
                         '</div>';
             }
