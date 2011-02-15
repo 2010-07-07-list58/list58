@@ -40,7 +40,7 @@ class base_node__ns8054 {
     
     protected $_base_node__authorized = FALSE;
     protected $_base_node__db_link = NULL;
-    protected $_base_node__perms_cache = NULL;
+    protected $_base_node__perms = array();
     
     protected function _base_node__init_db() {
         $mysql_conf_php = get_var__ns1609().'/class.mysql_conf.ns14040.php';
@@ -150,7 +150,7 @@ class base_node__ns8054 {
     protected function _base_node__check_auth() {
         try {
             if(!$_SESSION['authorized']) {
-                throw new not_authorized_error__ns3300();
+                throw new not_authorized_error__ns3300('Доступ ограничен!');
             }
             
             $session_pass = FALSE;
@@ -179,11 +179,8 @@ class base_node__ns8054 {
                         'Требуется повторная авторизация, так как сессия была закрыта');
             }
             
-            // TODO: эта часть функции должна быть расширена для более глубокой проверки!
-            //      (
+            // TODO: эта часть функции может быть расширена для более глубокой проверки!:
             //          проверка по IP-адресам,
-            //          ...
-            //      )
             
             // устанавливаем флаг, свидетельствующий о том что авторизация проверена
             $this->_base_node__authorized = TRUE;
@@ -191,7 +188,7 @@ class base_node__ns8054 {
             $message = $e->getMessage();
             
             if(!$message) {
-                $message = 'Доступ ограничен!';
+                $message = 'Ошибка авторизации!';
             }
             
             // так или иначе если авторизация не пройдена, то сессия должна быть вычищина от этого:
@@ -210,42 +207,40 @@ class base_node__ns8054 {
     
     protected function _base_node__on_add_check_perms() {}
     
-    protected function _base_node__init_perms_cache() {
-        $this->_base_node__perms_cache = array();
-        
-        $result = mysql_query_or_error(
-            sprintf(
-                'SELECT `group` FROM `user_groups` '.
-                        'WHERE `login` = \'%s\'',
-                mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link)
-            ),
-            $this->_base_node__db_link
-        );
-        
-        for(;;) {
-            $row = mysql_fetch_row($result);
+    protected function _base_node__init_perms() {
+        if($this->_base_node__authorized) {
+            $this->_base_node__perms = array();
             
-            if($row) {
-                list($stored_group) = $row;
+            $result = mysql_query_or_error(
+                sprintf(
+                    'SELECT `group` FROM `user_groups` '.
+                            'WHERE `login` = \'%s\'',
+                    mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link)
+                ),
+                $this->_base_node__db_link
+            );
+            
+            for(;;) {
+                $row = mysql_fetch_row($result);
                 
-                $this->_base_node__perms_cache []= $stored_group;
-            } else {
-                break;
+                if($row) {
+                    list($stored_group) = $row;
+                    
+                    $this->_base_node__perms []= $stored_group;
+                } else {
+                    break;
+                }
             }
+            
+            mysql_free_result($result);
         }
-        
-        mysql_free_result($result);
     }
     
     protected function _base_node__is_permitted($perm, $options=array()) {
-        // кэшируемая проверка разрешений
+        // строгая проверка разрешений
         
         if($this->_base_node__authorized) {
-            if($this->_base_node__perms_cache === NULL) {
-                $this->_base_node__init_perms_cache();
-            }
-            
-            if(in_array($perm, $this->_base_node__perms_cache)) {
+            if(in_array($perm, $this->_base_node__perms)) {
                 return TRUE;
             }
         }
@@ -297,15 +292,18 @@ class base_node__ns8054 {
     }
     protected function _base_node__on_init() {
         // проверка авторизации:
-        if($this->_base_node__need_check_auth) {
+        if($_SESSION['authorized'] || $this->_base_node__need_check_auth) {
             $this->_base_node__check_auth();
-            
+        }
+        
+        $this->_base_node__init_perms();
+        
+        // проверка разрешений:
+        if($this->_base_node__need_check_perms) {
             $this->_base_node__on_add_check_perms();
-            if($this->_base_node__need_check_perms) {
-                $this->_base_node__check_perms(
-                    $this->_base_node__need_check_perms
-                );
-            }
+            $this->_base_node__check_perms(
+                $this->_base_node__need_check_perms
+            );
         }
         
         // проверка на CSRF-атаку:
