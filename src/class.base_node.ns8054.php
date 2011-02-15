@@ -144,6 +144,7 @@ class base_node__ns8054 {
         $this->_base_node__authorized = FALSE;
         $_SESSION['authorized'] = FALSE;
         unset($_SESSION['reg_data']);
+        $this->_base_node__perms = array();
     }
     
     protected function _base_node__check_auth() {
@@ -152,7 +153,8 @@ class base_node__ns8054 {
                 throw new not_authorized_error__ns3300('Доступ ограничен!');
             }
             
-            $session_pass = FALSE;
+            $this->_base_node__init_perms();
+            
             $result = mysql_query_or_error(
                 sprintf(
                     'SELECT `login`, `session` FROM `user_sessions` '.
@@ -165,10 +167,8 @@ class base_node__ns8054 {
             $row = mysql_fetch_row($result);
             mysql_free_result($result);
             if(!$row) {
-                if(!$session_pass) {
-                    throw new not_authorized_error__ns3300(
-                            'Требуется повторная авторизация, так как сессия была закрыта');
-                }
+                throw new not_authorized_error__ns3300(
+                        'Требуется повторная авторизация, так как сессия была закрыта');
             }
             
             // TODO: эта часть функции может быть расширена для более глубокой проверки!:
@@ -200,32 +200,31 @@ class base_node__ns8054 {
     protected function _base_node__on_add_check_perms() {}
     
     protected function _base_node__init_perms() {
-        if($this->_base_node__authorized) {
-            $this->_base_node__perms = array();
+        $this->_base_node__perms = array();
+        
+        $result = mysql_query_or_error(
+            sprintf(
+                'SELECT `group` FROM `user_groups` '.
+                        'WHERE `login` = \'%s\'',
+                mysql_real_escape_string(
+                        $_SESSION['reg_data']['login'], $this->_base_node__db_link)
+            ),
+            $this->_base_node__db_link
+        );
+        
+        for(;;) {
+            $row = mysql_fetch_row($result);
             
-            $result = mysql_query_or_error(
-                sprintf(
-                    'SELECT `group` FROM `user_groups` '.
-                            'WHERE `login` = \'%s\'',
-                    mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link)
-                ),
-                $this->_base_node__db_link
-            );
-            
-            for(;;) {
-                $row = mysql_fetch_row($result);
+            if($row) {
+                list($stored_group) = $row;
                 
-                if($row) {
-                    list($stored_group) = $row;
-                    
-                    $this->_base_node__perms []= $stored_group;
-                } else {
-                    break;
-                }
+                $this->_base_node__perms []= $stored_group;
+            } else {
+                break;
             }
-            
-            mysql_free_result($result);
         }
+        
+        mysql_free_result($result);
     }
     
     protected function _base_node__is_permitted($perm, $options=array()) {
@@ -287,8 +286,6 @@ class base_node__ns8054 {
         if($_SESSION['authorized'] || $this->_base_node__need_check_auth) {
             $this->_base_node__check_auth();
         }
-        
-        $this->_base_node__init_perms();
         
         // проверка разрешений:
         $this->_base_node__on_add_check_perms();
