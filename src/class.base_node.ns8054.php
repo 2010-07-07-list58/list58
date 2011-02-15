@@ -325,24 +325,21 @@ class base_node__ns8054 {
     public function __construct($environ) {
         $this->environ = $environ;
         
-        if($this->_base_node__need_db ||
-                $this->_base_node__need_check_auth) {
-            $this->_base_node__init_db();
-            
-            $this->_base_node__begin_db();
-            try{
-                $this->_base_node__on_init();
-                $this->_base_node__commit_db();
-            } catch (Exception $e) {
-                $this->_base_node__rollback_db();
-                throw $e;
-            }
-            
-            // защита от случайного безтранзактного использования базы данных:
-            $this->_base_node__clean_db();
-        } else {
+        $this->_base_node__init_db();
+        
+        $this->_base_node__begin_db();
+        try{
             $this->_base_node__on_init();
+            $this->_base_node__commit_db();
+        } catch (Exception $e) {
+            $this->_base_node__rollback_db();
+            $this->_base_node__clean_db();
+            
+            throw $e;
         }
+        
+        // защита от случайного безтранзактного использования базы данных:
+        $this->_base_node__clean_db();
     }
     
     public function get_arg($arg_name, $def_value=NULL) {
