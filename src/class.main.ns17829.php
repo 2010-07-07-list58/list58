@@ -71,6 +71,11 @@ class main__ns17829 {
             throw new low_level_error__ns28655($error_msg);
         }
         
+        $success = @session_regenerate_id(TRUE);
+        if(!$success) {
+            throw new low_level_error__ns28655($error_msg);
+        }
+        
         $success = @setcookie(session_name(), session_id(), get_time__ns29922() + $lifetime);
         if(!$success) {
             throw new low_level_error__ns28655($error_msg);
