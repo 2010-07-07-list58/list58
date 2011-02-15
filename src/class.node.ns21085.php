@@ -28,7 +28,7 @@ class node__ns21085 extends base_node__ns8054 {
     protected function _node__init_main_menu() {
         $menu = array();
         
-        if($_SESSION['authorized']) {
+        if($this->_base_node__authorized) {
             $menu[] = array(
                 'menu_name' => 'Начало',
                 'menu_link' => '?',
