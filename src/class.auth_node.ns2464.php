@@ -105,24 +105,14 @@ class auth_node__ns2464 extends node__ns21085 {
     }
     
     protected function _auth_node__init_session() {
-        if(in_array('multisession', $this->_auth_node__perms)) {
-            mysql_query_or_error(
-                sprintf(
-                    'DELETE FROM `user_sessions` WHERE `login` = \'%s\' AND `session` = \'%s\'',
-                    mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
-                    mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
-                ),
-                $this->_base_node__db_link
-            );
-        } else {
-            mysql_query_or_error(
-                sprintf(
-                    'DELETE FROM `user_sessions` WHERE `login` = \'%s\'',
-                    mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link)
-                ),
-                $this->_base_node__db_link
-            );
-        }
+        mysql_query_or_error(
+            sprintf(
+                'DELETE FROM `user_sessions` WHERE `login` = \'%s\' AND `session` = \'%s\'',
+                mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
+                mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
+            ),
+            $this->_base_node__db_link
+        );
         
         $time = get_time__ns29922();
         $ip = get_real_ip__ns5513();

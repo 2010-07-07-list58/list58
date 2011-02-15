@@ -52,11 +52,11 @@ CREATE TABLE IF NOT EXISTS `user_ips` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `login` VARCHAR(100),
     `ip` VARCHAR(100),
-    `time` BIGINT,
+    `auto_time` BIGINT,
     PRIMARY KEY (`id`),
     KEY `user_ips(login)` (`login`),
     KEY `user_ips(ip)` (`ip`),
-    KEY `user_ips(time)` (`time`)
+    KEY `user_ips(auto_time)` (`auto_time`)
 );
 
 -- список групп (полномочий) пользователей:

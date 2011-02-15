@@ -155,6 +155,7 @@ class base_node__ns8054 {
             
             $this->_base_node__init_perms();
             
+            // проверка существования сессии:
             $result = mysql_query_or_error(
                 sprintf(
                     'SELECT `login`, `session` FROM `user_sessions` '.
@@ -171,8 +172,96 @@ class base_node__ns8054 {
                         'Требуется повторная авторизация, так как сессия была закрыта');
             }
             
-            // TODO: эта часть функции может быть расширена для более глубокой проверки!:
-            //          проверка по IP-адресам,
+            // проверка ограничений по ip:
+            if(in_array('ip_limit', $this->_base_node__perms)) {
+                // время жизни автоматических ip-адресов:
+                $auto_ip_lifetime = 60 * 60 * 3;
+                
+                $time = get_time__ns29922();
+                $ip = get_real_ip__ns5513();
+                
+                $result = mysql_query_or_error(
+                    sprintf(
+                        'SELECT `ip` FROM `user_ips` '.
+                                'WHERE `login` = \'%s\' AND '.
+                                '(NOT IFNULL(`auto_time`, 0) OR ABS(\'%s\' - `auto_time`) < \'%s\')',
+                        mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link),
+                        mysql_real_escape_string($time, $this->_base_node__db_link),
+                        mysql_real_escape_string($auto_ip_lifetime, $this->_base_node__db_link)
+                    ),
+                    $this->_base_node__db_link
+                );
+                $ips = array();
+                $ip_pass = FALSE;
+                for(;;) {
+                    $row = mysql_fetch_row($result);
+                    if($row) {
+                        list($stored_ip) = $row;
+                        
+                        if($stored_ip == $ip) {
+                            $ip_pass = TRUE;
+                        }
+                        
+                        $ips []= $stored_ip;
+                    } else {
+                        break;
+                    }
+                }
+                mysql_free_result($result);
+                
+                if(!$ip_pass) {
+                    if(in_array('auto_ip_limit', $this->_base_node__perms)) {
+                        if($ips) {
+                            throw new not_authorized_error__ns3300(
+                                    'Сессия прервана, так как '.
+                                    'эта учётная запись уже (или недавно была) открыта c другого ip-адреса');
+                        }
+                    } else {
+                        throw new not_authorized_error__ns3300(
+                                'Сессия прервана, так как '.
+                                'с этого ip-адреса -- доступ не возможен');
+                    }
+                }
+                
+                // так или иначе, если всё нормально, то обновим таблицу ip-адресов
+                
+                if(in_array('auto_ip_limit', $this->_base_node__perms)) {
+                    // удаляем все автоматические:
+                    mysql_query_or_error(
+                        sprintf(
+                            'DELETE FROM `user_ips` '.
+                                    'WHERE `login` = \'%s\' AND IFNULL(`auto_time`, 0)',
+                            mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link)
+                        ),
+                        $this->_base_node__db_link
+                    );
+                    
+                    // и добавляем текущий ip:
+                    mysql_query_or_error(
+                        sprintf(
+                            'INSERT INTO `user_ips` '.
+                                '(`login`, `ip`, `auto_time`) VALUES (\'%s\', \'%s\', \'%s\')',
+                            mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link),
+                            mysql_real_escape_string($ip, $this->_base_node__db_link),
+                            mysql_real_escape_string($time, $this->_base_node__db_link)
+                        ),
+                        $this->_base_node__db_link
+                    );
+                }
+            }
+            
+            if(!in_array('multisession', $this->_base_node__perms)) {
+                // если не разрешена мультисессия, то удаляем все посторонние сессии
+                
+                mysql_query_or_error(
+                    sprintf(
+                        'DELETE FROM `user_sessions` WHERE `login` = \'%s\' AND `session` <> \'%s\'',
+                        mysql_real_escape_string($_SESSION['reg_data']['login'], $this->_base_node__db_link),
+                        mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
+                    ),
+                    $this->_base_node__db_link
+                );
+            }
             
             // устанавливаем флаг, свидетельствующий о том что авторизация проверена
             $this->_base_node__authorized = TRUE;
