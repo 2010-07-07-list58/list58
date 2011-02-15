@@ -82,7 +82,16 @@ class auth_node__ns2464 extends node__ns21085 {
                     );
                     $_SESSION['authorized'] = TRUE;
                     
-                    if(!$this->_base_node__is_permitted('multisession')) {
+                    if($this->_base_node__is_permitted('multisession')) {
+                        mysql_query_or_error(
+                            sprintf(
+                                'DELETE FROM `user_sessions` WHERE `login` = \'%s\' AND `session` = \'%s\'',
+                                mysql_real_escape_string($login, $this->_base_node__db_link),
+                                mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
+                            ),
+                            $this->_base_node__db_link
+                        );
+                    } else {
                         mysql_query_or_error(
                             sprintf(
                                 'DELETE FROM `user_sessions` WHERE `login` = \'%s\'',
