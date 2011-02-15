@@ -26,6 +26,9 @@ require_once dirname(__FILE__).'/utils/class.captcha.ns8574.php';
 require_once dirname(__FILE__).'/utils/class.msg_bus.ns1438.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
+class auth_error__ns2464
+        extends Exception {}
+
 class auth_node__ns2464 extends node__ns21085 {
     protected $_base_node__need_db = TRUE;    
     
@@ -64,6 +67,71 @@ class auth_node__ns2464 extends node__ns21085 {
         mysql_free_result($result);
     }
     
+    protected function _auth_node__check_capture() {
+        // проверить что захват сессии возможен, или не требуется
+        
+        if(!in_array('multisession', $this->_auth_node__perms)) {
+            // можно будет захватить сессию (после окончания активностей) через 2 часа:
+            $capture_session_timeout = 60 * 60 * 2;
+            
+            
+            
+            // TODO: ...
+        }
+    }
+    
+    protected function _auth_node__init_session() {
+        if(in_array('multisession', $this->_auth_node__perms)) {
+            mysql_query_or_error(
+                sprintf(
+                    'DELETE FROM `user_sessions` WHERE `login` = \'%s\' AND `session` = \'%s\'',
+                    mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
+                    mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
+                ),
+                $this->_base_node__db_link
+            );
+        } else {
+            mysql_query_or_error(
+                sprintf(
+                    'DELETE FROM `user_sessions` WHERE `login` = \'%s\'',
+                    mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link)
+                ),
+                $this->_base_node__db_link
+            );
+        }
+        
+        $time = get_time__ns29922();
+        $ip = get_real_ip__ns5513();
+        $browser = array_key_exists('HTTP_USER_AGENT', $_SERVER)?$_SERVER['HTTP_USER_AGENT']:NULL;
+        
+        mysql_query_or_error(
+            sprintf(
+                'INSERT INTO `user_sessions` '.
+                        '(`login`, `session`, `login_time`, `login_ip`, `login_browser`) '.
+                        'VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')',
+                mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
+                mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link),
+                mysql_real_escape_string($time, $this->_base_node__db_link),
+                mysql_real_escape_string($ip, $this->_base_node__db_link),
+                mysql_real_escape_string($browser, $this->_base_node__db_link)
+            ),
+            $this->_base_node__db_link
+        );
+        
+        $_SESSION['reg_data'] = array(
+            'login' => $this->_auth_node__login,
+        );
+        $_SESSION['authorized'] = TRUE;
+        
+        $this->_auth_node__message_html .=
+            '<p class="SuccessColor TextAlignCenter">'.
+                'Авторизация успешно пройдена...'.
+            '</p>'.
+            '<p class="SuccessColor TextAlignCenter">'.
+                'Добро пожаловать!'.
+            '</p>';
+    }
+    
     protected function _base_node__on_init() {
         parent::_base_node__on_init();
         
@@ -80,8 +148,15 @@ class auth_node__ns2464 extends node__ns21085 {
         }
         
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if(captcha_check_answer__ns8574($_POST)) {
-                $login_success = FALSE;
+            try {
+                if(!captcha_check_answer__ns8574($_POST)) {
+                    $captcha_last_error = get_captcha_last_error__ns8574();
+                    
+                    throw new auth_error__ns2464(
+                            'Ошибка Каптчи:'."\n".$captcha_last_error);
+                }
+                
+                $login_pass = FALSE;
                 
                 $this->_auth_node__login = $this->post_arg('login');
                 $this->_auth_node__password = $this->post_arg('password');
@@ -101,80 +176,32 @@ class auth_node__ns2464 extends node__ns21085 {
                     
                     if($stored_login == $this->_auth_node__login &&
                             $stored_password == $this->_auth_node__password) {
-                        $login_success = TRUE;
+                        $login_pass = TRUE;
                     }
                 }
                 mysql_free_result($result);
                 
-                if($login_success) {
-                    $this->_auth_node__init_perms();
-                    
-                    if(in_array('multisession', $this->_auth_node__perms)) {
-                        mysql_query_or_error(
-                            sprintf(
-                                'DELETE FROM `user_sessions` WHERE `login` = \'%s\' AND `session` = \'%s\'',
-                                mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
-                                mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link)
-                            ),
-                            $this->_base_node__db_link
-                        );
-                    } else {
-                        mysql_query_or_error(
-                            sprintf(
-                                'DELETE FROM `user_sessions` WHERE `login` = \'%s\'',
-                                mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link)
-                            ),
-                            $this->_base_node__db_link
-                        );
-                    }
-                    
-                    $time = get_time__ns29922();
-                    $ip = get_real_ip__ns5513();
-                    $browser = array_key_exists('HTTP_USER_AGENT', $_SERVER)?$_SERVER['HTTP_USER_AGENT']:NULL;
-                    
-                    mysql_query_or_error(
-                        sprintf(
-                            'INSERT INTO `user_sessions` '.
-                                    '(`login`, `session`, `login_time`, `login_ip`, `login_browser`) '.
-                                    'VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')',
-                            mysql_real_escape_string($this->_auth_node__login, $this->_base_node__db_link),
-                            mysql_real_escape_string($_SESSION['session_token'], $this->_base_node__db_link),
-                            mysql_real_escape_string($time, $this->_base_node__db_link),
-                            mysql_real_escape_string($ip, $this->_base_node__db_link),
-                            mysql_real_escape_string($browser, $this->_base_node__db_link)
-                        ),
-                        $this->_base_node__db_link
-                    );
-                    
-                    $_SESSION['reg_data'] = array(
-                        'login' => $this->_auth_node__login,
-                    );
-                    $_SESSION['authorized'] = TRUE;
-                    
-                    $this->_auth_node__message_html .=
-                        '<p class="SuccessColor TextAlignCenter">'.
-                            'Авторизация успешно пройдена...'.
-                        '</p>'.
-                        '<p class="SuccessColor TextAlignCenter">'.
-                            'Добро пожаловать!'.
-                        '</p>';
-                    
-                    @header('Refresh: 1;url=?');
-                    $this->_auth_node__show_form = FALSE;
-                } else {
-                    $this->_auth_node__message_html .=
-                        '<p class="ErrorColor TextAlignCenter">'.
-                            'Логин и/или Пароль -- неверны'.
-                        '</p>';
+                if(!$login_pass) {
+                    throw new auth_error__ns2464(
+                            'Логин и/или Пароль -- неверны');
                 }
-            } else {
-                $captcha_last_error = get_captcha_last_error__ns8574();
+                
+                // логин-пароль успешно подошли.. инициируем новую сессию!
+                
+                $this->_auth_node__init_perms();
+                
+                $this->_auth_node__check_capture();
+                $this->_auth_node__init_session();
+                
+                @header('Refresh: 1;url=?');
+                $this->_auth_node__show_form = FALSE;
+            } catch (auth_error__ns2464 $e) {
+                $message = $e->getMessage();
                 
                 $this->_auth_node__message_html .=
-                    '<p class="ErrorColor TextAlignCenter">'.
-                        'Ошибка Каптчи:<br />'.
-                        htmlspecialchars($captcha_last_error).
-                    '</p>';
+                        '<div class="ErrorColor TextAlignCenter">'.
+                            $this->html_from_txt($message).
+                        '</div>';
             }
         }
         
