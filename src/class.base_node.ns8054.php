@@ -32,7 +32,6 @@ class abstract_function_error__ns8054
 class base_node__ns8054 {
     public $environ;
     
-    protected $_base_node__need_db = FALSE;
     protected $_base_node__need_check_post_token = TRUE;
     protected $_base_node__need_check_post_token_for_get = FALSE;
     protected $_base_node__need_check_auth = FALSE;

@@ -30,8 +30,6 @@ class auth_error__ns2464
         extends Exception {}
 
 class auth_node__ns2464 extends node__ns21085 {
-    protected $_base_node__need_db = TRUE;    
-    
     protected $_auth_node__login;
     protected $_auth_node__password;
     protected $_auth_node__perms;

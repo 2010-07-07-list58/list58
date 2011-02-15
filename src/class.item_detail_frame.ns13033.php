@@ -23,7 +23,6 @@ require_once dirname(__FILE__).'/class.frame.ns26442.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
 class item_detail_frame__ns13033 extends frame__ns26442 {
-    protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
     protected $_item_detail_frame__item_id = 0;

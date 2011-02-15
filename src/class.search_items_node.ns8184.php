@@ -63,7 +63,6 @@ function join_sqls__ns8184($op, $sqls, $kwargs=NULL) {
 }
 
 class search_items_node__ns8184 extends node__ns21085 {
-    protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
     protected $_search_items_node__advanced_search_types = array(

@@ -26,7 +26,6 @@ require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
 class home_node__ns25120 extends node__ns21085 {
-    protected $_base_node__need_db = TRUE;
     protected $_base_node__need_check_auth = TRUE;
     
     protected $_home_node__items_limit = 0;

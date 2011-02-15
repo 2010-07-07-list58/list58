@@ -21,8 +21,6 @@
 require_once dirname(__FILE__).'/class.base_node.ns8054.php';
 
 class node__ns21085 extends base_node__ns8054 {
-    protected $_base_node__need_db = TRUE;
-    
     protected $_node__main_menu;
     
     protected function _node__init_main_menu() {
