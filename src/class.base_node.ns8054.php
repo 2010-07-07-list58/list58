@@ -130,6 +130,14 @@ class base_node__ns8054 {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post_token = $this->post_arg('post_token');
             
+            if(!$post_token) {
+                $this->get_arg('post_token');
+                
+                // ничего страшного в том что нам может понадобиться
+                //      передать 'post_token' внутри GET-параметра.
+                //  это например может пригодится для Ajax-целей
+            }
+            
             $this->_base_node__check_post_token_for($post_token);
         }
     }
@@ -455,12 +463,20 @@ class base_node__ns8054 {
         return NULL;
     }
     
+    protected function _base_node__get_content_type() {
+        return 'text/html;charset=utf-8';
+    }
+    
     protected function _base_node__get_html() {
         throw new abstract_function_error__ns8054();
     }
     
     public function get_redirect() {
         return $this->_base_node__get_redirect();
+    }
+    
+    public function get_content_type() {
+        return $this->_base_node__get_content_type();
     }
     
     public function get_html() {

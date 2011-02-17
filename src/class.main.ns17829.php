@@ -242,10 +242,8 @@ class main__ns17829 {
                 return;
             }
             
-            $html = $node->get_html();
-            
-            @header('Content-Type: text/html;charset=utf-8');
-            echo $html."\n";
+            @header('Content-Type: '.$node->get_content_type());
+            echo $node->get_html();
         } catch(low_level_error__ns28655 $e) {
             $error = $e->getMessage();
             $message = sprintf('Низкоуровневая Ошибка [%s]: %s', get_class($e), $error);
