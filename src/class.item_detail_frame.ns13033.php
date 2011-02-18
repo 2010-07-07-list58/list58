@@ -86,21 +86,19 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
     protected function _frame__get_head() {
         $parent_head = parent::_frame__get_head();
         
-        $html = '';
-        
-        $html .=
-            $parent_head.
-            '<link rel="stylesheet" href="/media/item_detail_frame/css/style.css" />';
+        $html =
+                $parent_head.
+                '<link rel="stylesheet" href="/media/item_detail_frame/css/style.css" />';
         
         return $html;
     }
     
     protected function _frame__get_aside() {
         $html =
-            '<h2 class="TextAlignCenter">Полная информация ...</h2>'.
-            '<pre>'.
-                htmlspecialchars(print_r($this->_item_detail_frame__item, TRUE)).
-            '</pre>';
+                '<h2 class="TextAlignCenter">Полная информация ...</h2>'.
+                '<pre>'.
+                    htmlspecialchars(print_r($this->_item_detail_frame__item, TRUE)).
+                '</pre>';
         
         return $html;
     }
