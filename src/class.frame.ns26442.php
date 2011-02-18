@@ -27,15 +27,10 @@ class frame__ns26442 extends base_node__ns8054 {
     }
     
     protected function _frame__get_head() {
-        $html = '';
-        
-        $html .=
-            '<meta http-equiv="X-UA-Compatible" content="chrome=1" />'.
-            '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'.
-            '<title></title>'.
-            '<script src="/media/share/js/google-chrome-frame-for-microsoft-ie.js"></script>'.
-            '<link rel="shortcut icon" href="/media/share/favicon.png" />'.
-            '<link rel="stylesheet" href="/media/share/css/style.css" />';
+        $html =
+                '<meta charset="utf-8" />'.
+                '<title></title>'.
+                '<link rel="stylesheet" href="/media/share/css/style.css" />';
         
         return $html;
     }
@@ -45,39 +40,38 @@ class frame__ns26442 extends base_node__ns8054 {
     }
     
     protected function _frame__get_body() {
-        $html = '';
-        
-        $html .=
-            '<table class="Width100Per Height100Per">'.
-                '<tr>'.
-                    '<td class="Height100Per Padding10Px">'.
-                        '<table class="MarginAuto">'.
-                            '<tr>'.
-                                '<td>'.
-                                    $this->_frame__get_aside().
-                                '</td>'.
-                            '</tr>'.
-                        '</table>'.
-                    '</td>'.
-                '</tr>'.
-            '</table>';
+        $html =
+                '<table class="Width100Per Height100Per">'.
+                    '<tr>'.
+                        '<td class="Height100Per Padding10Px">'.
+                            '<table class="MarginAuto">'.
+                                '<tr>'.
+                                    '<td>'.
+                                        $this->_frame__get_aside().
+                                    '</td>'.
+                                '</tr>'.
+                            '</table>'.
+                        '</td>'.
+                    '</tr>'.
+                '</table>';
         
         return $html;
     }
     
     protected function _base_node__get_html() {
-        $html = '';
+        $body_html = $this->_frame__get_body();
+        $head_html = $this->_frame__get_head();
         
-        $html .=
-            '<!DOCTYPE html>'."\n".
-            '<html>'.
-            '<head>'.
-                $this->_frame__get_head().
-            '</head>'.
-            '<body>'.
-                $this->_frame__get_body().
-            '</body>'.
-            '</html>';
+        $html =
+                '<!DOCTYPE html>'."\n".
+                '<html>'.
+                '<head>'.
+                    $head_html.
+                '</head>'.
+                '<body>'.
+                    $body_html.
+                '</body>'.
+                '</html>';
         
         return $html;
     }

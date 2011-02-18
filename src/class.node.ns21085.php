@@ -102,18 +102,16 @@ class node__ns21085 extends base_node__ns8054 {
     }
     
     protected function _node__get_head() {
-        $html = '';
-        
-        $html .=
-            '<meta charset="utf-8" />'.
-            '<title>'.htmlspecialchars($this->_node__get_title()).'</title>'.
-            '<link rel="shortcut icon" href="/media/share/favicon.png" />'.
-            '<link rel="stylesheet" href="/media/share/css/style.css" />'.
-            '<script src="/media/share/js/frame_exit.js"></script>'.
-            '<script src="/media/share/import-lib/jquery/jquery-1.4.4.js"></script>'.
-            '<link rel="stylesheet" href="/media/share/import-lib/fancybox/jquery.fancybox-1.3.4.css" />'.
-            '<script src="/media/share/import-lib/fancybox/jquery.fancybox-1.3.4.js"></script>'.
-            '<script src="/media/share/js/fancybox.js"></script>';
+        $html =
+                '<meta charset="utf-8" />'.
+                '<title>'.htmlspecialchars($this->_node__get_title()).'</title>'.
+                '<link rel="shortcut icon" href="/media/share/favicon.png" />'.
+                '<link rel="stylesheet" href="/media/share/css/style.css" />'.
+                '<script src="/media/share/js/frame_exit.js"></script>'.
+                '<script src="/media/share/import-lib/jquery/jquery-1.4.4.js"></script>'.
+                '<link rel="stylesheet" href="/media/share/import-lib/fancybox/jquery.fancybox-1.3.4.css" />'.
+                '<script src="/media/share/import-lib/fancybox/jquery.fancybox-1.3.4.js"></script>'.
+                '<script src="/media/share/js/fancybox.js"></script>';
         
         return $html;
     }
@@ -162,47 +160,46 @@ class node__ns21085 extends base_node__ns8054 {
     }
     
     protected function _node__get_body() {
-        $html = '';
-        
-        $html .=
-            '<table class="Width100Per Height100Per">'.
-                '<tr>'.
-                    '<td class="Padding10Px MarginColor">'.
-                        $this->_node__get_main_menu_widget().
-                    '</td>'.
-                '</tr>'.
-                '<tr>'.
-                    '<td class="Height100Per Padding10Px">'.
-                        '<table class="MarginAuto">'.
-                            '<tr>'.
-                                '<td>'.
-                                    $this->_node__get_aside().
-                                '</td>'.
-                            '</tr>'.
-                        '</table>'.
-                    '</td>'.
-                '</tr>'.
-                '<tr>'.
-                    '<td class="Padding10Px MarginColor"></td>'.
-                '</tr>'.
-            '</table>';
+        $html =
+                '<table class="Width100Per Height100Per">'.
+                    '<tr>'.
+                        '<td class="Padding10Px MarginColor">'.
+                            $this->_node__get_main_menu_widget().
+                        '</td>'.
+                    '</tr>'.
+                    '<tr>'.
+                        '<td class="Height100Per Padding10Px">'.
+                            '<table class="MarginAuto">'.
+                                '<tr>'.
+                                    '<td>'.
+                                        $this->_node__get_aside().
+                                    '</td>'.
+                                '</tr>'.
+                            '</table>'.
+                        '</td>'.
+                    '</tr>'.
+                    '<tr>'.
+                        '<td class="Padding10Px MarginColor"></td>'.
+                    '</tr>'.
+                '</table>';
         
         return $html;
     }
     
     protected function _base_node__get_html() {
-        $html = '';
+        $body_html = $this->_node__get_body();
+        $head_html = $this->_node__get_head();
         
-        $html .=
-            '<!DOCTYPE html>'."\n".
-            '<html>'.
-            '<head>'.
-                $this->_node__get_head().
-            '</head>'.
-            '<body>'.
-                $this->_node__get_body().
-            '</body>'.
-            '</html>';
+        $html =
+                '<!DOCTYPE html>'."\n".
+                '<html>'.
+                '<head>'.
+                    $head_html.
+                '</head>'.
+                '<body>'.
+                    $body_html.
+                '</body>'.
+                '</html>';
         
         return $html;
     }
