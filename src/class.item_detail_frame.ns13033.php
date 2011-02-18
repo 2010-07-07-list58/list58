@@ -166,14 +166,16 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
                         '</td>'.
                     '</tr>'.
                     '<tr>'.
-                        '<td class="Height100Per Padding10Px">'.
-                            '<table class="MarginAuto">'.
-                                '<tr>'.
-                                    '<td>'.
-                                        '1243'.
-                                    '</td>'.
-                                '</tr>'.
-                            '</table>'.
+                        '<td class="Padding10Px">'.
+                            '<div class="TwoColumns">'.
+                                ($this->_item_detail_frame__item['given_name']?'<p><b>Имя:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['family_name']).'</p>':'').
+                                ($this->_item_detail_frame__item['family_name']?'<p><b>Фамилия:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['family_name']).'</p>':'').
+                                ($this->_item_detail_frame__item['patronymic_name']?'<p><b>Отчество:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['patronymic_name']).'</p>':'').
+                                // TODO: ...
+                            '</div>'.
                         '</td>'.
                     '</tr>'.
                     (
@@ -218,6 +220,7 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
                         '</tr>':
                         ''
                     ).
+                    '<tr><td class="Height100Per"></td></tr>'.
                     (
                         $actions_html?
                         '<tr>'.
