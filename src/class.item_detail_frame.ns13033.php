@@ -93,7 +93,71 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
         return $html;
     }
     
+    protected function _item_detail_frame__get_next_msg_args() {
+        $msg_args = array();
+        if($this->_item_detail_frame__next) {
+            $msg_args['next'] = $this->_item_detail_frame__next;
+        }
+        if($this->_item_detail_frame__next_message) {
+            $msg_args['next_message'] = $this->_item_detail_frame__next_message;
+        }
+        if($this->_item_detail_frame__next_message_html) {
+            $msg_args['next_message_html'] = $this->_item_detail_frame__next_message_html;
+        }
+        
+        return $msg_args;
+    }
+    
+    protected function _item_detail_frame__get_mod_href() {
+        $msg_args = $this->_item_detail_frame__get_next_msg_args();
+        $msg_token = send_msg__ns1438('mod_item_node__ns16127::args', $msg_args);
+        
+        $href = '?'.http_build_query(array(
+            'node' => 'mod_item',
+            'item_id' => $this->_item_detail_frame__item_id,
+            'msg_token' => $msg_token,
+        ));
+        
+        return $href;
+    }
+    
+    protected function _item_detail_frame__get_del_href() {
+        $msg_args = $this->_item_detail_frame__get_next_msg_args();
+        $msg_token = send_msg__ns1438('del_item_node__ns179::args', $msg_args);
+        
+        $href = '?'.http_build_query(array(
+            'node' => 'del_item',
+            'item_id' => $this->_item_detail_frame__item_id,
+            'msg_token' => $msg_token,
+        ));
+        
+        return $href;
+    }
+    
+    protected function _item_detail_frame__get_actions_html() {
+        $htmls = array();
+        
+        if($this->_base_node__is_permitted('mod_items')) {
+            $htmls []=
+                    '<a href="'.htmlspecialchars($this->_item_detail_frame__get_mod_href()).'">'.
+                        '<img class="Ico" src="/media/share/img/item_edit_ico.png" alt="Изменить" title="Изменить" /> '.
+                        'Изменить'.
+                    '</a>';
+            $htmls []=
+                    '<a href="'.htmlspecialchars($this->_item_detail_frame__get_del_href()).'">'.
+                        '<img class="Ico" src="/media/share/img/item_del_ico.png" alt="Удалить" title="Удалить" /> '.
+                        'Удалить'.
+                    '</a>';
+        }
+        
+        $html = join(', ', $htmls);
+        
+        return $html;
+    }
+    
     protected function _frame__get_body() {
+        $actions_html = $this->_item_detail_frame__get_actions_html();
+        
         $html =
                 '<table class="Width100Per Height100Per">'.
                     '<tr>'.
@@ -112,11 +176,15 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
                             '</table>'.
                         '</td>'.
                     '</tr>'.
-                    '<tr>'.
-                        '<td class="Padding10Px">'.
-                            '(место для кнопок)'.
-                        '</td>'.
-                    '</tr>'.
+                    (
+                        $actions_html?
+                        '<tr>'.
+                            '<td class="Padding10Px">'.
+                                '<b>Действия:</b> '.$this->_item_detail_frame__get_actions_html().
+                            '</td>'.
+                        '</tr>':
+                        ''
+                    ).
                     '<tr>'.
                         '<td class="MarginColor">'.
                             '<table class="Width100Per">'.
