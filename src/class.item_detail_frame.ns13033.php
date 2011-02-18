@@ -27,6 +27,7 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
     
     protected $_item_detail_frame__item_id = 0;
     protected $_item_detail_frame__item = NULL;
+    protected $_item_detail_frame__item_sex = NULL;
     
     protected $_item_detail_frame__next = NULL;
     protected $_item_detail_frame__next_message = NULL;
@@ -78,6 +79,11 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
         
         if($row) {
             $this->_item_detail_frame__item = $row;
+            if($this->_item_detail_frame__item['sex'] == 1) {
+                $this->_item_detail_frame__item_sex = 'Мужской';
+            } elseif($this->_item_detail_frame__item['sex'] == 2) {
+                $this->_item_detail_frame__item_sex = 'Женский';
+            }
         } else {
             $this->_base_node__throw_site_error('Данные отсутствуют');
         }
@@ -174,6 +180,33 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
                                         htmlspecialchars($this->_item_detail_frame__item['family_name']).'</p>':'').
                                 ($this->_item_detail_frame__item['patronymic_name']?'<p><b>Отчество:</b> '.
                                         htmlspecialchars($this->_item_detail_frame__item['patronymic_name']).'</p>':'').
+                                ($this->_item_detail_frame__item['birth_year']?'<p><b>Дата Рождения:</b> '.
+                                        htmlspecialchars(sprintf(
+                                            '%02s.%02s.%s',
+                                            $this->_item_detail_frame__item['birth_day'],
+                                            $this->_item_detail_frame__item['birth_month'],
+                                            $this->_item_detail_frame__item['birth_year']
+                                        )).'</p>':'').
+                                ($this->_item_detail_frame__item_sex?'<p><b>Пол:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item_sex).'</p>':'').
+                                ($this->_item_detail_frame__item['passport_ser'] || $this->_item_detail_frame__item['passport_no']?
+                                        '<p><b>Паспорт (Серия и Номер):</b> '.
+                                        htmlspecialchars(
+                                            $this->_item_detail_frame__item['passport_ser'].' '.
+                                            $this->_item_detail_frame__item['passport_no']
+                                        ).'</p>':'').
+                                ($this->_item_detail_frame__item['passport_dep']?'<p><b>Кем выдан паспорт:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['passport_dep']).'</p>':'').
+                                ($this->_item_detail_frame__item['passport_day']?'<p><b>Дата выдачи паспорта:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['passport_day']).'</p>':'').
+                                ($this->_item_detail_frame__item['residence_city']?'<p><b>Город:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['residence_city']).'</p>':'').
+                                ($this->_item_detail_frame__item['residence']?'<p><b>Адрес:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['residence']).'</p>':'').
+                                ($this->_item_detail_frame__item['phone']?'<p><b>Телефон:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['phone']).'</p>':'').
+                                ($this->_item_detail_frame__item['phone2']?'<p><b>Дополнительный Телефон:</b> '.
+                                        htmlspecialchars($this->_item_detail_frame__item['phone2']).'</p>':'').
                                 // TODO: ...
                             '</div>'.
                         '</td>'.
