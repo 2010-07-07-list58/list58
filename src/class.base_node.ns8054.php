@@ -34,6 +34,7 @@ class base_node__ns8054 {
     
     protected $_base_node__need_check_post_token = TRUE;
     protected $_base_node__need_check_post_token_for_get = FALSE;
+    protected $_base_node__enforce_referer_for_check_post_token = TRUE;
     protected $_base_node__need_check_auth = FALSE;
     protected $_base_node__need_check_perms = array();
     
@@ -115,6 +116,48 @@ class base_node__ns8054 {
     }
     
     protected function _base_node__check_post_token_for($post_token) {
+        if($this->_base_node__enforce_referer_for_check_post_token) {
+            // какой бы не был 'post_token', но если проверка усилена соблюдением 'referer',
+            //      то сначало нужно проверить 'referer'
+            
+            if(array_key_exists('HTTP_REFERER', $_SERVER) && $_SERVER['HTTP_REFERER']) {
+                $referer = parse_url($_SERVER['HTTP_REFERER']);
+                
+                $error_massage =
+                        'Ошибка системы безопасности: '."\n".
+                        'Данный модифицирующий запрос не может быть послан с постороннего ресурса';
+                
+                if(!$referer) {
+                    // если мы не можем распознать 'referer', то значит он какойто плохой (скорее всего чужой)
+                    
+                    $this->_base_node__throw_site_error(
+                            $error_massage, array('return_back' => TRUE));
+                }
+                
+                if(array_key_exists('host', $referer) &&
+                        $referer['host'] != $_SERVER['SERVER_NAME']) {
+                    // если 'referer' содержит имя хоста, но он не совпадает с нашим, значит ресурс чужой
+                    
+                    $this->_base_node__throw_site_error(
+                            $error_massage, array('return_back' => TRUE));
+                }
+                
+                if(array_key_exists('port', $referer) &&
+                        $referer['port'] != $_SERVER['SERVER_PORT']) {
+                    // если 'referer' содержит номер порта, но он не совпадает с нашим, значит ресурс чужой
+                    
+                    $this->_base_node__throw_site_error(
+                            $error_massage, array('return_back' => TRUE));
+                    
+                    // технически может существовать и другая (обратная) проблема:
+                    //      когда 'referer' не содержит номер порта, но наш порт не является стандартным.
+                    //      но я не вижу элегантного способа выявить эту проблему.
+                    //  поэтому лучше либо использовать только стандартный порт,
+                    //      либо доверять запросам из стандартного порта при использовании нестандартного порта
+                }
+            }
+        }
+        
         if(!$post_token || $post_token != $_SESSION['post_token']) {
             $this->_base_node__throw_site_error(
                 'Ошибка системы безопасности: '."\n".
