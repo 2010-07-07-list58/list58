@@ -12,7 +12,7 @@ then
     exit
 fi
 
-if [ $www_bzr_key = "" ] || [ "$PATH_INFO" != "/key/$www_bzr_key" ]
+if [ "$www_bzr_key" = "" ] || [ "$PATH_INFO" != "/key/$www_bzr_key" ]
 then
     echo "*** Invalid Www Bazaar Key ***"
     
