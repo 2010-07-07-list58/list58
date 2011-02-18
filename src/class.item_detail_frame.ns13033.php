@@ -177,6 +177,48 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
                         '</td>'.
                     '</tr>'.
                     (
+                        $this->_item_detail_frame__item['about'] || $this->_item_detail_frame__item['comments']?
+                        '<tr>'.
+                            '<td>'.
+                                '<table class="Height100Per Width100Per">'.
+                                    '<tr>'.
+                                        (
+                                            $this->_item_detail_frame__item['about']?
+                                            '<td class="Height100Per Padding10Px">'.
+                                                '<p><b>Дополнительное описание:</b></p>'.
+                                                '<p class="MarginLeft20Px">'.
+                                                    str_replace(
+                                                        "\n", '<br />',
+                                                        htmlspecialchars(
+                                                            $this->_item_detail_frame__item['about']
+                                                        )
+                                                    ).
+                                                '</p>'.
+                                            '</td>':
+                                            ''
+                                        ).
+                                        (
+                                            $this->_item_detail_frame__item['comments']?
+                                            '<td class="Height100Per Padding10Px">'.
+                                                '<p><b>Примечание:</b></p>'.
+                                                '<p class="MarginLeft20Px">'.
+                                                    str_replace(
+                                                        "\n", '<br />',
+                                                        htmlspecialchars(
+                                                            $this->_item_detail_frame__item['comments']
+                                                        )
+                                                    ).
+                                                '</p>'.
+                                            '</td>':
+                                            ''
+                                        ).
+                                    '</tr>'.
+                                '</table>'.
+                            '</td>'.
+                        '</tr>':
+                        ''
+                    ).
+                    (
                         $actions_html?
                         '<tr>'.
                             '<td class="Padding10Px">'.
