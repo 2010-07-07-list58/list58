@@ -93,12 +93,55 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
         return $html;
     }
     
-    protected function _frame__get_aside() {
+    protected function _frame__get_body() {
         $html =
-                '<h2 class="TextAlignCenter">Полная информация ...</h2>'.
-                '<pre>'.
-                    htmlspecialchars(print_r($this->_item_detail_frame__item, TRUE)).
-                '</pre>';
+                '<table class="Width100Per Height100Per">'.
+                    '<tr>'.
+                        '<td class="Padding10Px MarginColor">'.
+                            '<h1 class="TextAlignCenter">Полная информация о записи</h1>'.
+                        '</td>'.
+                    '</tr>'.
+                    '<tr>'.
+                        '<td class="Height100Per Padding10Px">'.
+                            '<table class="MarginAuto">'.
+                                '<tr>'.
+                                    '<td>'.
+                                        '1243'.
+                                    '</td>'.
+                                '</tr>'.
+                            '</table>'.
+                        '</td>'.
+                    '</tr>'.
+                    '<tr>'.
+                        '<td class="Padding10Px">'.
+                            '(место для кнопок)'.
+                        '</td>'.
+                    '</tr>'.
+                    '<tr>'.
+                        '<td class="MarginColor">'.
+                            '<table class="Width100Per">'.
+                                '<tr>'.
+                                    '<td class="Padding10Px">'.
+                                        '<b>Id:</b> '.
+                                                htmlspecialchars($this->_item_detail_frame__item_id).
+                                    '</td>'.
+                                    '<td class="Padding10Px">'.
+                                        '<b>Создал:</b> '.
+                                                htmlspecialchars($this->_item_detail_frame__item['item_owner']).
+                                    '</td>'.
+                                    '<td class="Padding10Px">'.
+                                        '<b>Дата создания:</b> '.
+                                                htmlspecialchars(@date('r',$this->_item_detail_frame__item['item_created'])).
+                                    '</td>'.
+                                    '<td class="Padding10Px">'.
+                                        '<b>Дата модификации:</b> '.
+                                                htmlspecialchars(@date('r',$this->_item_detail_frame__item['item_modified'])).
+                                    '</td>'.
+                                '</tr>'.
+                            '</table>'.
+                        '</td>'.
+                    '</tr>'.
+                '</table>';
         
         return $html;
     }
