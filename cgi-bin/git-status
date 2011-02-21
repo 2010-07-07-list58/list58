@@ -7,31 +7,31 @@ echo
 
 if [ $[allow_www_git_status] = 0 ]
 then
-    echo "*** Www Git Status is not allowed ***"
+    echo "### Www Git Status is not allowed ###"
     
     exit 1
 fi
 
 if [ "$www_git_key" = "" ] || [ "$PATH_INFO" != "/key/$www_git_key" ]
 then
-    echo "*** Invalid Www Git Key ***"
+    echo "### Invalid Www Git Key ###"
     
     exit 1
 fi
 
-echo "*** BEGIN ***"
+echo "### BEGIN ###"
 
 (cd "$(dirname "$0")/../"; nice -n 25 git log HEAD^..) 2>&1
 
-echo "* * *"
+echo "# # # # # #"
 
 (cd "$(dirname "$0")/../"; nice -n 25 git status) 2>&1
 
-echo "* * *"
+echo "# # # # # #"
 
 (cd "$(dirname "$0")/../"; nice -n 25 git diff) 2>&1
 
-echo "*** END ***"
+echo "### END ###"
 
 true
 

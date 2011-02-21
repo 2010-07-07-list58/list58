@@ -7,23 +7,23 @@ echo
 
 if [ $[allow_www_git_pull] = 0 ]
 then
-    echo "*** Www Git Pull is not allowed ***"
+    echo "### Www Git Pull is not allowed ###"
     
     exit 1
 fi
 
 if [ "$www_git_key" = "" ] || [ "$PATH_INFO" != "/key/$www_git_key" ]
 then
-    echo "*** Invalid Www Git Key ***"
+    echo "### Invalid Www Git Key ###"
     
     exit 1
 fi
 
-echo "*** BEGIN ***"
+echo "### BEGIN ###"
 
 (cd "$(dirname "$0")/../"; nice -n 25 git pull) 2>&1
 
-echo "*** END ***"
+echo "### END ###"
 
 true
 
