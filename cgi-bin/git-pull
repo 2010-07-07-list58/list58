@@ -3,29 +3,25 @@
 echo "Content-Type: text/plain;charset=utf-8"
 echo 
 
-. "$(dirname "$0")/environment" 2>&1
+. "$(dirname "$0")/environment.conf" 2>&1
 
-if [ "$allow_www_bzr_update" = "" ] || [ "$allow_www_bzr_update" = "0" ]
+if [ $[allow_www_git_pull] = 0 ]
 then
-    echo "*** Www Bazaar update is not allowed ***"
+    echo "*** Www Git Pull is not allowed ***"
     
     exit
 fi
 
-if [ "$www_bzr_key" = "" ] || [ "$PATH_INFO" != "/key/$www_bzr_key" ]
+if [ "$www_git_key" = "" ] || [ "$PATH_INFO" != "/key/$www_git_key" ]
 then
-    echo "*** Invalid Www Bazaar Key ***"
+    echo "*** Invalid Www Git Key ***"
     
     exit
 fi
-
-export HOME
-export PATH
-export PYTHONPATH
 
 echo "*** BEGIN ***"
 
-(cd "$(dirname "$0")/../"; nice -n 25 bzr update) 2>&1
+(cd "$(dirname "$0")/../"; nice -n 25 git pull) 2>&1
 
 echo "*** END ***"
 
