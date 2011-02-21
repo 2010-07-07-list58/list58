@@ -21,7 +21,15 @@ fi
 
 echo "*** BEGIN ***"
 
+(cd "$(dirname "$0")/../"; nice -n 25 git log HEAD^..) 2>&1
+
+echo "* * *"
+
 (cd "$(dirname "$0")/../"; nice -n 25 git status) 2>&1
+
+echo "* * *"
+
+(cd "$(dirname "$0")/../"; nice -n 25 git diff) 2>&1
 
 echo "*** END ***"
 
