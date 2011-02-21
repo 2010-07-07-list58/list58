@@ -118,7 +118,7 @@ class main__ns17829 {
                     
                     break;
                 
-                case 'home':
+                case 'last_items':
                     require_once dirname(__FILE__).'/class.last_items_node.ns25120.php';
                     
                     $node = new last_items_node__ns25120($environ);

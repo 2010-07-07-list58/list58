@@ -44,6 +44,15 @@ class node__ns21085 extends base_node__ns8054 {
                     );
                 }
                 
+                if($this->_base_node__is_permitted('last_items')) {
+                    // меню для тех кому разрешено видить ВСЕ Элементы Данных как есть
+                    
+                    $menu[] = array(
+                        'menu_name' => 'Последние Добавленные',
+                        'menu_link' => '?node=last_items',
+                    );
+                }
+                
                 if($this->_base_node__is_permitted('new_items')) {
                     // меню для тех кому дополнительно разрешено и
                     //  создавать Новые Элементы Данных
