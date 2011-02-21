@@ -75,6 +75,11 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
 --   группа 'view_items':
 --          'view_items': доступ к функции просмотра людей
 --
+--   группа 'last_items':
+--          'view_items'+'last_items':
+--              доступ к функции просмотра списка всех
+--                  (в обратном хронологическом порядке)
+--
 --   группа 'search_items':
 --          'view_items'+'search_items':
 --              доступ к функции поиска людей
