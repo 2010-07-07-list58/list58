@@ -112,9 +112,16 @@ class main__ns17829 {
             try {
                 switch($node) {
                 case 'home':
-                    require_once dirname(__FILE__).'/class.home_node.ns25120.php';
+                    require_once dirname(__FILE__).'/class.home_node.ns20822.php';
                     
-                    $node = new home_node__ns25120($environ);
+                    $node = new home_node__ns20822($environ);
+                    
+                    break;
+                
+                case 'home':
+                    require_once dirname(__FILE__).'/class.last_items_node.ns25120.php';
+                    
+                    $node = new last_items_node__ns25120($environ);
                     
                     break;
                 
