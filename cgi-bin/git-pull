@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 echo "Content-Type: text/plain;charset=utf-8"
 echo 
@@ -9,14 +9,14 @@ if [ $[allow_www_git_pull] = 0 ]
 then
     echo "*** Www Git Pull is not allowed ***"
     
-    exit
+    exit 1
 fi
 
 if [ "$www_git_key" = "" ] || [ "$PATH_INFO" != "/key/$www_git_key" ]
 then
     echo "*** Invalid Www Git Key ***"
     
-    exit
+    exit 1
 fi
 
 echo "*** BEGIN ***"
