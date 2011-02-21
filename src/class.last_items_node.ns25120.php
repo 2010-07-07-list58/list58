@@ -25,16 +25,16 @@ require_once dirname(__FILE__).'/class.page_links_widget.ns22493.php';
 require_once dirname(__FILE__).'/utils/class.cached_time.ns29922.php';
 require_once dirname(__FILE__).'/utils/class.mysql_tools.php';
 
-class home_node__ns25120 extends node__ns21085 {
+class last_items_node__ns25120 extends node__ns21085 {
     protected $_base_node__need_check_auth = TRUE;
     
-    protected $_home_node__items_limit = 0;
-    protected $_home_node__items_real_limit = 20;
-    protected $_home_node__items_offset = 0;
-    protected $_home_node__items_count;
-    protected $_home_node__items;
-    protected $_home_node__item_list_widget;
-    protected $_home_node__page_links_widget;
+    protected $_last_items_node__items_limit = 0;
+    protected $_last_items_node__items_real_limit = 20;
+    protected $_last_items_node__items_offset = 0;
+    protected $_last_items_node__items_count;
+    protected $_last_items_node__items;
+    protected $_last_items_node__item_list_widget;
+    protected $_last_items_node__page_links_widget;
     
     protected function _base_node__on_add_check_perms() {
         parent::_base_node__on_add_check_perms();
@@ -43,6 +43,8 @@ class home_node__ns25120 extends node__ns21085 {
             array(
                 // требуется разрешение на просмотр Элементов Данных:
                 'view_items' => TRUE,
+                // требуется разрешение на просмотр ВСЕХ (начиная с последних) Элементов Данных:
+                'last_items' => TRUE,
             )
         );
     }
@@ -54,7 +56,7 @@ class home_node__ns25120 extends node__ns21085 {
             $items_offset = intval($this->get_arg('items_offset'));
             
             if($items_offset > 0) {
-                $this->_home_node__items_offset = $items_offset;
+                $this->_last_items_node__items_offset = $items_offset;
             }
         }
         
@@ -62,8 +64,8 @@ class home_node__ns25120 extends node__ns21085 {
             $items_limit = intval($this->get_arg('items_limit'));
             
             if($items_limit > 0 && $items_limit <= 200) {
-                $this->_home_node__items_limit = $items_limit;
-                $this->_home_node__items_real_limit = $items_limit;
+                $this->_last_items_node__items_limit = $items_limit;
+                $this->_last_items_node__items_real_limit = $items_limit;
             }
         }
         
@@ -71,7 +73,7 @@ class home_node__ns25120 extends node__ns21085 {
             'SELECT COUNT(*) FROM `items_base` WHERE NOT IFNULL(`item_deleted`, FALSE)',
             $this->_base_node__db_link
         );
-        list($this->_home_node__items_count) = mysql_fetch_array($result);
+        list($this->_last_items_node__items_count) = mysql_fetch_array($result);
         mysql_free_result($result);
         
         $result = mysql_query_or_error(
@@ -80,17 +82,17 @@ class home_node__ns25120 extends node__ns21085 {
                     'ORDER BY ABS(%s - `item_modified`) '.
                     'LIMIT %s OFFSET %s',
                 intval(get_time__ns29922()),
-                intval($this->_home_node__items_real_limit),
-                intval($this->_home_node__items_offset)
+                intval($this->_last_items_node__items_real_limit),
+                intval($this->_last_items_node__items_offset)
             ),
             $this->_base_node__db_link
         );
         
-        $this->_home_node__items = array();
+        $this->_last_items_node__items = array();
         for(;;) {
             $row = mysql_fetch_assoc($result);
             if($row) {
-                $this->_home_node__items []= $row;
+                $this->_last_items_node__items []= $row;
             }
             else {
                 break;
@@ -98,16 +100,16 @@ class home_node__ns25120 extends node__ns21085 {
         }
         mysql_free_result($result);
         
-        $this->_home_node__item_list_widget =
-                new item_list_widget__ns28376($this->_home_node__items, array(
+        $this->_last_items_node__item_list_widget =
+                new item_list_widget__ns28376($this->_last_items_node__items, array(
                     'mod_perm' => $this->_base_node__is_permitted('mod_items'),
                 ));
-        $this->_home_node__page_links_widget = 
+        $this->_last_items_node__page_links_widget = 
                 new page_links_widget__ns22493(
-                    $this->_home_node__items_real_limit,
-                    $this->_home_node__items_offset,
-                    $this->_home_node__items_count,
-                    array($this, '_home_node__page_links_widget__get_link_html'),
+                    $this->_last_items_node__items_real_limit,
+                    $this->_last_items_node__items_offset,
+                    $this->_last_items_node__items_count,
+                    array($this, '_last_items_node__page_links_widget__get_link_html'),
                     5
                 );
     }
@@ -119,21 +121,21 @@ class home_node__ns25120 extends node__ns21085 {
         
         $html .=
                 $parent_head.
-                '<link rel="stylesheet" href="/media/home_node/css/style.css" />'.
-                '<script src="/media/home_node/js/autofocus.js"></script>';
+                '<link rel="stylesheet" href="/media/last_items_node/css/style.css" />'.
+                '<script src="/media/last_items_node/js/autofocus.js"></script>';
         
         return $html;
     }
     
-    public function _home_node__page_links_widget__get_link_html($items_offset, $label) {
+    public function _last_items_node__page_links_widget__get_link_html($items_offset, $label) {
         $query_node = $this->get_arg('node');
         
         $query_data = array();
         if($query_node) {
             $query_data['node'] = $query_node;
         }
-        if($this->_home_node__items_limit) {
-            $query_data['items_limit'] = $this->_home_node__items_limit;
+        if($this->_last_items_node__items_limit) {
+            $query_data['items_limit'] = $this->_last_items_node__items_limit;
         }
         if($items_offset > 0) {
             $query_data['items_offset'] = $items_offset;
@@ -153,12 +155,12 @@ class home_node__ns25120 extends node__ns21085 {
         if($this->_base_node__is_permitted('search_items')) {
             $quick_search_html =
                     '<form action="'.htmlspecialchars('?node=search_items').'" method="post">'.
-                        '<div class="Margin5Px"><label for="_home_node__general_search">Поиск:</label></div>'.
+                        '<div class="Margin5Px"><label for="_last_items_node__general_search">Поиск:</label></div>'.
                         '<div class="Margin5Px">'.
                             '<input class="MinWidth700Px Width100Per" '.
                                 'type="text" '.
                                 'name="general_search" '.
-                                'id="_home_node__general_search" '.
+                                'id="_last_items_node__general_search" '.
                                 'value="" />'.
                         '</div>'.
                         '<div>'.
@@ -175,15 +177,15 @@ class home_node__ns25120 extends node__ns21085 {
         $query_node = $this->get_arg('node');
         $short_page_links_html = '';
         
-        if($this->_home_node__items_offset > 0) {
-            $query_items_offset = $this->_home_node__items_offset - $this->_home_node__items_real_limit;
+        if($this->_last_items_node__items_offset > 0) {
+            $query_items_offset = $this->_last_items_node__items_offset - $this->_last_items_node__items_real_limit;
             
             $query_data = array();
             if($query_node) {
                 $query_data['node'] = $query_node;
             }
-            if($this->_home_node__items_limit) {
-                $query_data['items_limit'] = $this->_home_node__items_limit;
+            if($this->_last_items_node__items_limit) {
+                $query_data['items_limit'] = $this->_last_items_node__items_limit;
             }
             if($query_items_offset > 0) {
                 $query_data['items_offset'] = $query_items_offset;
@@ -196,17 +198,17 @@ class home_node__ns25120 extends node__ns21085 {
         }
         
         if(
-            $this->_home_node__items_offset + $this->_home_node__items_real_limit <
-            $this->_home_node__items_count
+            $this->_last_items_node__items_offset + $this->_last_items_node__items_real_limit <
+            $this->_last_items_node__items_count
         ) {
-            $query_items_offset = $this->_home_node__items_offset + $this->_home_node__items_real_limit;
+            $query_items_offset = $this->_last_items_node__items_offset + $this->_last_items_node__items_real_limit;
             
             $query_data = array();
             if($query_node) {
                 $query_data['node'] = $query_node;
             }
-            if($this->_home_node__items_limit) {
-                $query_data['items_limit'] = $this->_home_node__items_limit;
+            if($this->_last_items_node__items_limit) {
+                $query_data['items_limit'] = $this->_last_items_node__items_limit;
             }
             if($query_items_offset > 0) {
                 $query_data['items_offset'] = $query_items_offset;
@@ -223,12 +225,12 @@ class home_node__ns25120 extends node__ns21085 {
                     $quick_search_html.
                     '<h2 class="TextAlignCenter">Последние добавленные данные</h2>'.
                     '<div class="GroupFrame">'.
-                        $this->_home_node__item_list_widget->get_widget().
+                        $this->_last_items_node__item_list_widget->get_widget().
                     '</div>'.
                     '<div>'.
                         $short_page_links_html.
                         '<div class="Margin10Px TextAlignCenter">'.
-                            'Стр.: '.$this->_home_node__page_links_widget->get_widget().
+                            'Стр.: '.$this->_last_items_node__page_links_widget->get_widget().
                         '</div>'.
                         '<div class="ClearBoth"></div>'.
                     '</div>'.
