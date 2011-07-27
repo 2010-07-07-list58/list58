@@ -175,7 +175,7 @@ class item_detail_frame__ns13033 extends frame__ns26442 {
                         '<td class="Padding10Px">'.
                             '<div class="TwoColumns">'.
                                 ($this->_item_detail_frame__item['given_name']?'<p><b>Имя:</b> '.
-                                        htmlspecialchars($this->_item_detail_frame__item['family_name']).'</p>':'').
+                                        htmlspecialchars($this->_item_detail_frame__item['given_name']).'</p>':'').
                                 ($this->_item_detail_frame__item['family_name']?'<p><b>Фамилия:</b> '.
                                         htmlspecialchars($this->_item_detail_frame__item['family_name']).'</p>':'').
                                 ($this->_item_detail_frame__item['patronymic_name']?'<p><b>Отчество:</b> '.
