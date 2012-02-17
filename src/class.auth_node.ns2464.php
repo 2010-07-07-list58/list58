@@ -68,7 +68,8 @@ class auth_node__ns2464 extends node__ns21085 {
     protected function _auth_node__check_capture() {
         // эта функция проверяет, что захват сессии возможен, или не требуется
         
-        if(!in_array('multisession', $this->_auth_node__perms)) {
+        if(!in_array('multisession', $this->_auth_node__perms) &&
+                !in_array('guest_multisession', $this->_auth_node__perms)) {
             // захват требуется!
             
             // можно будет захватить сессию (после окончания активностей) через 1.5 часа:
