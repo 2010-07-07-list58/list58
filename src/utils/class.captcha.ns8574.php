@@ -24,7 +24,7 @@ function captcha_get_html__ns8574() {
 	
 	$html .= 
 		'<div style="min-height: 130px; ">'.
-			recaptcha_get_html($captcha_public_key__ns8574, NULL).
+			recaptcha_get_html($captcha_public_key__ns8574, NULL, TRUE).
 		'</div>';
 	
 	return $html;
@@ -49,11 +49,11 @@ function captcha_check_answer__ns8574($fields) {
 		return FALSE;
 	}
 	
-	$resp = recaptcha_check_answer ($captcha_private_key__ns8574,
+	$resp = recaptcha_check_answer($captcha_private_key__ns8574,
 		$_SERVER['REMOTE_ADDR'],
 		$fields['recaptcha_challenge_field'],
 		$fields['recaptcha_response_field']);
-
+    
 	if($resp->is_valid) {
 		$captcha_last_error__ns8574 = NULL;
 		
@@ -64,5 +64,3 @@ function captcha_check_answer__ns8574($fields) {
 		return FALSE;
 	}
 };
-
-
