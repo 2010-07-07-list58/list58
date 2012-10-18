@@ -1,4 +1,5 @@
 var/class.mysql_conf.ns14040.php
+var/class.recaptcha_conf.ns25302.php
 cgi-bin/environment.conf
 htdocs/phpmyadmin/*
 !htdocs/phpmyadmin/.htaccess
