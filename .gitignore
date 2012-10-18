@@ -3,3 +3,4 @@ cgi-bin/environment.conf
 htdocs/phpmyadmin/*
 !htdocs/phpmyadmin/.htaccess
 var/sessions
+.htaccess
