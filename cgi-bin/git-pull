@@ -21,7 +21,7 @@ fi
 
 echo "### BEGIN ###"
 
-(cd "$(dirname "$0")/../"; nice -n 25 git pull) 2>&1
+(cd "$(dirname "$0")/../"; nice -n 25 git pull --rebase) 2>&1
 
 echo "### END ###"
 
